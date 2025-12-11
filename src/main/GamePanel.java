@@ -1,5 +1,6 @@
 package main;
 
+import entity.Player;
 import javax.swing.JPanel;
 import java.awt.*;
 
@@ -10,7 +11,7 @@ public class GamePanel extends JPanel implements Runnable{
     final int maxScreenCol = 16; // max number of tile columns on the screen
     final int maxScreenRow = 12; // max number of tile rows on the screen
 
-    final int tileSize = originalTileSize * scale; // 48 x 48px tile
+    public final int tileSize = originalTileSize * scale; // 48 x 48px tile
     final int screenWidth = tileSize * maxScreenCol; // 768px
     final int screenHeight = tileSize * maxScreenRow; // 576px
 
@@ -18,6 +19,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
+    Player player = new Player(this, keyHandler);
 
     // set players default position
     int playerX = screenWidth / 2;
@@ -37,33 +39,6 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread = new Thread(this);
         gameThread.start();
     }
-
-    // sleep game loop method
-//    @Override
-//    public void run() {
-//        double drawInterval = (double) 1000000000 / FPS; // one second divided by 60 FPS = num of seconds for one frame
-//        double nextDrawTime = System.nanoTime() + drawInterval;
-//        //game loop
-//        while(gameThread != null){
-//            // 1 UPDATE: updated information such as character position
-//            update();
-//            // 2 DRAW: draw screen with updated info
-//            repaint();
-//
-//            try {
-//                double remainingDrawTime = (nextDrawTime - System.nanoTime()) / 1000000; // convert to ms
-//
-//                if(remainingDrawTime < 0){
-//                    remainingDrawTime = 0;
-//                }
-//                Thread.sleep((long) remainingDrawTime);
-//
-//                nextDrawTime += drawInterval;
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//    }
 
     // delta game loop method
     @Override
@@ -97,26 +72,14 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update(){
-        if(keyHandler.upPressed){
-            playerY -= playerSpeed;
-        }
-        else if(keyHandler.downPressed){
-            playerY += playerSpeed;
-        }
-        else if(keyHandler.leftPressed){
-            playerX -= playerSpeed;
-        }
-        else if(keyHandler.rightPressed){
-            playerX += playerSpeed;
-        }
+        player.update();
     }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        g2.setColor(Color.white);
-        g2.fillRect(playerX, playerY, tileSize, tileSize);
+        player.draw(g2);
 
         g2.dispose();
     }
