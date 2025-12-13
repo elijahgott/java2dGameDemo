@@ -22,14 +22,18 @@ public class Player extends Entity{
         screenX = (gp.screenWidth / 2) - (gp.tileSize / 2);
         screenY = (gp.screenHeight / 2) - (gp.tileSize / 2);
 
+        solidArea = new Rectangle(8, 16, 32, 32); // collision box -> starts at 8,16 and is 32x32px
+
         setDefaultValues();
         getPlayerImage();
         direction = "down";
     }
 
     public void setDefaultValues(){
+        // set default player location
         worldX = gp.tileSize * 6;
         worldY = gp.tileSize * 3;
+
         speed = 4;
     }
 
@@ -58,19 +62,37 @@ public class Player extends Entity{
            keyHandler.rightPressed) {
             if(keyHandler.upPressed){
                 direction = "up";
-                worldY -= speed;
             }
             else if(keyHandler.downPressed){
                 direction = "down";
-                worldY += speed;
             }
             else if(keyHandler.leftPressed){
                 direction = "left";
-                worldX -= speed;
             }
             else if(keyHandler.rightPressed){
                 direction = "right";
-                worldX += speed;
+            }
+
+            // CHECK TILE COLLISION
+            collisionOn = false;
+            gp.collisionChecker.checkTile(this);
+
+            // IF COLLISION IS FALSE, PLAYER CAN MOVE
+            if(!collisionOn){
+                switch(direction){
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
             }
 
             // sprite changer
