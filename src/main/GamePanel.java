@@ -1,6 +1,8 @@
 package main;
 
 import entity.Player;
+import tile.TileManager;
+
 import javax.swing.JPanel;
 import java.awt.*;
 
@@ -8,23 +10,19 @@ public class GamePanel extends JPanel implements Runnable{
     // SCREEN SETTINGS
     final int originalTileSize = 16; // 16 x 16px tile
     final int scale = 3; // scale original tile size by this value
-    final int maxScreenCol = 16; // max number of tile columns on the screen
-    final int maxScreenRow = 12; // max number of tile rows on the screen
+
+    public final int maxScreenCol = 16; // max number of tile columns on the screen
+    public final int maxScreenRow = 12; // max number of tile rows on the screen
 
     public final int tileSize = originalTileSize * scale; // 48 x 48px tile
-    final int screenWidth = tileSize * maxScreenCol; // 768px
-    final int screenHeight = tileSize * maxScreenRow; // 576px
+    public final int screenWidth = tileSize * maxScreenCol; // 768px
+    public final int screenHeight = tileSize * maxScreenRow; // 576px
 
     final int FPS = 60;
-
+    TileManager tileManager = new TileManager(this);
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
     Player player = new Player(this, keyHandler);
-
-    // set players default position
-    int playerX = screenWidth / 2;
-    int playerY = screenHeight / 2;
-    int playerSpeed = 4;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -64,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
 
             if(timer >= 1000000000){
-                System.out.println("FPS" + drawCount);
+//                System.out.println("FPS" + drawCount);
                 drawCount = 0;
                 timer = 0;
             }
@@ -78,6 +76,8 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+
+        tileManager.draw(g2); // before drawing player, so player is drawn on top
 
         player.draw(g2);
 
