@@ -56,21 +56,31 @@ public class Player extends Entity{
 
     public void update(){
 
-        if(keyHandler.upPressed ||
-           keyHandler.downPressed ||
-           keyHandler.leftPressed ||
-           keyHandler.rightPressed) {
+        if(keyHandler.upPressed || keyHandler.downPressed ||
+           keyHandler.leftPressed || keyHandler.rightPressed) {
             if(keyHandler.upPressed){
                 direction = "up";
             }
-            else if(keyHandler.downPressed){
+            if(keyHandler.downPressed){
                 direction = "down";
             }
-            else if(keyHandler.leftPressed){
+            if(keyHandler.leftPressed){
                 direction = "left";
             }
-            else if(keyHandler.rightPressed){
+            if(keyHandler.rightPressed) {
                 direction = "right";
+            }
+            if(keyHandler.upPressed && keyHandler.rightPressed){
+                direction = "up-right";
+            }
+            if(keyHandler.upPressed && keyHandler.leftPressed){
+                direction = "up-left";
+            }
+            if(keyHandler.downPressed && keyHandler.rightPressed){
+                direction = "down-right";
+            }
+            if(keyHandler.downPressed && keyHandler.leftPressed){
+                direction = "down-left";
             }
 
             // CHECK TILE COLLISION
@@ -91,6 +101,22 @@ public class Player extends Entity{
                         break;
                     case "right":
                         worldX += speed;
+                        break;
+                    case "up-right":
+                        worldX += speed;
+                        worldY -= speed;
+                        break;
+                    case "up-left":
+                        worldX -= speed;
+                        worldY -= speed;
+                        break;
+                    case "down-right":
+                        worldX += speed;
+                        worldY += speed;
+                        break;
+                    case "down-left":
+                        worldX -= speed;
+                        worldY += speed;
                         break;
                 }
             }
@@ -113,7 +139,7 @@ public class Player extends Entity{
         BufferedImage image = null;
 
         switch(direction){
-            case "up":
+            case "up", "up-right", "up-left" :
                 if(spriteNumber == 1){
                     image = up1;
                 }
@@ -121,7 +147,7 @@ public class Player extends Entity{
                     image = up2;
                 }
                 break;
-            case "down":
+            case "down", "down-right", "down-left" :
                 if(spriteNumber == 1){
                     image = down1;
                 }
