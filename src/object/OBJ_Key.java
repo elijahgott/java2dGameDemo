@@ -12,5 +12,9 @@ public class OBJ_Key extends SuperObject{
         catch(IOException e){
             e.printStackTrace();
         }
+
+//        solidArea.x = 8; // set custom solid area
+//        solidArea.y = 8; // set custom solid area
+
     }
 }
