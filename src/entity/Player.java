@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -16,6 +17,7 @@ public class Player extends Entity{
     public final int screenY;
 
     public int hasKey = 0;
+    int standCounter = 0;
 
     public Player(GamePanel gp, KeyHandler keyHandler) {
         this.gp = gp;
@@ -42,20 +44,29 @@ public class Player extends Entity{
     }
 
     public void getPlayerImage(){
-        try{
-            up1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walk/boy_up_1.png"));
-            up2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walk/boy_up_2.png"));
-            down1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walk/boy_down_1.png"));
-            down2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walk/boy_down_2.png"));
-            left1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walk/boy_left_1.png"));
-            left2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walk/boy_left_2.png"));
-            right1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walk/boy_right_1.png"));
-            right2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walk/boy_right_2.png"));
+        up1 = setup("boy_up_1");
+        up2 = setup("boy_up_2");
+        down1 = setup("boy_down_1");
+        down2 = setup("boy_down_2");
+        left1 = setup("boy_left_1");
+        left2 = setup("boy_left_2");
+        right1 = setup("boy_right_1");
+        right2 = setup("boy_right_2");
+    }
 
+    public BufferedImage setup(String imageName){
+        UtilityTool utilityTool = new UtilityTool();
+        BufferedImage image = null;
+
+        try{
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/walk/" + imageName + ".png"));
+            image = utilityTool.scaleImage(image, gp.tileSize, gp.tileSize);
         }
         catch(IOException e){
             e.printStackTrace();
         }
+
+        return image;
     }
 
     public void update(){
@@ -141,6 +152,13 @@ public class Player extends Entity{
                 spriteCounter = 0;
             }
         }
+        else{ // player not moving
+            standCounter++;
+            if(standCounter == 20){ // 20 frame buffer before switching back to default stance
+                spriteNumber = 1;
+                standCounter = 0;
+            }
+        }
     }
 
     public void pickupObject(int index) {
@@ -218,6 +236,9 @@ public class Player extends Entity{
                 break;
         }
 
-        g.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g.drawImage(image, screenX, screenY, null);
+        // show collision box
+//        g.setColor(Color.RED);
+//        g.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
     }
 }

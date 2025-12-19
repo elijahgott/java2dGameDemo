@@ -22,9 +22,10 @@ public class UI {
 
     public UI(GamePanel gp) {
         this.gp = gp;
+
         UIFont = new Font("Arial", Font.BOLD, 36);
         gameOverFont = new Font("Arial", Font.BOLD, 56);
-        OBJ_Key key = new OBJ_Key();
+        OBJ_Key key = new OBJ_Key(gp);
         keyImage = key.image;
     }
 
@@ -79,7 +80,7 @@ public class UI {
 
             // PLAYTIME
             playTime += (double)1/60;
-            g2.drawString("Playtime: " + dFormat.format(playTime), (gp.tileSize * 10) + (gp.tileSize / 3), (gp.tileSize / 3) + gp.tileSize);
+//            g2.drawString("Playtime: " + dFormat.format(playTime), (gp.tileSize * 10) + (gp.tileSize / 3), (gp.tileSize / 3) + gp.tileSize); // don't want to display playtime until after completing game
 
             // MESSAGE
             if(messageOn){
