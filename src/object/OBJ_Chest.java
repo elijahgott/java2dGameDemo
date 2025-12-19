@@ -6,11 +6,11 @@ import java.io.IOException;
 public class OBJ_Chest extends SuperObject{
     public OBJ_Chest() {
         name = "Chest";
-        try{
+        try {
             image = ImageIO.read(getClass().getResourceAsStream("/objects/chest.png"));
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        collision = true;
     }
 }
