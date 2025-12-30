@@ -26,7 +26,7 @@ public class GamePanel extends JPanel implements Runnable{
     final int FPS = 60;
 
     TileManager tileManager = new TileManager(this);
-    KeyHandler keyHandler = new KeyHandler();
+    KeyHandler keyHandler = new KeyHandler(this);
     Sound music = new Sound();
     Sound soundEffect = new Sound();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
@@ -37,6 +37,11 @@ public class GamePanel extends JPanel implements Runnable{
     // ENTITIES AND OBJECTS
     public Player player = new Player(this, keyHandler);
     public SuperObject obj[] = new SuperObject[10]; // display 10 objects at a time, can replace after objects are picked up
+
+    // GAME STATE
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -51,6 +56,8 @@ public class GamePanel extends JPanel implements Runnable{
         assetSetter.setObject();
 
         playMusic(0); // BlueBoyAdventure song at index 0
+
+        gameState = playState;
     }
 
     public void startGameThread(){
@@ -90,7 +97,12 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update(){
-        player.update();
+        if(gameState == playState){
+            player.update();
+        }
+        if(gameState == pauseState){
+            // nothing
+        }
     }
 
     public void paintComponent(Graphics g){
