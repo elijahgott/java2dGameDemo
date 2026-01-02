@@ -3,6 +3,7 @@ package main;
 import entity.Player;
 import object.SuperObject;
 import tile.TileManager;
+import entity.Entity;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -37,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable{
     // ENTITIES AND OBJECTS
     public Player player = new Player(this, keyHandler);
     public SuperObject obj[] = new SuperObject[10]; // display 10 objects at a time, can replace after objects are picked up
+    public Entity npc[] = new Entity[10]; // holds up to 10 NPCs
 
     // GAME STATE
     public int gameState;
@@ -54,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         assetSetter.setObject();
-
+        assetSetter.setNPC();
         playMusic(0); // BlueBoyAdventure song at index 0
 
         gameState = playState;
@@ -98,7 +100,14 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update(){
         if(gameState == playState){
+            // player
             player.update();
+            // npc
+            for(int i = 0; i < npc.length; i++){
+                if(npc[i] != null){
+                    npc[i].update();
+                }
+            }
         }
         if(gameState == pauseState){
             // nothing
@@ -122,6 +131,13 @@ public class GamePanel extends JPanel implements Runnable{
         for(int i = 0; i < obj.length; i++){
             if(obj[i] != null){
                 obj[i].draw(g2, this);
+            }
+        }
+
+        //npc
+        for(int i = 0; i < npc.length; i++){
+            if(npc[i] != null){
+                npc[i].draw(g2);
             }
         }
 
