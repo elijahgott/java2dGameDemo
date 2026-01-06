@@ -50,7 +50,7 @@ public class NPC_OldMan extends Entity {
     }
 
     public void setDialogue(){
-        dialogues[0] = "Crazy? I was crazy once. \nThey put me in a room, a room with rats. \nRats make me crazy.";
+        dialogues[0] = "Crazy? I was crazy once. They\nput me in a room, a room with\nrats. Rats make me crazy.";
         dialogues[1] = "What.";
         dialogues[2] = "I am NOT old.";
         dialogues[3] = "JK I'm lowkey pretty old.";

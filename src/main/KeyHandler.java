@@ -45,14 +45,14 @@ public class KeyHandler implements KeyListener {
         }
 
         // PAUSE STATE
-        if(gp.gameState == gp.pauseState){
+        else if(gp.gameState == gp.pauseState){
             if(code == KeyEvent.VK_ESCAPE){
                 gp.gameState = gp.playState;
             }
         }
 
         // DIALOGUE STATE
-        if(gp.gameState == gp.dialogueState){
+        else if(gp.gameState == gp.dialogueState){
             if(code == KeyEvent.VK_SPACE ||  code == KeyEvent.VK_ENTER || code == KeyEvent.VK_ESCAPE){
                 gp.gameState = gp.playState;
             }

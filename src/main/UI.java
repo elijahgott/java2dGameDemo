@@ -1,11 +1,13 @@
 package main;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class UI {
     GamePanel gp;
     Graphics2D g2;
-    Font UIFont, gameOverFont, dialogueFont;
+    Font UIFont, dialogueFont;
     public boolean messageOn = false;
     public String message = "";
     int messageCounter = 0;
@@ -15,9 +17,19 @@ public class UI {
     public UI(GamePanel gp) {
         this.gp = gp;
 
-        UIFont = new Font("Arial", Font.PLAIN, 36);
-        gameOverFont = new Font("Arial", Font.BOLD, 56);
-        dialogueFont = new Font("Arial", Font.PLAIN, 32);
+        try{
+            InputStream is = getClass().getResourceAsStream("/font/PublicPixel.ttf");
+            dialogueFont = Font.createFont(Font.TRUETYPE_FONT, is);
+
+            is = getClass().getResourceAsStream("/font/Boxy-Bold.ttf");
+            UIFont = Font.createFont(Font.TRUETYPE_FONT, is);
+        }
+        catch(FontFormatException e){
+            e.printStackTrace();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void showMessage(String text){
@@ -47,10 +59,21 @@ public class UI {
     }
 
     public void drawPauseScreen(){
+        // WINDOW
+        int width = gp.screenWidth - (gp.tileSize * 2);
+        int height = gp.tileSize * 4;
+        int x = gp.tileSize;
+        int y = (gp.screenHeight / 2) - (height / 2);
+
+        drawSubWindow(x, y, width, height);
+
         String text = "PAUSED";
 
-        int x = getXForCenteredText(text);
-        int y = gp.screenHeight / 2;
+        g2.setFont(UIFont);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 36F));
+
+        x = getXForCenteredText(text);
+        y = gp.screenHeight / 2;
 
         g2.drawString(text, x, y);
     }
@@ -64,9 +87,11 @@ public class UI {
 
         drawSubWindow(x, y, width, height);
 
-        x += gp.tileSize;
+        x += gp.tileSize / 2;
         y += gp.tileSize;
+
         g2.setFont(dialogueFont);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 20F));
 
         for(String line : currentDialogue.split("\n")){
             g2.drawString(line, x, y);
