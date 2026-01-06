@@ -14,6 +14,7 @@ public class NPC_OldMan extends Entity {
 //        solidArea = new Rectangle(0, 0, 48, 48); // not used because default entity solid area is used
 
         getImage();
+        setDialogue();
     }
 
     public void getImage(){
@@ -46,5 +47,19 @@ public class NPC_OldMan extends Entity {
 
             actionLockCounter = 0;
         }
+    }
+
+    public void setDialogue(){
+        dialogues[0] = "Crazy? I was crazy once. \nThey put me in a room, a room with rats. \nRats make me crazy.";
+        dialogues[1] = "What.";
+        dialogues[2] = "I am NOT old.";
+        dialogues[3] = "JK I'm lowkey pretty old.";
+        dialogues[4] = "Got any cute sisters?";
+    }
+
+    public void speak(){
+        super.speak();
+
+        // can add character specific stuff
     }
 }

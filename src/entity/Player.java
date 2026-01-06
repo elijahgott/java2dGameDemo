@@ -151,8 +151,12 @@ public class Player extends Entity{
 
     public void interactNPC(int index){
         if(index != 999){
-            System.out.print("Touch him so good");
+            if(gp.keyHandler.enterPressed) {
+                gp.gameState = gp.dialogueState;
+                gp.npc[index].speak();
+            }
         }
+        gp.keyHandler.enterPressed = false;
     }
 
     public void draw(Graphics g){
