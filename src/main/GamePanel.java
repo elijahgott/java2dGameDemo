@@ -42,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // GAME STATE
     public int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
@@ -58,9 +59,9 @@ public class GamePanel extends JPanel implements Runnable{
     public void setupGame(){
         assetSetter.setObject();
         assetSetter.setNPC();
-        playMusic(0); // BlueBoyAdventure song at index 0
+//        playMusic(0); // BlueBoyAdventure song at index 0
 
-        gameState = playState;
+        gameState = titleState;
     }
 
     public void startGameThread(){
@@ -125,36 +126,42 @@ public class GamePanel extends JPanel implements Runnable{
             drawStart = System.nanoTime();
         }
 
-        // tiles
-        tileManager.draw(g2); // before drawing player, so player is drawn on top
-
-        //object
-        for(int i = 0; i < obj.length; i++){
-            if(obj[i] != null){
-                obj[i].draw(g2, this);
-            }
+        // TITLE SCREEN
+        if(gameState == titleState){
+            ui.draw(g2);
         }
+        else{ // NON-TITLE SCREEN
+            // tiles
+            tileManager.draw(g2); // before drawing player, so player is drawn on top
 
-        //npc
-        for(int i = 0; i < npc.length; i++){
-            if(npc[i] != null){
-                npc[i].draw(g2);
+            //object
+            for(int i = 0; i < obj.length; i++){
+                if(obj[i] != null){
+                    obj[i].draw(g2, this);
+                }
             }
-        }
 
-        // player - drawn on top of objects and tiles
-        player.draw(g2);
+            //npc
+            for(int i = 0; i < npc.length; i++){
+                if(npc[i] != null){
+                    npc[i].draw(g2);
+                }
+            }
 
-        // ui - usually top layer
-        ui.draw(g2);
+            // player - drawn on top of objects and tiles
+            player.draw(g2);
 
-        // DEBUG
-        if(keyHandler.checkDrawTime){
-            long drawEnd = System.nanoTime();
-            long timePassed = drawEnd - drawStart;
-            g2.setColor(Color.white);
-            g2.drawString("Draw Time: " + timePassed, 10, 400);
-            System.out.println("Draw Time: " + timePassed);
+            // ui - usually top layer
+            ui.draw(g2);
+
+            // DEBUG
+            if(keyHandler.checkDrawTime){
+                long drawEnd = System.nanoTime();
+                long timePassed = drawEnd - drawStart;
+                g2.setColor(Color.white);
+                g2.drawString("Draw Time: " + timePassed, 10, 400);
+                System.out.println("Draw Time: " + timePassed);
+            }
         }
 
         g2.dispose();

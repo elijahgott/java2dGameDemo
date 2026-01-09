@@ -14,6 +14,8 @@ public class UI {
     public boolean gameOver = false;
     public String currentDialogue;
 
+    public int commandNumber = 0;
+
     public UI(GamePanel gp) {
         this.gp = gp;
 
@@ -42,6 +44,11 @@ public class UI {
         g2.setFont(UIFont);
         g2.setColor(Color.white);
 
+        // TITLE STATE
+        if(gp.gameState == gp.titleState){
+            drawTitleScreen();
+        }
+
         // PLAY STATE
         if(gp.gameState == gp.playState){
             // do playState stuff later
@@ -55,6 +62,63 @@ public class UI {
         // DIALOGUE STATE
         if(gp.gameState == gp.dialogueState){
             drawDialogueScreen();
+        }
+    }
+
+    public void drawTitleScreen(){
+        g2.setColor(new Color(42, 0, 122));
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
+        // title name
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+        String text = "Da Jokah Adventure";
+        int x = getXForCenteredText(text);
+        int y = gp.tileSize * 2;
+
+        // shadow -- not used because it looks bad with font
+//        g2.setColor(Color.black);
+//        g2.drawString(text, x + 8, y + 8);
+
+        // main color
+        g2.setColor(Color.WHITE);
+        g2.drawString(text, x, y);
+
+        // character image
+        int size = gp.tileSize * 3;
+        x = (gp.screenWidth / 2) - (size / 2);
+        y += gp.tileSize * 2;
+        g2.drawImage(gp.player.down1, x, y, size,size, null);
+
+        // menu
+        g2.setFont(dialogueFont);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 24F));
+        text = "New Game";
+        x = getXForCenteredText(text);
+        y += gp.tileSize * 5;
+        g2.drawString(text, x, y);
+        if(commandNumber == 0){
+            g2.drawString(">", x - gp.tileSize, y);
+            // drawImage to use image for selector
+        }
+
+        g2.setFont(dialogueFont);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 24F));
+        text = "Load Game";
+        x = getXForCenteredText(text);
+        y += gp.tileSize;
+        g2.drawString(text, x, y);
+        if(commandNumber == 1){
+            g2.drawString(">", x - gp.tileSize, y);
+        }
+
+        g2.setFont(dialogueFont);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 24F));
+        text = "Quit";
+        x = getXForCenteredText(text);
+        y += gp.tileSize;
+        g2.drawString(text, x, y);
+        if(commandNumber == 2){
+            g2.drawString(">", x - gp.tileSize, y);
         }
     }
 
