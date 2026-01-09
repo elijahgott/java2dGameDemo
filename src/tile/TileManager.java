@@ -215,6 +215,12 @@ public class TileManager {
             if((worldX + gp.tileSize > gp.player.worldX - gp.player.screenX) && (worldX - gp.tileSize < gp.player.worldX + gp.player.screenX)
             && (worldY + gp.tileSize > gp.player.worldY - gp.player.screenY) && (worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)){
                 g2.drawImage(tile[tileNum].image, screenX, screenY, null);
+
+                // grid coordinates for debugging
+                g2.setColor(Color.black);
+                g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
+                g2.drawString((worldCol + 1) + ", " + (worldRow + 1), screenX + (gp.tileSize / 4), screenY + (gp.tileSize / 2));
+                g2.drawString(Integer.toString(tileNum), screenX + (gp.tileSize / 4), screenY + (gp.tileSize - (gp.tileSize / 4)));
             }
 
             worldCol++;
