@@ -10,11 +10,9 @@ public class KeyHandler implements KeyListener {
     public boolean checkDrawTime = false;
 
     GamePanel gp;
-    TileManager tm;
 
-    public KeyHandler(GamePanel gp, TileManager tm) {
+    public KeyHandler(GamePanel gp) {
         this.gp = gp;
-        this.tm = tm;
     }
 
     @Override
@@ -80,7 +78,7 @@ public class KeyHandler implements KeyListener {
                 gp.gameState = gp.pauseState;
             }
             if(code == KeyEvent.VK_F3){
-                tm.showCoordinates = !tm.showCoordinates;
+                gp.debug = !gp.debug;
             }
         }
 

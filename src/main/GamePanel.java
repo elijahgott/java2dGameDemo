@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable{
+    public boolean debug = false;
+
     // SCREEN SETTINGS
     final int originalTileSize = 16; // 16 x 16px tile
     final int scale = 3; // scale original tile size by this value
@@ -26,13 +28,15 @@ public class GamePanel extends JPanel implements Runnable{
 
     final int FPS = 60;
 
+    // SYSTEM
     TileManager tileManager = new TileManager(this);
-    public KeyHandler keyHandler = new KeyHandler(this, tileManager);
+    public KeyHandler keyHandler = new KeyHandler(this);
     Sound music = new Sound();
     Sound soundEffect = new Sound();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public AssetSetter assetSetter = new AssetSetter(this);
     public UI ui = new UI(this);
+    public EventHandler eventHandler = new EventHandler(this);
     Thread gameThread;
 
     // ENTITIES AND OBJECTS

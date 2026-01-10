@@ -136,8 +136,6 @@ public class UI {
     }
 
     public void drawPlayerHealth(){
-        gp.player.health = 4;
-
         int x = gp.tileSize / 2;
         int y = gp.tileSize / 2;
 

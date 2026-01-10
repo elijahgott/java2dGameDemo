@@ -15,7 +15,6 @@ public class TileManager {
     GamePanel gp;
     public Tile[] tile;
     public int mapTileNum[][];
-    public boolean showCoordinates = false;
 
     UtilityTool utilityTool;
 
@@ -217,10 +216,10 @@ public class TileManager {
             && (worldY + gp.tileSize > gp.player.worldY - gp.player.screenY) && (worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)){
                 g2.drawImage(tile[tileNum].image, screenX, screenY, null);
 
-                if(showCoordinates){ // grid coordinates for debugging
+                if(gp.debug){ // grid coordinates for debugging
                     g2.setColor(Color.black);
                     g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
-                    g2.drawString((worldCol + 1) + ", " + (worldRow + 1), screenX + (gp.tileSize / 4), screenY + (gp.tileSize / 2));
+                    g2.drawString((worldCol) + ", " + (worldRow), screenX + (gp.tileSize / 4), screenY + (gp.tileSize / 2));
                     g2.drawString(Integer.toString(tileNum), screenX + (gp.tileSize / 4), screenY + (gp.tileSize - (gp.tileSize / 4)));
                 }
             }

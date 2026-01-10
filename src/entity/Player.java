@@ -30,8 +30,8 @@ public class Player extends Entity{
 
     public void setDefaultValues(){
         // set default player location
-        worldX = gp.tileSize * 6;
-        worldY = gp.tileSize * 3;
+        worldX = gp.tileSize * 2;
+        worldY = gp.tileSize * 5;
 
         // health
         maxHealth = 6;
@@ -53,7 +53,6 @@ public class Player extends Entity{
     }
 
     public void update(){
-
         if(keyHandler.upPressed || keyHandler.downPressed ||
            keyHandler.leftPressed || keyHandler.rightPressed) {
             if(keyHandler.upPressed){
@@ -92,6 +91,11 @@ public class Player extends Entity{
             // CHECK NPC COLLISION
             int npcIndex = gp.collisionChecker.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
+
+            // CHECK EVENT
+            gp.eventHandler.checkEvent();
+            gp.keyHandler.enterPressed = false;
+
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if(!collisionOn){
@@ -162,7 +166,6 @@ public class Player extends Entity{
                 gp.npc[index].speak();
             }
         }
-        gp.keyHandler.enterPressed = false;
     }
 
     public void draw(Graphics g){
