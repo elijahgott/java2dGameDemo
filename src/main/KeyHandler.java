@@ -3,14 +3,18 @@ package main;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import tile.TileManager;
+
 public class KeyHandler implements KeyListener {
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
     public boolean checkDrawTime = false;
 
     GamePanel gp;
+    TileManager tm;
 
-    public KeyHandler(GamePanel gp){
+    public KeyHandler(GamePanel gp, TileManager tm) {
         this.gp = gp;
+        this.tm = tm;
     }
 
     @Override
@@ -74,6 +78,9 @@ public class KeyHandler implements KeyListener {
             }
             if(code == KeyEvent.VK_ESCAPE) {
                 gp.gameState = gp.pauseState;
+            }
+            if(code == KeyEvent.VK_F3){
+                tm.showCoordinates = !tm.showCoordinates;
             }
         }
 

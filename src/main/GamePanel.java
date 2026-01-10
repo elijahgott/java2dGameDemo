@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable{
     final int FPS = 60;
 
     TileManager tileManager = new TileManager(this);
-    public KeyHandler keyHandler = new KeyHandler(this);
+    public KeyHandler keyHandler = new KeyHandler(this, tileManager);
     Sound music = new Sound();
     Sound soundEffect = new Sound();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
@@ -49,7 +49,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.black);
+        Color backgroundColor = new Color(73, 162, 105);
+        this.setBackground(backgroundColor);
         this.setDoubleBuffered(true);
 
         this.addKeyListener(keyHandler);
