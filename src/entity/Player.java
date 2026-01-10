@@ -33,6 +33,10 @@ public class Player extends Entity{
         worldX = gp.tileSize * 6;
         worldY = gp.tileSize * 3;
 
+        // health
+        maxHealth = 6;
+        health = maxHealth;
+
         speed = 4;
     }
 

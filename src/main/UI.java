@@ -1,6 +1,10 @@
 package main;
 
+import object.OBJ_Heart;
+import object.SuperObject;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -8,6 +12,7 @@ public class UI {
     GamePanel gp;
     Graphics2D g2;
     Font UIFont, dialogueFont;
+    BufferedImage heart_full, heart_half, heart_empty;
     public boolean messageOn = false;
     public String message = "";
     int messageCounter = 0;
@@ -32,6 +37,12 @@ public class UI {
         catch(IOException e){
             e.printStackTrace();
         }
+
+        // CREATE HUD OBJECT
+        SuperObject heart = new OBJ_Heart(gp);
+        heart_full = heart.image;
+        heart_half = heart.image2;
+        heart_empty = heart.image3;
     }
 
     public void showMessage(String text){
@@ -51,16 +62,18 @@ public class UI {
 
         // PLAY STATE
         if(gp.gameState == gp.playState){
-            // do playState stuff later
+            drawPlayerHealth();
         }
 
         // PAUSE STATE
         if(gp.gameState == gp.pauseState){
+            drawPlayerHealth();
             drawPauseScreen();
         }
 
         // DIALOGUE STATE
         if(gp.gameState == gp.dialogueState){
+            drawPlayerHealth();
             drawDialogueScreen();
         }
     }
@@ -119,6 +132,34 @@ public class UI {
         g2.drawString(text, x, y);
         if(commandNumber == 2){
             g2.drawString(">", x - gp.tileSize, y);
+        }
+    }
+
+    public void drawPlayerHealth(){
+        gp.player.health = 4;
+
+        int x = gp.tileSize / 2;
+        int y = gp.tileSize / 2;
+
+        int fullHearts = gp.player.health / 2;
+        int halfHearts = gp.player.health % 2;
+        int emptyHearts = (gp.player.maxHealth - gp.player.health) / 2;
+
+        // draw full hearts
+        for(int i = 0; i < fullHearts; i++){
+            g2.drawImage(heart_full, x, y,null);
+            x += gp.tileSize;
+        }
+        // draw half hearts
+        for(int i = 0; i < halfHearts; i++){
+            g2.drawImage(heart_half, x, y,null);
+            x += gp.tileSize;
+        }
+
+        // draw empty hearts
+        for(int i = 0; i < emptyHearts; i++){
+            g2.drawImage(heart_empty, x, y,null);
+            x += gp.tileSize;
         }
     }
 
