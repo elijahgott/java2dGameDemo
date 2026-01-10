@@ -38,6 +38,7 @@ public class Player extends Entity{
         health = maxHealth;
 
         speed = 4;
+        diagonalSpeed = Math.toIntExact(Math.round(speed * (1 / Math.sqrt(2))));
     }
 
     public void getPlayerImage(){
@@ -107,21 +108,22 @@ public class Player extends Entity{
                     case "right":
                         worldX += speed;
                         break;
+                    // diagonals
                     case "up-right":
-                        worldX += speed;
-                        worldY -= speed;
+                        worldX += diagonalSpeed;
+                        worldY -= diagonalSpeed;
                         break;
                     case "up-left":
-                        worldX -= speed;
-                        worldY -= speed;
+                        worldX -= diagonalSpeed;
+                        worldY -= diagonalSpeed;
                         break;
                     case "down-right":
-                        worldX += speed;
-                        worldY += speed;
+                        worldX += diagonalSpeed;
+                        worldY += diagonalSpeed;
                         break;
                     case "down-left":
-                        worldX -= speed;
-                        worldY += speed;
+                        worldX -= diagonalSpeed;
+                        worldY += diagonalSpeed;
                         break;
                 }
             }
