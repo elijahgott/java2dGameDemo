@@ -1,12 +1,14 @@
 package main;
 
 import entity.Player;
-import object.SuperObject;
 import tile.TileManager;
 import entity.Entity;
 
 import javax.swing.JPanel;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GamePanel extends JPanel implements Runnable{
     public boolean debug = false;
@@ -41,8 +43,10 @@ public class GamePanel extends JPanel implements Runnable{
 
     // ENTITIES AND OBJECTS
     public Player player = new Player(this, keyHandler);
-    public SuperObject obj[] = new SuperObject[10]; // display 10 objects at a time, can replace after objects are picked up
+    public Entity obj[] = new Entity[10]; // display 10 objects at a time, can replace after objects are picked up
     public Entity npc[] = new Entity[10]; // holds up to 10 NPCs
+    // all types of entities will be in this list, used for render order
+    ArrayList<Entity> entityList = new ArrayList<Entity>();
 
     // GAME STATE
     public int gameState;
@@ -139,24 +143,42 @@ public class GamePanel extends JPanel implements Runnable{
             // tiles
             tileManager.draw(g2); // before drawing player, so player is drawn on top
 
-            //object
-            for(int i = 0; i < obj.length; i++){
-                if(obj[i] != null){
-                    obj[i].draw(g2, this);
-                }
-            }
+            // ADD ALL ENTITIES TO ENTITY LIST
+            // add player
+            entityList.add(player);
 
-            //npc
+            // add NPC's
             for(int i = 0; i < npc.length; i++){
                 if(npc[i] != null){
-                    npc[i].draw(g2);
+                    entityList.add(npc[i]);
                 }
             }
 
-            // player - drawn on top of objects and tiles
-            player.draw(g2);
+            // add objects
+            for(int i = 0; i < obj.length; i++){
+                if(obj[i] != null){
+                    entityList.add(obj[i]);
+                }
+            }
 
-            // ui - usually top layer
+            // sort by world y coordinates
+            Collections.sort(entityList, new Comparator<Entity>() {
+                @Override
+                public int compare(Entity e1, Entity e2) {
+                    int result = Integer.compare(e1.worldY, e2.worldY);
+                    return result;
+                }
+            });
+
+            // DRAW ENTITIES
+            for(int i = 0; i < entityList.size(); i++){
+                entityList.get(i).draw(g2);
+            }
+
+            // EMPTY ENTITY LIST
+            entityList.clear();
+
+            // ui - usually top layer -> rendered last
             ui.draw(g2);
 
             // DEBUG

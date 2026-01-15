@@ -18,7 +18,7 @@ public class Entity {
     public int diagonalSpeed;
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
-    public String direction;
+    public String direction = "down";
 
     public int spriteCounter = 0;
     public int spriteNumber = 1;
@@ -30,6 +30,11 @@ public class Entity {
     public int actionLockCounter = 0;
     String dialogues[] = new String[20];
     int dialogueIndex = 0;
+
+    // for objects
+    public BufferedImage image, image2, image3;
+    public String name;
+    public boolean collision = false;
 
     // CHARACTER STATUS
     public int maxHealth;
@@ -150,7 +155,7 @@ public class Entity {
 
             if(gp.debug){
                 g2.setColor(new Color(255, 0, 0, 100));
-                g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
+                g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize); // only shows tileSize * tileSize box, need to update to reflect actual solidAreas
             }
         }
     }

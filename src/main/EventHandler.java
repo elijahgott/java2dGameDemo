@@ -4,34 +4,57 @@ import java.awt.*;
 
 public class EventHandler{
     GamePanel gp;
-    Rectangle eventRect;
-    int eventRectDefaultX, eventRectDefaultY;
+    EventRect eventRect[][];
+
+    int previousEventX, previousEventY;
+    boolean canTouchEvent = true;
 
     public EventHandler(GamePanel gp){
         this.gp = gp;
 
-        eventRect = new Rectangle();
-        eventRect.x = 23;
-        eventRect.y = 23;
-        eventRect.width = 2;
-        eventRect.height = 2;
-        eventRectDefaultX = eventRect.x;
-        eventRectDefaultY = eventRect.y;
+        eventRect = new EventRect[gp.maxWorldCol][gp.maxWorldRow];
+        int col = 0;
+        int row = 0;
+        while(col < gp.maxWorldCol && row < gp.maxWorldRow){
+            eventRect[col][row] = new EventRect();
+            eventRect[col][row].x = 23;
+            eventRect[col][row].y = 23;
+            eventRect[col][row].width = 2;
+            eventRect[col][row].height = 2;
+            eventRect[col][row].eventRectDefaultX = eventRect[col][row].x;
+            eventRect[col][row].eventRectDefaultY = eventRect[col][row].y;
+
+            col++;
+            if(col == gp.maxWorldCol){
+                col = 0;
+                row++;
+            }
+        }
     }
 
     public void checkEvent() {
-        // damage pit
-        if(hit(7, 5, "up")){
-            damagePit(gp.dialogueState);
-        }
-        // healing pool
-        if(hit(7, 4, "right")){
-            healingPool(gp.dialogueState);
+        // check if player is more than 1 tile away from last event
+        int xDistance = Math.abs(gp.player.worldX - previousEventX);
+        int yDistance = Math.abs(gp.player.worldY - previousEventY);
+        int distance = Math.max(xDistance, yDistance);
+
+        if(distance > gp.tileSize){
+            canTouchEvent = true;
         }
 
-        // teleport pad
-        if(hit(6, 10, "any")){
-            teleport(gp.dialogueState);
+        if(canTouchEvent){
+            // damage pit
+            if(hit(7, 5, "any")){
+                damagePit(7, 5, gp.dialogueState);
+            }
+            // healing pool
+            if(hit(7, 4, "right")){ // needs right key to be actively pressed to work
+                healingPool(7, 4, gp.dialogueState);
+            }
+            // teleport pad
+            if(hit(6, 10, "any")){
+                teleport(6, 10, gp.dialogueState);
+            }
         }
     }
 
@@ -40,41 +63,48 @@ public class EventHandler{
 
         gp.player.solidArea.x = gp.player.worldX + gp.player.solidArea.x;
         gp.player.solidArea.y = gp.player.worldY + gp.player.solidArea.y;
-        eventRect.x = (eventCol * gp.tileSize) + eventRect.x;
-        eventRect.y = (eventRow * gp.tileSize) + eventRect.y;
+        eventRect[eventCol][eventRow].x = (eventCol * gp.tileSize) + eventRect[eventCol][eventRow].x;
+        eventRect[eventCol][eventRow].y = (eventRow * gp.tileSize) + eventRect[eventCol][eventRow].y;
 
-        if(gp.player.solidArea.intersects(eventRect)){
+
+        if(gp.player.solidArea.intersects(eventRect[eventCol][eventRow]) && !eventRect[eventCol][eventRow].eventDone){
             if(gp.player.direction.equals(requiredDirection) || requiredDirection.equals("any")){
                 hit = true;
+
+                previousEventX = gp.player.worldX;
+                previousEventY = gp.player.worldY;
             }
         }
 
         // reset player and event positions
         gp.player.solidArea.x = gp.player.solidAreaDefaultX;
         gp.player.solidArea.y = gp.player.solidAreaDefaultY;
-        eventRect.x = eventRectDefaultX;
-        eventRect.y = eventRectDefaultY;
+        eventRect[eventCol][eventRow].x = eventRect[eventCol][eventRow].eventRectDefaultX;
+        eventRect[eventCol][eventRow].y = eventRect[eventCol][eventRow].eventRectDefaultY;
 
         return hit;
     }
 
-    public void damagePit(int gameState){
+    public void damagePit(int col, int row, int gameState){
         gp.gameState = gameState;
         gp.ui.currentDialogue = "You fall into a pit of death\nand despair!";
         gp.player.health--;
+//        eventRect[col][row].eventDone = true;
+        canTouchEvent = false;
     }
 
-    public void healingPool(int gameState){
-        if(gp.keyHandler.enterPressed && (gp.player.health < gp.player.maxHealth)){
+    public void healingPool(int col, int row, int gameState){
+        if((gp.player.health < gp.player.maxHealth) && gp.keyHandler.enterPressed){
             gp.gameState = gameState;
             gp.ui.currentDialogue = "You drink the pond water.\nYour health is now replenished!";
             gp.player.health++;
         }
     }
 
-    public void teleport(int gameState){
+    public void teleport(int col, int row, int gameState){
         gp.gameState = gameState;
         gp.ui.currentDialogue = "Teleporting to...?";
+        // teleport player to 26, 35
         gp.player.worldX = gp.tileSize * 26;
         gp.player.worldY = gp.tileSize * 35;
     }
