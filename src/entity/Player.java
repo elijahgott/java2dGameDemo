@@ -92,10 +92,13 @@ public class Player extends Entity{
             int npcIndex = gp.collisionChecker.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
 
+            // CHECK MONSTER COLLISION
+            int monsterIndex = gp.collisionChecker.checkEntity(this, gp.monster);
+            interactMonster(monsterIndex);
+
             // CHECK EVENT
             gp.eventHandler.checkEvent();
             gp.keyHandler.enterPressed = false;
-
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if(!collisionOn){
@@ -151,6 +154,14 @@ public class Player extends Entity{
                 standCounter = 0;
             }
         }
+        // invincibility timer after being hit
+        if(invincible){
+            invincibleTimer++;
+            if(invincibleTimer > 60){
+                invincible = false;
+                invincibleTimer = 0;
+            }
+        }
     }
 
     public void pickupObject(int index) {
@@ -168,11 +179,23 @@ public class Player extends Entity{
         }
     }
 
-    public void draw(Graphics g){
+    public void interactMonster(int index){
+        if(index != 999){
+            if(!invincible){
+                health -= 1;
+                invincible = true;
+                if(health <= 0){ // prevents player health from going negative
+                    health = 0;
+                }
+            }
+        }
+    }
+
+    public void draw(Graphics2D g){
         BufferedImage image = null;
 
         switch(direction){
-            case "up", "up-right", "up-left" :
+            case "up" :
                 if(spriteNumber == 1){
                     image = up1;
                 }
@@ -180,7 +203,7 @@ public class Player extends Entity{
                     image = up2;
                 }
                 break;
-            case "down", "down-right", "down-left" :
+            case "down":
                 if(spriteNumber == 1){
                     image = down1;
                 }
@@ -188,7 +211,7 @@ public class Player extends Entity{
                     image = down2;
                 }
                 break;
-            case "left":
+            case "left", "up-left", "down-left":
                 if(spriteNumber == 1){
                     image = left1;
                 }
@@ -196,7 +219,7 @@ public class Player extends Entity{
                     image = left2;
                 }
                 break;
-            case "right":
+            case "right", "up-right", "down-right":
                 if(spriteNumber == 1){
                     image = right1;
                 }
@@ -206,7 +229,16 @@ public class Player extends Entity{
                 break;
         }
 
+        // lower opacity when invincible
+        if(invincible){
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3F));
+        }
+
         g.drawImage(image, screenX, screenY, null);
+
+        // reset opacity
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
+
         // show collision box
 //        g.setColor(Color.RED);
 //        g.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);

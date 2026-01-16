@@ -28,6 +28,11 @@ public class Entity {
     public boolean collisionOn = false;
 
     public int actionLockCounter = 0;
+    public boolean invincible = false;
+    public int invincibleTimer = 0;
+
+    public int type; // 0 = player, 1 = npc, 2 = monster, ...
+
     String dialogues[] = new String[20];
     int dialogueIndex = 0;
 
@@ -75,7 +80,20 @@ public class Entity {
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
         gp.collisionChecker.checkObject(this, false);
-        gp.collisionChecker.checkPlayer(this);
+        gp.collisionChecker.checkEntity(this, gp.npc);
+        gp.collisionChecker.checkEntity(this, gp.monster);
+        boolean contactPlayer = gp.collisionChecker.checkPlayer(this);
+
+        if(this.type == 2 && contactPlayer){ // type == monster
+            if(!gp.player.invincible){
+                // damage player
+                gp.player.health -= 1;
+                gp.player.invincible = true;
+                if(gp.player.health <= 0){
+                    gp.player.health = 0;
+                }
+            }
+        }
 
         if(!collisionOn){
             switch(direction){

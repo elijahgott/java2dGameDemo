@@ -45,6 +45,8 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player = new Player(this, keyHandler);
     public Entity obj[] = new Entity[10]; // display 10 objects at a time, can replace after objects are picked up
     public Entity npc[] = new Entity[10]; // holds up to 10 NPCs
+    public Entity monster[] = new Entity[20]; // holds up to 10 monsters at once
+
     // all types of entities will be in this list, used for render order
     ArrayList<Entity> entityList = new ArrayList<Entity>();
 
@@ -68,6 +70,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void setupGame(){
         assetSetter.setObject();
         assetSetter.setNPC();
+        assetSetter.setMonster();
 //        playMusic(0); // BlueBoyAdventure song at index 0
 
         gameState = titleState;
@@ -113,10 +116,17 @@ public class GamePanel extends JPanel implements Runnable{
         if(gameState == playState){
             // player
             player.update();
-            // npc
+            // npcs
             for(int i = 0; i < npc.length; i++){
                 if(npc[i] != null){
                     npc[i].update();
+                }
+            }
+
+            // monsters
+            for(int i = 0; i < monster.length; i++){
+                if(monster[i] != null){
+                    monster[i].update();
                 }
             }
         }
@@ -147,10 +157,17 @@ public class GamePanel extends JPanel implements Runnable{
             // add player
             entityList.add(player);
 
-            // add NPC's
+            // add NPCs
             for(int i = 0; i < npc.length; i++){
                 if(npc[i] != null){
                     entityList.add(npc[i]);
+                }
+            }
+
+            // add monsters
+            for(int i = 0; i < monster.length; i++){
+                if(monster[i] != null){
+                    entityList.add(monster[i]);
                 }
             }
 

@@ -139,9 +139,9 @@ public class UI {
         int x = gp.tileSize / 2;
         int y = gp.tileSize / 2;
 
-        int fullHearts = gp.player.health / 2;
-        int halfHearts = gp.player.health % 2;
-        int emptyHearts = (gp.player.maxHealth - gp.player.health) / 2;
+        int fullHearts = gp.player.health > 0 ? gp.player.health / 2 : 0;
+        int halfHearts = gp.player.health > 0 ? gp.player.health % 2 : 0;
+        int emptyHearts = gp.player.health > 0 ? (gp.player.maxHealth - gp.player.health) / 2 : gp.player.maxHealth / 2;
 
         // draw full hearts
         for(int i = 0; i < fullHearts; i++){
