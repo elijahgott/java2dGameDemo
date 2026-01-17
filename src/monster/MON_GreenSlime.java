@@ -6,8 +6,11 @@ import main.GamePanel;
 import java.util.Random;
 
 public class MON_GreenSlime extends Entity {
+
+    GamePanel gp;
     public MON_GreenSlime(GamePanel gp) {
         super(gp);
+        this.gp = gp;
 
         name = "Green Slime";
         type = 2;
@@ -15,9 +18,9 @@ public class MON_GreenSlime extends Entity {
         maxHealth = 4;
         health = maxHealth;
 
-        solidArea.x = 3;
+        solidArea.x = 4;
         solidArea.y = 18;
-        solidArea.width = 42;
+        solidArea.width = 40;
         solidArea.height = 30;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
@@ -26,14 +29,14 @@ public class MON_GreenSlime extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("monster/slime/greenslime_down_1");
-        up2 = setup("monster/slime/greenslime_down_2");
-        down1 = setup("monster/slime/greenslime_down_1");
-        down2 = setup("monster/slime/greenslime_down_2");
-        left1 = setup("monster/slime/greenslime_down_1");
-        left2 = setup("monster/slime/greenslime_down_2");
-        right1 = setup("monster/slime/greenslime_down_1");
-        right2 = setup("monster/slime/greenslime_down_2");
+        up1 = setup("monster/slime/greenslime_down_1", gp.tileSize, gp.tileSize);
+        up2 = setup("monster/slime/greenslime_down_2", gp.tileSize, gp.tileSize);
+        down1 = setup("monster/slime/greenslime_down_1", gp.tileSize, gp.tileSize);
+        down2 = setup("monster/slime/greenslime_down_2", gp.tileSize, gp.tileSize);
+        left1 = setup("monster/slime/greenslime_down_1", gp.tileSize, gp.tileSize);
+        left2 = setup("monster/slime/greenslime_down_2", gp.tileSize, gp.tileSize);
+        right1 = setup("monster/slime/greenslime_down_1", gp.tileSize, gp.tileSize);
+        right2 = setup("monster/slime/greenslime_down_2", gp.tileSize, gp.tileSize);
     }
     public void setAction() {
         actionLockCounter++;
