@@ -47,6 +47,7 @@ public class TileManager {
 
         // i may need these at some point
         // using grass_00 as placeholder for grass_inside_topLeft
+        // error here when on laptop (why?)
         setup(11, "grass/grass_00", false); // grass_inside_topLeft
         setup(12, "grass/grass_00", false); // grass_inside_topRight
         setup(13, "grass/grass_00", false); // grass_inside_bottomLeft
@@ -156,6 +157,7 @@ public class TileManager {
         UtilityTool utilityTool = new UtilityTool();
 
         try{
+            System.out.println(index + ": /tiles/" + imageName + ".png");
             tile[index] = new Tile();
             tile[index].image = ImageIO.read(getClass().getResourceAsStream("/tiles/" + imageName + ".png"));
             tile[index].image = utilityTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
