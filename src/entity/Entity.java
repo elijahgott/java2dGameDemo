@@ -28,11 +28,16 @@ public class Entity {
     public boolean collisionOn = false;
     public boolean invincible = false;
     boolean attacking = false;
+    public boolean alive = true;
+    public boolean dying = false;
+    boolean displayHealthBar = false; // build breaks when using this ???
 
     // COUNTERS
     public int spriteCounter = 0;
     public int actionLockCounter = 0;
     public int invincibleTimer = 0;
+    int dyingCounter = 0;
+    int healthBarCounter = 0;
 
     // CHARACTER ATTRIBUTES
     public int type; // 0 = player, 1 = npc, 2 = monster, ...
@@ -47,6 +52,10 @@ public class Entity {
     }
 
     public void setAction(){}
+
+    public void damageReaction(){
+
+    }
 
     public void speak(){
         if(dialogues[dialogueIndex] == null){
@@ -71,6 +80,41 @@ public class Entity {
         }
     }
 
+    public void dyingAnimation(Graphics2D g2){
+        dyingCounter++;
+
+        // flashing death animation -- could replace with death animation textures in future
+        int i = 5;
+        if(dyingCounter <= i){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0F));
+        }
+        if(dyingCounter > i && dyingCounter <= i * 2){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
+        }
+        if(dyingCounter > i * 2 && dyingCounter <= i * 3){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0F));
+        }
+        if(dyingCounter > i * 3 && dyingCounter <= i * 4){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
+        }
+        if(dyingCounter > i * 4 && dyingCounter <= i * 5){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0F));
+        }
+        if(dyingCounter > i * 5 && dyingCounter <= i * 6){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
+        }
+        if(dyingCounter > i * 6 && dyingCounter <= i * 7){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0F));
+        }
+        if(dyingCounter > i * 7 && dyingCounter <= i * 8){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
+        }
+        if (dyingCounter > i * 8) {
+            dying = false;
+            alive = false;
+        }
+    }
+
     public void update(){
         setAction();
 
@@ -84,6 +128,7 @@ public class Entity {
         if(this.type == 2 && contactPlayer){ // type == monster
             if(!gp.player.invincible){
                 // damage player
+                gp.playSoundEffect(6); // receive damage sound
                 gp.player.health -= 1;
                 gp.player.invincible = true;
                 if(gp.player.health <= 0){
@@ -175,12 +220,40 @@ public class Entity {
                     }
                     break;
             }
+
+            // monster hp bar
+            if(type == 2 && displayHealthBar){
+                double oneHealthScale = (double)gp.tileSize / maxHealth;
+                double healthBarValue = oneHealthScale * health;
+
+                // render health bar
+                int healthBarHeight = 10;
+                g2.setColor(new Color(0, 0, 0));
+                g2.fillRect(screenX - 2, screenY - 10, gp.tileSize + 4, healthBarHeight + 2);
+                g2.setColor(new Color(255, 0, 30));
+                g2.fillRect(screenX, screenY - 8, (int)healthBarValue, healthBarHeight);
+
+                // health bar disappears after 5 seconds of not hitting monster
+                healthBarCounter++;
+
+                if(healthBarCounter > 300){
+                    displayHealthBar = false;
+                    healthBarCounter = 0;
+                }
+            }
+
             // lower opacity when invincible
             if(invincible){
+                displayHealthBar = true;
+                healthBarCounter = 0; // reset counter every time monster is hit
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4F));
             }
 
-            g2.drawImage(image, screenX, screenY, null);
+            if(dying){
+                dyingAnimation(g2);
+            }
+
+            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
             // reset opacity
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));

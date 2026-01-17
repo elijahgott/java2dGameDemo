@@ -5,6 +5,7 @@ import main.KeyHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class Player extends Entity{
     KeyHandler keyHandler;
@@ -249,6 +250,18 @@ public class Player extends Entity{
                 gp.npc[index].speak();
             }
             else{
+                Random random = new Random();
+                int i = random.nextInt(100) + 1; // random number from 1 - 100
+                // 33% chance to play low, med, and high melee sounds
+                if(i <= 33){
+                    gp.playSoundEffect(7); // melee low
+                }
+                else if(i <= 66){
+                    gp.playSoundEffect(8); // melee med
+                }
+                else{
+                    gp.playSoundEffect(9); // melee high
+                }
                 attacking = true;
             }
         }
@@ -258,6 +271,7 @@ public class Player extends Entity{
     public void interactMonster(int index){
         if(index != 999){
             if(!invincible){
+                gp.playSoundEffect(6); // received damage sound
                 health -= 1;
                 invincible = true;
                 if(health <= 0){ // prevents player health from going negative
@@ -271,12 +285,14 @@ public class Player extends Entity{
         if(index != 999){
             // monster has been hit
             if(!gp.monster[index].invincible){
+                gp.playSoundEffect(5); // hit monster sound
                 gp.monster[index].health -= 1;
                 gp.monster[index].invincible = true;
+                gp.monster[index].damageReaction();
 
                 // kill monster
                 if(gp.monster[index].health <= 0){
-                    gp.monster[index] = null;
+                    gp.monster[index].dying = true;
                 }
             }
         }
