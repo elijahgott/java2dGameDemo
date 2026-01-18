@@ -229,7 +229,7 @@ public class Entity {
                 // render health bar
                 int healthBarHeight = 10;
                 g2.setColor(new Color(0, 0, 0));
-                g2.fillRect(screenX - 2, screenY - 10, gp.tileSize + 4, healthBarHeight + 2);
+                g2.fillRect(screenX - 2, screenY - 10, gp.tileSize + 4, healthBarHeight + 4);
                 g2.setColor(new Color(255, 0, 30));
                 g2.fillRect(screenX, screenY - 8, (int)healthBarValue, healthBarHeight);
 

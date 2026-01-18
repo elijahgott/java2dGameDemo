@@ -391,7 +391,9 @@ public class Player extends Entity{
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
 
         // show collision box
-//        g.setColor(Color.RED);
-//        g.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        if(gp.debug){
+            g.setColor(new Color(255, 0, 0, 100));
+            g.fillRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        }
     }
 }
