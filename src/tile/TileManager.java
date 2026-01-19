@@ -157,7 +157,6 @@ public class TileManager {
         UtilityTool utilityTool = new UtilityTool();
 
         try{
-            System.out.println(index + ": /tiles/" + imageName + ".png");
             tile[index] = new Tile();
             tile[index].image = ImageIO.read(getClass().getResourceAsStream("/tiles/" + imageName + ".png"));
             tile[index].image = utilityTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);

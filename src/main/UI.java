@@ -76,6 +76,12 @@ public class UI {
             drawPlayerHealth();
             drawDialogueScreen();
         }
+
+        // CHARACTER STATE
+        if(gp.gameState == gp.characterState){
+            drawPlayerHealth();
+            drawCharacterScreen();
+        }
     }
 
     public void drawTitleScreen(){
@@ -202,6 +208,126 @@ public class UI {
         }
     }
 
+    public void drawCharacterScreen(){
+        // CREATE A FRAME
+        final int frameX = gp.tileSize * 2;
+        final int frameY = gp.tileSize * 2;
+        final int frameWidth = gp.screenWidth - (gp.tileSize * 4);
+        final int frameHeight = gp.screenHeight - (gp.tileSize * 4);
+
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+
+        // TEXT
+        g2.setColor(Color.WHITE);
+        g2.setFont(dialogueFont.deriveFont(Font.PLAIN, 20F));
+
+        int textX = frameX + 32;
+        int textY = frameY + 40;
+        final int lineHeight = 32;
+
+        // NAMES
+        g2.drawString("LVL", textX, textY);
+        textY += lineHeight;
+
+        g2.drawString("HLTH", textX, textY);
+        textY += lineHeight;
+
+        g2.drawString("STR", textX, textY);
+        textY += lineHeight;
+
+        g2.drawString("DXT", textX, textY);
+        textY += lineHeight;
+
+        g2.drawString("ATK", textX, textY);
+        textY += lineHeight;
+
+        g2.drawString("DEF", textX, textY);
+        textY += lineHeight;
+
+        g2.drawString("XP", textX, textY);
+        textY += lineHeight;
+
+        g2.drawString("NXT LVL", textX, textY);
+        textY += lineHeight;
+
+        g2.drawString("$", textX, textY);
+        textY += lineHeight;
+
+        g2.drawString("WPN", textX, textY);
+        textY += lineHeight;
+
+        g2.drawString("SHLD", textX, textY);
+
+        // VALUES
+        int tailX = (frameX + frameWidth) - 32;
+        // reset textY
+        textY = frameY + 40;
+        String value;
+
+        value = String.valueOf(gp.player.level);
+        textX = getXForRightAlignedText(value, tailX);
+        g2.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gp.player.health + "/" +  gp.player.maxHealth);
+        textX = getXForRightAlignedText(value, tailX);
+        g2.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gp.player.strength);
+        textX = getXForRightAlignedText(value, tailX);
+        g2.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gp.player.dexterity);
+        textX = getXForRightAlignedText(value, tailX);
+        g2.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gp.player.attack);
+        textX = getXForRightAlignedText(value, tailX);
+        g2.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gp.player.defense);
+        textX = getXForRightAlignedText(value, tailX);
+        g2.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gp.player.exp);
+        textX = getXForRightAlignedText(value, tailX);
+        g2.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gp.player.nextLevelExp);
+        textX = getXForRightAlignedText(value, tailX);
+        g2.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gp.player.coin);
+        textX = getXForRightAlignedText(value, tailX);
+        g2.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gp.player.currentWeapon.name);
+        textX = getXForRightAlignedText(value, tailX);
+        g2.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gp.player.currentShield.name);
+        textX = getXForRightAlignedText(value, tailX);
+        g2.drawString(value, textX, textY);
+
+//        textY += 8;
+
+        // draw current weapon
+//        g2.drawImage(gp.player.currentWeapon.down1, tailX - gp.tileSize, textY, null);
+//        textY += gp.tileSize;
+
+        // draw current shield
+//        g2.drawImage(gp.player.currentShield.down1, tailX - gp.tileSize, textY, null);
+    }
+
     public void drawSubWindow(int x, int y, int width, int height){
         Color backgroundColor = new Color(0, 0, 0, 200);
         g2.setColor(backgroundColor);
@@ -216,5 +342,10 @@ public class UI {
     public int getXForCenteredText(String text){
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return (gp.screenWidth / 2) - (length / 2);
+    }
+
+    public int getXForRightAlignedText(String text, int tailX){
+        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        return tailX - length;
     }
 }

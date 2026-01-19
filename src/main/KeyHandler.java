@@ -26,77 +26,27 @@ public class KeyHandler implements KeyListener {
 
         // TITLE STATE
         if(gp.gameState == gp.titleState){
-            if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP){
-                gp.ui.commandNumber--;
-                if(gp.ui.commandNumber < 0){
-                    gp.ui.commandNumber = 2;
-                }
-            }
-            if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){
-                gp.ui.commandNumber++;
-                if(gp.ui.commandNumber > 2){
-                    gp.ui.commandNumber = 0;
-                }
-            }
-            if(code == KeyEvent.VK_ENTER){
-                if(gp.ui.commandNumber == 0){
-                    // NEW GAME
-                    gp.gameState = gp.playState;
-                    gp.playMusic(0);
-
-                    // video #17 shows how to add character class selection in a new game
-                }
-                else if(gp.ui.commandNumber == 1){
-                    // LOAD GAME
-                    // add later
-                }
-                else{
-                    // QUIT GAME
-                    System.exit(0);
-                }
-            }
+            titleState(code);
         }
 
         // PLAY STATE
         else if(gp.gameState == gp.playState){
-            if(code == KeyEvent.VK_W){
-                upPressed = true;
-            }
-            if(code == KeyEvent.VK_S){
-                downPressed = true;
-            }
-            if(code == KeyEvent.VK_A){
-                leftPressed = true;
-            }
-            if(code == KeyEvent.VK_D){
-                rightPressed = true;
-            }
-            if(code == KeyEvent.VK_ENTER){
-                enterPressed = true;
-            }
-            if(code == KeyEvent.VK_SPACE){
-                spacePressed = true;
-            }
-            if(code == KeyEvent.VK_ESCAPE) {
-                gp.gameState = gp.pauseState;
-            }
-            if(code == KeyEvent.VK_F3){
-                gp.debug = !gp.debug;
-            }
+            playState(code);
         }
 
         // PAUSE STATE
         else if(gp.gameState == gp.pauseState){
-            if(code == KeyEvent.VK_ESCAPE){
-                gp.gameState = gp.playState;
-            }
+            pauseState(code);
         }
 
         // DIALOGUE STATE
         else if(gp.gameState == gp.dialogueState){
-            if(code == KeyEvent.VK_SPACE ||  code == KeyEvent.VK_ENTER || code == KeyEvent.VK_ESCAPE){
-                gp.gameState = gp.playState;
-            }
+            dialogueState(code);
+        }
+
+        // CHARACTER STATE
+        else if(gp.gameState == gp.characterState){
+            characterState(code);
         }
 
         // DEBUG
@@ -120,6 +70,86 @@ public class KeyHandler implements KeyListener {
         }
         if(code == KeyEvent.VK_D){
             rightPressed = false;
+        }
+    }
+
+    public void titleState(int code){
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP){
+            gp.ui.commandNumber--;
+            if(gp.ui.commandNumber < 0){
+                gp.ui.commandNumber = 2;
+            }
+        }
+        if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){
+            gp.ui.commandNumber++;
+            if(gp.ui.commandNumber > 2){
+                gp.ui.commandNumber = 0;
+            }
+        }
+        if(code == KeyEvent.VK_ENTER){
+            if(gp.ui.commandNumber == 0){
+                // NEW GAME
+                gp.gameState = gp.playState;
+                gp.playMusic(0);
+
+                // video #17 shows how to add character class selection in a new game
+            }
+            else if(gp.ui.commandNumber == 1){
+                // LOAD GAME
+                // add later
+            }
+            else{
+                // QUIT GAME
+                System.exit(0);
+            }
+        }
+    }
+
+    public void playState(int code){
+        if(code == KeyEvent.VK_W){
+            upPressed = true;
+        }
+        if(code == KeyEvent.VK_S){
+            downPressed = true;
+        }
+        if(code == KeyEvent.VK_A){
+            leftPressed = true;
+        }
+        if(code == KeyEvent.VK_D){
+            rightPressed = true;
+        }
+        if(code == KeyEvent.VK_ENTER){
+            enterPressed = true;
+        }
+        if(code == KeyEvent.VK_SPACE){
+            spacePressed = true;
+        }
+        if(code == KeyEvent.VK_ESCAPE) {
+            gp.gameState = gp.pauseState;
+        }
+        if(code == KeyEvent.VK_C){
+            gp.gameState = gp.characterState;
+        }
+        if(code == KeyEvent.VK_F3){
+            gp.debug = !gp.debug;
+        }
+    }
+
+    public void pauseState(int code){
+        if(code == KeyEvent.VK_ESCAPE){
+            gp.gameState = gp.playState;
+        }
+    }
+
+    public void dialogueState(int code){
+        if(code == KeyEvent.VK_SPACE || code == KeyEvent.VK_ENTER || code == KeyEvent.VK_ESCAPE){
+            gp.gameState = gp.playState;
+        }
+    }
+
+    public void characterState(int code){
+        if(code == KeyEvent.VK_C){
+            gp.gameState = gp.playState;
         }
     }
 }

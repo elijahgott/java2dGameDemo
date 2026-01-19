@@ -2,6 +2,8 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import object.OBJ_Shield_Wood;
+import object.OBJ_Sword_Normal;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,6 +14,7 @@ public class Player extends Entity{
     public final int screenX;
     public final int screenY;
     int standCounter = 0;
+    public boolean attackCanceled = false;
 
     public Player(GamePanel gp, KeyHandler keyHandler) {
         super(gp); // call constructor up Entity class and pass in gp
@@ -39,12 +42,34 @@ public class Player extends Entity{
         worldY = gp.tileSize * 5;
         direction = "down";
 
+        speed = 4;
+        diagonalSpeed = Math.toIntExact(Math.round(speed * (1 / Math.sqrt(2))));
+
         // health
         maxHealth = 6;
         health = maxHealth;
 
-        speed = 4;
-        diagonalSpeed = Math.toIntExact(Math.round(speed * (1 / Math.sqrt(2))));
+        // default player stats
+        level = 1;
+        strength = 1; // more strength = more damage given
+        dexterity = 1; // more dexterity = less damage received
+        exp = 0;
+        nextLevelExp = 5;
+        coin = 0;
+
+        // default loadout
+        currentWeapon = new OBJ_Sword_Normal(gp);
+        currentShield = new OBJ_Shield_Wood(gp);
+        attack = getAttack();
+        defense = getDefense();
+    }
+
+    public int getAttack(){
+        return attack = strength * currentWeapon.attackValue;
+    }
+
+    public int getDefense(){
+        return defense = dexterity * currentShield.defenseValue;
     }
 
     public void getPlayerImage(){
@@ -154,6 +179,24 @@ public class Player extends Entity{
                 }
             }
 
+            if((keyHandler.enterPressed || keyHandler.spacePressed) && !attackCanceled){
+                Random random = new Random();
+                int i = random.nextInt(100) + 1; // random number from 1 - 100
+                // 33% chance to play low, med, and high melee sounds
+                if(i <= 33){
+                    gp.playSoundEffect(7); // melee low
+                }
+                else if(i <= 66){
+                    gp.playSoundEffect(8); // melee med
+                }
+                else{
+                    gp.playSoundEffect(9); // melee high
+                }
+                attacking = true;
+                spriteCounter = 0;
+            }
+            attackCanceled = false;
+
             gp.keyHandler.enterPressed = false;
             gp.keyHandler.spacePressed = false;
 
@@ -246,23 +289,9 @@ public class Player extends Entity{
     public void interactNPC(int index){
         if(gp.keyHandler.enterPressed || gp.keyHandler.spacePressed){
             if(index != 999){
+                attackCanceled = true;
                 gp.gameState = gp.dialogueState;
                 gp.npc[index].speak();
-            }
-            else{
-                Random random = new Random();
-                int i = random.nextInt(100) + 1; // random number from 1 - 100
-                // 33% chance to play low, med, and high melee sounds
-                if(i <= 33){
-                    gp.playSoundEffect(7); // melee low
-                }
-                else if(i <= 66){
-                    gp.playSoundEffect(8); // melee med
-                }
-                else{
-                    gp.playSoundEffect(9); // melee high
-                }
-                attacking = true;
             }
         }
 

@@ -88,14 +88,17 @@ public class EventHandler{
     public void damagePit(int col, int row, int gameState){
         gp.gameState = gameState;
         gp.ui.currentDialogue = "You fall into a pit of death\nand despair!";
+        // play damage sound effect
         gp.player.health--;
-//        eventRect[col][row].eventDone = true;
+//        eventRect[col][row].eventDone = true; // one time event
         canTouchEvent = false;
     }
 
     public void healingPool(int col, int row, int gameState){
-        if((gp.player.health < gp.player.maxHealth) && gp.keyHandler.enterPressed){
+        if((gp.player.health < gp.player.maxHealth) && (gp.keyHandler.enterPressed || gp.keyHandler.spacePressed)){
+            gp.player.attackCanceled = true;
             gp.gameState = gameState;
+            // play drinking water sound effect
             gp.ui.currentDialogue = "You drink the pond water.\nYour health is now replenished!";
             gp.player.health++;
         }
@@ -104,6 +107,7 @@ public class EventHandler{
     public void teleport(int col, int row, int gameState){
         gp.gameState = gameState;
         gp.ui.currentDialogue = "Teleporting to...?";
+        // play teleport sound effect
         // teleport player to 26, 35
         gp.player.worldX = gp.tileSize * 26;
         gp.player.worldY = gp.tileSize * 35;
