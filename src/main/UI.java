@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class UI {
     GamePanel gp;
@@ -14,8 +15,10 @@ public class UI {
     Font UIFont, dialogueFont;
     BufferedImage heart_full, heart_half, heart_empty;
     public boolean messageOn = false;
-    public String message = "";
-    int messageCounter = 0;
+//    public String message = "";
+//    int messageCounter = 0;
+ArrayList<String> message = new ArrayList<>();
+    ArrayList<Integer> messageCounter = new ArrayList<>();
     public boolean gameOver = false;
     public String currentDialogue;
 
@@ -45,9 +48,9 @@ public class UI {
         heart_empty = heart.image3;
     }
 
-    public void showMessage(String text){
-        message = text;
-        messageOn = true;
+    public void addMessage(String text){
+        message.add(text);
+        messageCounter.add(0);
     }
 
     public void draw(Graphics2D g2){
@@ -63,6 +66,7 @@ public class UI {
         // PLAY STATE
         if(gp.gameState == gp.playState){
             drawPlayerHealth();
+            drawMessage();
         }
 
         // PAUSE STATE
@@ -164,6 +168,31 @@ public class UI {
         for(int i = 0; i < emptyHearts; i++){
             g2.drawImage(heart_empty, x, y,null);
             x += gp.tileSize;
+        }
+    }
+
+    public void drawMessage(){
+        int messageX = gp.tileSize;
+        int messageY = gp.tileSize * 4;
+        g2.setFont(dialogueFont.deriveFont(Font.PLAIN, 12F));
+
+        for(int i = 0; i < message.size(); i++){
+            if(message.get(i) != null){
+                g2.setColor(Color.BLACK);
+                g2.drawString(message.get(i), messageX + 2, messageY + 2);
+
+                g2.setColor(Color.WHITE);
+                g2.drawString(message.get(i), messageX, messageY);
+
+                int counter = messageCounter.get(i) + 1; // basically messageCounter++
+                messageCounter.set(i, counter);
+                messageY += 32;
+
+                if(messageCounter.get(i) > 180){ // 3 seconds
+                    message.remove(i);
+                    messageCounter.remove(i);
+                }
+            }
         }
     }
 

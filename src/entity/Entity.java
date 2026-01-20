@@ -143,7 +143,12 @@ public class Entity {
             if(!gp.player.invincible){
                 // damage player
                 gp.playSoundEffect(6); // receive damage sound
-                gp.player.health -= 1;
+
+                int damage = attack - gp.player.defense;
+                if(damage < 0){
+                    damage = 0;
+                }
+                gp.player.health -= damage;
                 gp.player.invincible = true;
                 if(gp.player.health <= 0){
                     gp.player.health = 0;

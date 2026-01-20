@@ -101,6 +101,11 @@ public class EventHandler{
             // play drinking water sound effect
             gp.ui.currentDialogue = "You drink the pond water.\nYour health is now replenished!";
             gp.player.health++;
+
+            if(gp.player.health ==  gp.player.maxHealth){
+                // respawn monsters when at full health
+                gp.assetSetter.setMonster();
+            }
         }
     }
 

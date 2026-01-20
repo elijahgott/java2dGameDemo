@@ -301,7 +301,12 @@ public class Player extends Entity{
         if(index != 999){
             if(!invincible){
                 gp.playSoundEffect(6); // received damage sound
-                health -= 1;
+
+                int damage = gp.monster[index].attack - defense;
+                if(damage < 0){
+                    damage = 0;
+                }
+                health -= damage;
                 invincible = true;
                 if(health <= 0){ // prevents player health from going negative
                     health = 0;
@@ -315,15 +320,50 @@ public class Player extends Entity{
             // monster has been hit
             if(!gp.monster[index].invincible){
                 gp.playSoundEffect(5); // hit monster sound
-                gp.monster[index].health -= 1;
+
+                int damage = attack - gp.monster[index].defense;
+                if(damage < 0){
+                    damage = 0;
+                }
+                gp.monster[index].health -= damage;
+
                 gp.monster[index].invincible = true;
                 gp.monster[index].damageReaction();
 
                 // kill monster
                 if(gp.monster[index].health <= 0){
+                    if(gp.monster[index].health < 0){
+                        gp.monster[index].health = 0;
+                    }
                     gp.monster[index].dying = true;
+                    gp.ui.addMessage("Kilt the " + gp.monster[index].name + "!");
+
+                    gp.ui.addMessage("+" + gp.monster[index].exp + " exp");
+                    exp += gp.monster[index].exp;
+                    checkLevelUp();
                 }
             }
+        }
+    }
+
+    public void checkLevelUp(){
+        if(exp >= nextLevelExp){
+            level++;
+            exp = exp - nextLevelExp;
+            nextLevelExp = nextLevelExp * 2;
+
+            maxHealth += 2;
+            strength++;
+            dexterity++;
+            attack = getAttack();
+            defense = getDefense();
+
+            gp.playSoundEffect(1); // coin sound effect <- PLACEHOLDER
+//            gp.gameState = gp.dialogueState;
+//            gp.ui.currentDialogue = "Level Up!";
+            gp.ui.addMessage("Level up!");
+            gp.ui.addMessage("Current level: " + level);
+
         }
     }
 
@@ -421,8 +461,16 @@ public class Player extends Entity{
 
         // show collision box
         if(gp.debug){
-            g.setColor(new Color(255, 0, 0, 100));
-            g.fillRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+            if(!attacking){
+                g.setColor(new Color(255, 0, 0, 100));
+                g.fillRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+            }
+            else{
+                // doesn't correctly show hurtbox
+                g.setColor(new Color(0, 0, 255, 100));
+                g.fillRect(screenX + attackArea.x, screenY + attackArea.y, attackArea.width, attackArea.height);
+            }
+
         }
     }
 }
