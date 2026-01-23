@@ -2,11 +2,14 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import object.OBJ_Boots;
+import object.OBJ_Key;
 import object.OBJ_Shield_Wood;
 import object.OBJ_Sword_Normal;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Player extends Entity{
@@ -15,6 +18,9 @@ public class Player extends Entity{
     public final int screenY;
     int standCounter = 0;
     public boolean attackCanceled = false;
+
+    public ArrayList<Entity> inventory = new ArrayList<>();
+//    public final int maxInventorySize = 28; // 4 * 7 inventory
 
     public Player(GamePanel gp, KeyHandler keyHandler) {
         super(gp); // call constructor up Entity class and pass in gp
@@ -30,10 +36,10 @@ public class Player extends Entity{
         attackArea.width = 36;
         attackArea.height = 36;
 
-
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImage();
+        setItems();
     }
 
     public void setDefaultValues(){
@@ -92,6 +98,16 @@ public class Player extends Entity{
         attackLeft2 = setup("player/attack/boy_attack_left_2", gp.tileSize * 2, gp.tileSize);
         attackRight1 = setup("player/attack/boy_attack_right_1", gp.tileSize * 2, gp.tileSize);
         attackRight2 = setup("player/attack/boy_attack_right_2", gp.tileSize * 2, gp.tileSize);
+    }
+
+    public void setItems(){
+        inventory.add(currentWeapon);
+        inventory.add(currentShield);
+        // testing
+        inventory.add(new OBJ_Boots(gp));
+        inventory.add(new OBJ_Key(gp));
+         // full inventory - 28 items
+
     }
 
     public void update(){

@@ -44,14 +44,14 @@ public class KeyHandler implements KeyListener {
             dialogueState(code);
         }
 
+        // INVENTORY STATE
+        else if(gp.gameState == gp.inventoryState){
+            inventoryState(code);
+        }
+
         // CHARACTER STATE
         else if(gp.gameState == gp.characterState){
             characterState(code);
-        }
-
-        // DEBUG
-        if(code == KeyEvent.VK_T){
-            checkDrawTime = !checkDrawTime;
         }
     }
 
@@ -130,8 +130,19 @@ public class KeyHandler implements KeyListener {
         if(code == KeyEvent.VK_C){
             gp.gameState = gp.characterState;
         }
+        if(code == KeyEvent.VK_E){
+            gp.gameState = gp.inventoryState;
+        }
+        // DEBUG
         if(code == KeyEvent.VK_F3){
             gp.debug = !gp.debug;
+        }
+        // DEBUG TOO
+        if(code == KeyEvent.VK_T){
+            checkDrawTime = !checkDrawTime;
+        }
+        if(code == KeyEvent.VK_R){
+            gp.tileManager.loadMap("/maps/world01.txt");
         }
     }
 
@@ -147,9 +158,62 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    public void inventoryState(int code){
+        if(code == KeyEvent.VK_E){
+            gp.gameState = gp.playState;
+        }
+        if(code == KeyEvent.VK_C){
+            gp.gameState = gp.characterState;
+        }
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP){
+            // do not allow row outside of range (5 rows)
+            if(gp.ui.slotRow != 0) {
+                gp.ui.slotRow--;
+            }
+            else{
+                gp.ui.slotRow = 3;
+            }
+            gp.playSoundEffect(10);
+        }
+        // do not allow col outside of range (9 cols)
+        if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT){
+            if(gp.ui.slotCol != 0) {
+                gp.ui.slotCol--;
+            }
+            else{
+                gp.ui.slotCol = 6;
+            }
+            gp.playSoundEffect(10);
+
+        }
+        if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){
+            if(gp.ui.slotRow != 3) {
+                gp.ui.slotRow++;
+            }
+            else{
+                gp.ui.slotRow = 0;
+            }
+            gp.playSoundEffect(10);
+
+        }
+        if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT){
+            if(gp.ui.slotCol != 6) {
+                gp.ui.slotCol++;
+            }
+            else{
+                gp.ui.slotCol = 0;
+            }
+            gp.playSoundEffect(10);
+
+        }
+    }
+
     public void characterState(int code){
         if(code == KeyEvent.VK_C){
             gp.gameState = gp.playState;
+        }
+        if(code == KeyEvent.VK_E){
+            gp.gameState = gp.inventoryState;
         }
     }
 }

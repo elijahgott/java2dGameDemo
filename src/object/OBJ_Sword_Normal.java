@@ -8,6 +8,8 @@ public class OBJ_Sword_Normal extends Entity {
         super(gp);
 
         name="Normal Sword";
+        description = "[" + name + "]" + "\nThis sword is old and dull.";
+
         down1 = setup("objects/sword_normal", gp.tileSize, gp.tileSize);
         attackValue = 1;
     }

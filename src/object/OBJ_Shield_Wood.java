@@ -8,6 +8,8 @@ public class OBJ_Shield_Wood extends Entity {
         super(gp);
 
         name = "Wooden Shield";
+        description = "[" + name + "]" + "\nWorst shield money can't buy.";
+
         down1 = setup("objects/shield_wood", gp.tileSize, gp.tileSize);
         defenseValue = 1;
     }

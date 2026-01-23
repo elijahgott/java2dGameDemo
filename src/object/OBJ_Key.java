@@ -8,6 +8,8 @@ public class OBJ_Key extends Entity {
         super(gp);
 
         name = "Key";
+        description = "[" + name + "]" + "\nKeys open doors.";
+
         down1 = setup("objects/key", gp.tileSize, gp.tileSize);
 
 //        solidArea.x = 8; // set custom solid area

@@ -21,6 +21,7 @@ public class Sound {
         soundURL[7] = getClass().getResource("/sound/melee_low.wav");
         soundURL[8] = getClass().getResource("/sound/melee_med.wav");
         soundURL[9] = getClass().getResource("/sound/melee_high.wav");
+        soundURL[10] = getClass().getResource("/sound/cursor.wav");
 
     }
 
