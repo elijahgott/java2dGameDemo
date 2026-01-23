@@ -264,6 +264,11 @@ public class UI {
 
         // DRAW INVENTORY ITEMS
         for(int i = 0; i < gp.player.inventory.size(); i++){
+            if(gp.player.inventory.get(i) == gp.player.currentWeapon ||
+                gp.player.inventory.get(i) == gp.player.currentShield){
+                g2.setColor(Color.ORANGE);
+                g2.fillRect(slotX, slotY, slotSize, slotSize);
+            }
             g2.drawImage(gp.player.inventory.get(i).down1, slotX + ((slotSize - gp.tileSize) / 2), slotY + ((slotSize - gp.tileSize) / 2),null);
             slotX += slotSize;
             // next row of items

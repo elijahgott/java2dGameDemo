@@ -40,7 +40,6 @@ public class Entity {
     int healthBarCounter = 0;
 
     // CHARACTER ATTRIBUTES
-    public int type; // 0 = player, 1 = npc, 2 = monster, ...
     public String name;
     public int speed;
     public int diagonalSpeed;
@@ -62,9 +61,21 @@ public class Entity {
     public int defenseValue;
     public String description = "";
 
+    // TYPE
+    public int type; // 0 = player, 1 = npc, 2 = monster, ...
+    public final int type_player = 0;
+    public final int type_npc = 1;
+    public final int type_monster = 2;
+    public final int type_sword = 3;
+    public final int type_axe = 4;
+    public final int type_shield = 5;
+    public final int type_consumable = 6;
+
     public Entity(GamePanel gp) {
         this.gp = gp;
     }
+
+    public void use(Entity entity){}
 
     public void setAction(){}
 
@@ -140,7 +151,7 @@ public class Entity {
         gp.collisionChecker.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.collisionChecker.checkPlayer(this);
 
-        if(this.type == 2 && contactPlayer){ // type == monster
+        if(this.type == type_monster && contactPlayer){ // type == monster
             if(!gp.player.invincible){
                 // damage player
                 gp.playSoundEffect(6); // receive damage sound
