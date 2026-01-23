@@ -127,19 +127,17 @@ public class TileManager {
         setup(65, "water/water_top", true);
         setup(66, "water/water_topRight", true);
 
-        // do i need inside waters??
-        // using water_00 as placeholder for insides
-        setup(67, "water/water_00", false); // water_inside_topLeft
-        setup(68, "water/water_00", false); // water_inside_topRight
-        setup(69, "water/water_00", false); // water_inside_bottomLeft
-        setup(70, "water/water_00", false); // water_inside_bottomRight
+        setup(67, "water/water_inside_topLeft", true);
+        setup(68, "water/water_inside_topRight", true);
+        setup(69, "water/water_inside_bottomLeft", true);
+        setup(70, "water/water_inside_bottomRight", true);
 
         // tree tiles
         setup(71, "trees/tree_01", true);
         setup(72, "trees/tree_02", true);
 
         // stone brick wall tiles
-        setup(73, "walls/wall_middle", true);
+        setup(73, "walls/wall_middle", false);
 
         setup(74, "walls/stone_brick_wall_left", true);
         setup(75, "walls/stone_brick_wall_right", true);

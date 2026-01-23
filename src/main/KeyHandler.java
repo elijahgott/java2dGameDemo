@@ -90,7 +90,7 @@ public class KeyHandler implements KeyListener {
             if(gp.ui.commandNumber == 0){
                 // NEW GAME
                 gp.gameState = gp.playState;
-                gp.playMusic(0);
+//                gp.playMusic(0);
 
                 // video #17 shows how to add character class selection in a new game
             }
