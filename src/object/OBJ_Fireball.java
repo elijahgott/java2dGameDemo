@@ -1,5 +1,6 @@
 package object;
 
+import entity.Entity;
 import entity.Projectile;
 import main.GamePanel;
 
@@ -18,6 +19,20 @@ public class OBJ_Fireball extends Projectile {
         alive = false;
 
         getImage();
+    }
+
+    public boolean hasResource(Entity user){
+        boolean hasResource = false;
+
+        if(user.mana >= useCost){
+            hasResource = true;
+        }
+
+        return hasResource;
+    }
+
+    public void useResource(Entity user){
+        user.mana -= useCost;
     }
 
     public void getImage(){

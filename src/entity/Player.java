@@ -53,8 +53,9 @@ public class Player extends Entity{
         health = maxHealth;
 
         // default player stats
-        maxMana = 5;
+        maxMana = 4;
         mana = maxMana;
+        ammo = 10;
         level = 1;
         strength = 1; // more strength = more damage given
         dexterity = 1; // more dexterity = less damage received
@@ -65,7 +66,8 @@ public class Player extends Entity{
         // default loadout
         currentWeapon = new OBJ_Sword_Normal(gp);
         currentShield = new OBJ_Shield_Wood(gp);
-        projectile = new OBJ_Fireball(gp);
+//        projectile = new OBJ_Fireball(gp);
+        projectile = new OBJ_Rock(gp);
         attack = getAttack();
         defense = getDefense();
     }
@@ -246,9 +248,12 @@ public class Player extends Entity{
             }
         }
         // shoot one projectile at a time
-        if(gp.keyHandler.shotKeyPressed && !projectile.alive && shotAvailableCounter == 30){
+        if(gp.keyHandler.shotKeyPressed && !projectile.alive && shotAvailableCounter == 30
+        && projectile.hasResource(this)){
             // SET DEFAULT COORDINATES, DIRECTION, and USER
             projectile.set(worldX, worldY, direction, true, this);
+            // SUBTRACT RESOURCE COST
+            projectile.useResource(this);
 
             // ADD TO ARRAY LIST
             gp.projectileList.add(projectile);

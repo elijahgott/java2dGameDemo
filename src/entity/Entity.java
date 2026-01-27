@@ -48,6 +48,7 @@ public class Entity {
     public int health;
     public int maxMana;
     public int mana;
+    public int ammo;
     public int level;
     public int strength;
     public int dexterity;
@@ -156,20 +157,7 @@ public class Entity {
         boolean contactPlayer = gp.collisionChecker.checkPlayer(this);
 
         if(this.type == type_monster && contactPlayer){ // type == monster
-            if(!gp.player.invincible){
-                // damage player
-                gp.playSoundEffect(6); // receive damage sound
-
-                int damage = attack - gp.player.defense;
-                if(damage < 0){
-                    damage = 0;
-                }
-                gp.player.health -= damage;
-                gp.player.invincible = true;
-                if(gp.player.health <= 0){
-                    gp.player.health = 0;
-                }
-            }
+            damagePlayer(attack);
         }
 
         if(!collisionOn){
@@ -206,6 +194,26 @@ public class Entity {
             if(invincibleTimer > 60){
                 invincible = false;
                 invincibleTimer = 0;
+            }
+        }
+        if(shotAvailableCounter < 30){
+            shotAvailableCounter++;
+        }
+    }
+
+    public void damagePlayer(int attack){
+        if(!gp.player.invincible){
+            // damage player
+            gp.playSoundEffect(6); // receive damage sound
+
+            int damage = attack - gp.player.defense;
+            if(damage < 0){
+                damage = 0;
+            }
+            gp.player.health -= damage;
+            gp.player.invincible = true;
+            if(gp.player.health <= 0){
+                gp.player.health = 0;
             }
         }
     }
@@ -300,6 +308,7 @@ public class Entity {
         }
     }
 
+    // setup with custom scale for width and height
     public BufferedImage setup(String imagePath, int width, int height){
         UtilityTool utilityTool = new UtilityTool();
         BufferedImage image = null;
@@ -307,6 +316,22 @@ public class Entity {
         try{
             image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath + ".png"));
             image = utilityTool.scaleImage(image, width, height);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+
+        return image;
+    }
+
+    // overload setup to default scale to gp.tileSize
+    public BufferedImage setup(String imagePath){
+        UtilityTool utilityTool = new UtilityTool();
+        BufferedImage image = null;
+
+        try{
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath + ".png"));
+            image = utilityTool.scaleImage(image, gp.tileSize, gp.tileSize);
         }
         catch(IOException e){
             e.printStackTrace();

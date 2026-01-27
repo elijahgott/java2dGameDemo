@@ -30,6 +30,11 @@ public class Projectile extends Entity {
         else{
             // monster -> player
             // check for collision with player
+            boolean contactPlayer = gp.collisionChecker.checkPlayer(this);
+            if(!gp.player.invincible && contactPlayer){
+                damagePlayer(attack);
+                alive = false;
+            }
         }
 
         switch(direction){
@@ -54,5 +59,15 @@ public class Projectile extends Entity {
             }
             spriteCounter = 0;
         }
+    }
+
+    // overridden in subclasses
+    public boolean hasResource(Entity user){
+        boolean hasResource = false;
+        return hasResource;
+    }
+
+    // overridden in subclasses
+    public void useResource(Entity user){
     }
 }

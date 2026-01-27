@@ -95,12 +95,13 @@ public class EventHandler{
     }
 
     public void healingPool(int col, int row, int gameState){
-        if((gp.player.health < gp.player.maxHealth) && (gp.keyHandler.enterPressed || gp.keyHandler.spacePressed)){
+        if(((gp.player.health < gp.player.maxHealth) || (gp.player.mana < gp.player.maxMana)) && (gp.keyHandler.enterPressed || gp.keyHandler.spacePressed)){
             gp.player.attackCanceled = true;
             gp.gameState = gameState;
             // play drinking water sound effect
             gp.ui.currentDialogue = "You drink the pond water.\nYour health is now replenished!";
             gp.player.health++;
+            gp.player.mana++;
 
             if(gp.player.health ==  gp.player.maxHealth){
                 // respawn monsters when at full health
