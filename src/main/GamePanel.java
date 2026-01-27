@@ -46,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Entity obj[] = new Entity[10]; // display 10 objects at a time, can replace after objects are picked up
     public Entity npc[] = new Entity[10]; // holds up to 10 NPCs
     public Entity monster[] = new Entity[20]; // holds up to 10 monsters at once
+    public ArrayList<Entity> projectileList = new ArrayList<>();
 
     // all types of entities will be in this list, used for render order
     ArrayList<Entity> entityList = new ArrayList<Entity>();
@@ -137,6 +138,17 @@ public class GamePanel extends JPanel implements Runnable{
                     }
                 }
             }
+            // projectiles
+            for(int i = 0; i < projectileList.size(); i++){
+                if(projectileList.get(i) != null){
+                    if(projectileList.get(i).alive){
+                        projectileList.get(i).update();
+                    }
+                    else if(!projectileList.get(i).alive){
+                        projectileList.remove(i);
+                    }
+                }
+            }
         }
         if(gameState == pauseState){
             // nothing
@@ -176,6 +188,13 @@ public class GamePanel extends JPanel implements Runnable{
             for(int i = 0; i < monster.length; i++){
                 if(monster[i] != null){
                     entityList.add(monster[i]);
+                }
+            }
+
+            // add projectiles
+            for(int i = 0; i < projectileList.size(); i++){
+                if(projectileList.get(i) != null){
+                    entityList.add(projectileList.get(i));
                 }
             }
 

@@ -36,6 +36,7 @@ public class Entity {
     public int spriteCounter = 0;
     public int actionLockCounter = 0;
     public int invincibleTimer = 0;
+    public int shotAvailableCounter = 0;
     int dyingCounter = 0;
     int healthBarCounter = 0;
 
@@ -45,6 +46,8 @@ public class Entity {
     public int diagonalSpeed;
     public int maxHealth;
     public int health;
+    public int maxMana;
+    public int mana;
     public int level;
     public int strength;
     public int dexterity;
@@ -55,11 +58,13 @@ public class Entity {
     public int coin;
     public Entity currentWeapon;
     public Entity currentShield;
+    public Projectile projectile;
 
     // ITEM ATTRIBUTES
     public int attackValue;
     public int defenseValue;
     public String description = "";
+    public int useCost;
 
     // TYPE
     public int type; // 0 = player, 1 = npc, 2 = monster, ...
@@ -136,7 +141,6 @@ public class Entity {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
         }
         if (dyingCounter > i * 8) {
-            dying = false;
             alive = false;
         }
     }

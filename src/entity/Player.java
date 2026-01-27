@@ -2,10 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
-import object.OBJ_Boots;
-import object.OBJ_Key;
-import object.OBJ_Shield_Wood;
-import object.OBJ_Sword_Normal;
+import object.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -56,6 +53,8 @@ public class Player extends Entity{
         health = maxHealth;
 
         // default player stats
+        maxMana = 5;
+        mana = maxMana;
         level = 1;
         strength = 1; // more strength = more damage given
         dexterity = 1; // more dexterity = less damage received
@@ -66,6 +65,7 @@ public class Player extends Entity{
         // default loadout
         currentWeapon = new OBJ_Sword_Normal(gp);
         currentShield = new OBJ_Shield_Wood(gp);
+        projectile = new OBJ_Fireball(gp);
         attack = getAttack();
         defense = getDefense();
     }
@@ -245,6 +245,19 @@ public class Player extends Entity{
                 standCounter = 0;
             }
         }
+        // shoot one projectile at a time
+        if(gp.keyHandler.shotKeyPressed && !projectile.alive && shotAvailableCounter == 30){
+            // SET DEFAULT COORDINATES, DIRECTION, and USER
+            projectile.set(worldX, worldY, direction, true, this);
+
+            // ADD TO ARRAY LIST
+            gp.projectileList.add(projectile);
+
+            shotAvailableCounter = 0;
+            gp.playSoundEffect(11);
+
+        }
+
         // invincibility timer after being hit
         if(invincible){
             invincibleTimer++;
@@ -252,6 +265,11 @@ public class Player extends Entity{
                 invincible = false;
                 invincibleTimer = 0;
             }
+        }
+
+        // shot timer
+        if(shotAvailableCounter < 30){
+            shotAvailableCounter++;
         }
     }
 
@@ -291,7 +309,7 @@ public class Player extends Entity{
 
             // check monster collision with updated position
             int monsterIndex = gp.collisionChecker.checkEntity(this, gp.monster);
-            damageMonster(monsterIndex);
+            damageMonster(monsterIndex, attack);
 
             // restore position and solidArea
             worldX = currentWorldX;
@@ -336,7 +354,7 @@ public class Player extends Entity{
 
     public void interactMonster(int index){
         if(index != 999){
-            if(!invincible){
+            if(!invincible && !gp.monster[index].dying){
                 gp.playSoundEffect(6); // received damage sound
 
                 int damage = gp.monster[index].attack - defense;
@@ -352,7 +370,7 @@ public class Player extends Entity{
         }
     }
 
-    public void damageMonster(int index){
+    public void damageMonster(int index, int attack){
         if(index != 999){
             // monster has been hit
             if(!gp.monster[index].invincible){

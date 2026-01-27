@@ -246,18 +246,18 @@ public class UI {
     }
 
     public void drawInventoryScreen(){
-        final int slotSize = gp.tileSize + 16;
-
         // CREATE A FRAME
         final int frameX = gp.tileSize * 2;
         final int frameY = gp.tileSize * 2;
         final int frameWidth = gp.screenWidth - (gp.tileSize * 4);
         final int frameHeight = gp.screenHeight - (gp.tileSize * 4);
 
+        final int slotSize = frameWidth / 9;
+
         drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 
         // SLOT
-        final int slotXStart = frameX + 20;
+        final int slotXStart = frameX + slotSize;
         final int slotYStart = frameY + 20;
         int slotX = slotXStart;
         int slotY = slotYStart;
@@ -267,7 +267,7 @@ public class UI {
             if(gp.player.inventory.get(i) == gp.player.currentWeapon ||
                 gp.player.inventory.get(i) == gp.player.currentShield){
                 g2.setColor(Color.ORANGE);
-                g2.fillRect(slotX, slotY, slotSize, slotSize);
+                g2.drawRect(slotX + 4, slotY + 4, slotSize - 10, slotSize - 10);
             }
             g2.drawImage(gp.player.inventory.get(i).down1, slotX + ((slotSize - gp.tileSize) / 2), slotY + ((slotSize - gp.tileSize) / 2),null);
             slotX += slotSize;
@@ -281,13 +281,13 @@ public class UI {
         // CURSOR
         int cursorX = slotXStart + (slotSize * slotCol);
         int cursorY = slotYStart + (slotSize * slotRow);
-//        int cursorWidth = slotSize + 2;
-//        int cursorHeight = slotSize + 2;d
+        int cursorWidth = slotSize - 2;
+        int cursorHeight = slotSize - 2;
 
         // DRAW CURSOR
         g2.setColor(Color.WHITE);
         g2.setStroke(new BasicStroke(4));
-        g2.drawRect(cursorX, cursorY, slotSize, slotSize);
+        g2.drawRect(cursorX, cursorY, cursorWidth, cursorHeight);
 
         // DESCRIPTION
         int dFrameX = frameX + 16;
