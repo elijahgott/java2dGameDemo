@@ -2,6 +2,9 @@ package monster;
 
 import entity.Entity;
 import main.GamePanel;
+import object.OBJ_Coin;
+import object.OBJ_Heart;
+import object.OBJ_ManaCrystal;
 import object.OBJ_Rock;
 
 import java.util.Random;
@@ -34,14 +37,14 @@ public class MON_GreenSlime extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("monster/slime/greenslime_down_1", gp.tileSize, gp.tileSize);
-        up2 = setup("monster/slime/greenslime_down_2", gp.tileSize, gp.tileSize);
-        down1 = setup("monster/slime/greenslime_down_1", gp.tileSize, gp.tileSize);
-        down2 = setup("monster/slime/greenslime_down_2", gp.tileSize, gp.tileSize);
-        left1 = setup("monster/slime/greenslime_down_1", gp.tileSize, gp.tileSize);
-        left2 = setup("monster/slime/greenslime_down_2", gp.tileSize, gp.tileSize);
-        right1 = setup("monster/slime/greenslime_down_1", gp.tileSize, gp.tileSize);
-        right2 = setup("monster/slime/greenslime_down_2", gp.tileSize, gp.tileSize);
+        up1 = setup("monster/slime/greenslime_down_1");
+        up2 = setup("monster/slime/greenslime_down_2");
+        down1 = setup("monster/slime/greenslime_down_1");
+        down2 = setup("monster/slime/greenslime_down_2");
+        left1 = setup("monster/slime/greenslime_down_1");
+        left2 = setup("monster/slime/greenslime_down_2");
+        right1 = setup("monster/slime/greenslime_down_1");
+        right2 = setup("monster/slime/greenslime_down_2");
     }
     public void setAction() {
         actionLockCounter++;
@@ -76,6 +79,24 @@ public class MON_GreenSlime extends Entity {
         actionLockCounter = 0;
 
         direction = gp.player.direction; // slime flees when hit
+    }
+
+    public void checkDrop(){
+        int i  = new Random().nextInt(100) + 1; // random from 1-100
+
+        // SET DROPS
+        // 75% chance of rock
+        if(i < 75){
+            dropItem(new OBJ_Rock(gp));
+        }
+        // 15% chance of heart
+        else if(i < 90){
+            dropItem(new OBJ_Heart(gp));
+        }
+        // 10% chance of mana
+        else{
+            dropItem(new OBJ_ManaCrystal(gp));
+        }
     }
 
 }

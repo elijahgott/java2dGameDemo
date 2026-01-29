@@ -31,9 +31,13 @@ public class AssetSetter {
         gp.obj[i].worldY = gp.tileSize * 3;
         i++;
 
-        gp.obj[i] = new OBJ_Key(gp);
+        gp.obj[i] = new OBJ_Coin(gp);
         gp.obj[i].worldX = gp.tileSize * 16;
         gp.obj[i].worldY = gp.tileSize * 3;
+        i++;
+        gp.obj[i] = new OBJ_Coin(gp);
+        gp.obj[i].worldX = gp.tileSize * 16;
+        gp.obj[i].worldY = gp.tileSize * 4;
         i++;
 
         gp.obj[i] = new OBJ_Shield_Blue(gp);
@@ -43,6 +47,16 @@ public class AssetSetter {
 
         gp.obj[i] = new OBJ_Potion_Red(gp);
         gp.obj[i].worldX = gp.tileSize * 18;
+        gp.obj[i].worldY = gp.tileSize * 3;
+        i++;
+
+        gp.obj[i] = new OBJ_Heart(gp);
+        gp.obj[i].worldX = gp.tileSize * 19;
+        gp.obj[i].worldY = gp.tileSize * 3;
+        i++;
+
+        gp.obj[i] = new OBJ_ManaCrystal(gp);
+        gp.obj[i].worldX = gp.tileSize * 20;
         gp.obj[i].worldY = gp.tileSize * 3;
         i++;
     }

@@ -11,7 +11,16 @@ public class OBJ_ManaCrystal extends Entity {
         this.gp = gp;
 
         name = "Mana Crystal";
+        type = type_pickupOnly;
+        value = 1;
+
+        down1 = setup("objects/manacrystal_full");
         image = setup("objects/manacrystal_full");
         image2 = setup("objects/manacrystal_blank");
+    }
+
+    public void use(Entity entity){
+        gp.playSoundEffect(1); // coin sound effect
+        gp.player.mana += value;
     }
 }

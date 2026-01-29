@@ -11,12 +11,14 @@ public class OBJ_Rock extends Projectile {
         this.gp = gp;
 
         name = "Rock";
+        type = type_pickupOnly;
         speed = 8;
         maxHealth = 80;
         health = maxHealth;
         attack = 2;
         useCost = 1;
         alive = false;
+        value = 1;
 
         getImage();
     }
@@ -35,14 +37,25 @@ public class OBJ_Rock extends Projectile {
         user.ammo -= useCost;
     }
 
+    public void use(Entity entity){
+        gp.playSoundEffect(1); // coin sound effect
+        if(value == 1){
+            gp.ui.addMessage("+1 Rock");
+        }
+        else{
+            gp.ui.addMessage("+" + value + " Rocks");
+        }
+        gp.player.ammo += value;
+    }
+
     public void getImage(){
-        up1 = setup("projectiles/rock_down_1", gp.tileSize, gp.tileSize);
-        up2 = setup("projectiles/rock_down_1", gp.tileSize, gp.tileSize);
-        down1 = setup("projectiles/rock_down_1", gp.tileSize, gp.tileSize);
-        down2 = setup("projectiles/rock_down_1", gp.tileSize, gp.tileSize);
-        left1 = setup("projectiles/rock_down_1", gp.tileSize, gp.tileSize);
-        left2 = setup("projectiles/rock_down_1", gp.tileSize, gp.tileSize);
-        right1 = setup("projectiles/rock_down_1", gp.tileSize, gp.tileSize);
-        right2 = setup("projectiles/rock_down_1", gp.tileSize, gp.tileSize);
+        up1 = setup("projectiles/rock_down_1");
+        up2 = setup("projectiles/rock_down_1");
+        down1 = setup("projectiles/rock_down_1");
+        down2 = setup("projectiles/rock_down_1");
+        left1 = setup("projectiles/rock_down_1");
+        left2 = setup("projectiles/rock_down_1");
+        right1 = setup("projectiles/rock_down_1");
+        right2 = setup("projectiles/rock_down_1");
     }
 }

@@ -66,8 +66,8 @@ public class Player extends Entity{
         // default loadout
         currentWeapon = new OBJ_Sword_Normal(gp);
         currentShield = new OBJ_Shield_Wood(gp);
-//        projectile = new OBJ_Fireball(gp);
-        projectile = new OBJ_Rock(gp);
+//        projectile = new OBJ_Fireball(gp); // uses mana
+        projectile = new OBJ_Rock(gp); // uses ammo
         attack = getAttack();
         defense = getDefense();
     }
@@ -82,14 +82,14 @@ public class Player extends Entity{
     }
 
     public void getPlayerImage(){
-        up1 = setup("player/walk/boy_up_1", gp.tileSize, gp.tileSize);
-        up2 = setup("player/walk/boy_up_2", gp.tileSize, gp.tileSize);
-        down1 = setup("player/walk/boy_down_1", gp.tileSize, gp.tileSize);
-        down2 = setup("player/walk/boy_down_2", gp.tileSize, gp.tileSize);
-        left1 = setup("player/walk/boy_left_1", gp.tileSize, gp.tileSize);
-        left2 = setup("player/walk/boy_left_2", gp.tileSize, gp.tileSize);
-        right1 = setup("player/walk/boy_right_1", gp.tileSize, gp.tileSize);
-        right2 = setup("player/walk/boy_right_2", gp.tileSize, gp.tileSize);
+        up1 = setup("player/walk/boy_up_1");
+        up2 = setup("player/walk/boy_up_2");
+        down1 = setup("player/walk/boy_down_1");
+        down2 = setup("player/walk/boy_down_2");
+        left1 = setup("player/walk/boy_left_1");
+        left2 = setup("player/walk/boy_left_2");
+        right1 = setup("player/walk/boy_right_1");
+        right2 = setup("player/walk/boy_right_2");
     }
 
     public void getPlayerAttackImage(){
@@ -276,6 +276,16 @@ public class Player extends Entity{
         if(shotAvailableCounter < 30){
             shotAvailableCounter++;
         }
+
+        // prevent health from going above max
+        if(health > maxHealth){
+            health = maxHealth;
+        }
+
+        // prevent mana from going above max
+        if(mana > maxMana){
+            mana = maxMana;
+        }
     }
 
     public void attack(){
@@ -330,19 +340,27 @@ public class Player extends Entity{
     }
 
     public void pickupObject(int index) {
-        String text;
 
         if(index != 999){
-            if(inventory.size() < maxInventorySize){
-                inventory.add(gp.obj[index]);
-                gp.playSoundEffect(1);
-                text = "+1 " + gp.obj[index].name;
+            // PICKUP ONLY ITEMS
+            if(gp.obj[index].type == type_pickupOnly){
+                gp.obj[index].use(this);
                 gp.obj[index] = null;
             }
             else{
-                text = "Inventory Full";
+                // INVENTORY ITEMS
+                String text;
+                if(inventory.size() < maxInventorySize){
+                    inventory.add(gp.obj[index]);
+                    gp.playSoundEffect(1);
+                    text = "+1 " + gp.obj[index].name;
+                    gp.obj[index] = null;
+                }
+                else{
+                    text = "Inventory Full";
+                }
+                gp.ui.addMessage(text);
             }
-            gp.ui.addMessage(text);
         }
     }
 

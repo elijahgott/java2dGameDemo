@@ -370,6 +370,9 @@ public class UI {
         g2.drawString("MANA", textX, textY);
         textY += lineHeight;
 
+        g2.drawString("AMMO", textX, textY);
+        textY += lineHeight;
+
         g2.drawString("STR", textX, textY);
         textY += lineHeight;
 
@@ -413,6 +416,11 @@ public class UI {
         textY += lineHeight;
 
         value = String.valueOf(gp.player.mana + "/" +  gp.player.maxMana);
+        textX = getXForRightAlignedText(value, tailX);
+        g2.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gp.player.ammo);
         textX = getXForRightAlignedText(value, tailX);
         g2.drawString(value, textX, textY);
         textY += lineHeight;
