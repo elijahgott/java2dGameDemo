@@ -3,6 +3,7 @@ package main;
 import entity.Player;
 import tile.TileManager;
 import entity.Entity;
+import tile_interactive.InteractiveTile;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -46,6 +47,9 @@ public class GamePanel extends JPanel implements Runnable{
     public Entity obj[] = new Entity[50]; // display 50 objects at a time, can replace after objects are picked up
     public Entity npc[] = new Entity[10]; // holds up to 10 NPCs
     public Entity monster[] = new Entity[20]; // holds up to 10 monsters at once
+    public InteractiveTile interactiveTile[] = new InteractiveTile[50];
+
+    // projectiles from players and monsters
     public ArrayList<Entity> projectileList = new ArrayList<>();
 
     // all types of entities will be in this list, used for render order
@@ -72,6 +76,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void setupGame(){
+        assetSetter.setInteractiveTile();
         assetSetter.setObject();
         assetSetter.setNPC();
         assetSetter.setMonster();
@@ -150,6 +155,12 @@ public class GamePanel extends JPanel implements Runnable{
                     }
                 }
             }
+
+            for(int i = 0; i < interactiveTile.length; i++){
+                if(interactiveTile[i] != null){
+                    interactiveTile[i].update();
+                }
+            }
         }
         if(gameState == pauseState){
             // nothing
@@ -173,6 +184,13 @@ public class GamePanel extends JPanel implements Runnable{
         else{ // NON-TITLE SCREEN
             // tiles
             tileManager.draw(g2); // before drawing player, so player is drawn on top
+
+            // interactive tiles
+            for(int i = 0; i < interactiveTile.length; i++){
+                if(interactiveTile[i] != null){
+                    interactiveTile[i].draw(g2);
+                }
+            }
 
             // ADD ALL ENTITIES TO ENTITY LIST
             // add player

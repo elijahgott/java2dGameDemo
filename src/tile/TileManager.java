@@ -29,126 +29,106 @@ public class TileManager {
     }
 
     public void getTileImage(){
+        int i = 0;
+
         // grass tiles
-        setup(0, "grass/grass_00", false);
-        setup(1, "grass/grass_01", false);
-        setup(2, "grass/grass_02", false);
-
-        setup(3, "grass/grass_left", false);
-        setup(4, "grass/grass_right", false);
-
-        setup(5, "grass/grass_bottomLeft", false);
-        setup(6, "grass/grass_bottom", false);
-        setup(7, "grass/grass_bottomRight", false);
-
-        setup(8, "grass/grass_topLeft", false);
-        setup(9, "grass/grass_top", false);
-        setup(10, "grass/grass_topRight", false);
-
+        setup(i, "grass/grass_00", false); i++; // 0
+        setup(i, "grass/grass_01", false); i++; // 1
+        setup(i, "grass/grass_02", false); i++; // 2
+        setup(i, "grass/grass_left", false); i++; // 3
+        setup(i, "grass/grass_right", false); i++; // 4
+        setup(i, "grass/grass_bottomLeft", false); i++; // 5
+        setup(i, "grass/grass_bottom", false); i++; // 6
+        setup(i, "grass/grass_bottomRight", false); i++; // 7
+        setup(i, "grass/grass_topLeft", false); i++; // 8
+        setup(i, "grass/grass_top", false); i++; // 9
+        setup(i, "grass/grass_topRight", false); i++; // 10
         // i may need these at some point
         // using grass_00 as placeholder for grass_inside_topLeft
         // error here when on laptop (why?)
-        setup(11, "grass/grass_00", false); // grass_inside_topLeft
-        setup(12, "grass/grass_00", false); // grass_inside_topRight
-        setup(13, "grass/grass_00", false); // grass_inside_bottomLeft
-        setup(14, "grass/grass_00", false); // grass_inside_bottomRight
+        setup(i, "grass/grass_00", false); i++; // grass_inside_topLeft // 11
+        setup(i, "grass/grass_00", false); i++; // grass_inside_topRight // 12
+        setup(i, "grass/grass_00", false); i++; // grass_inside_bottomLeft // 13
+        setup(i, "grass/grass_00", false); i++; // grass_inside_bottomRight // 14
 
         // grass-sand tiles
-        setup(15, "grass-sand/grass_sand_left", false);
-        setup(16, "grass-sand/grass_sand_right", false);
-
-        setup(17, "grass-sand/grass_sand_bottomLeft", false);
-        setup(18, "grass-sand/grass_sand_bottom", false);
-        setup(19, "grass-sand/grass_sand_bottomRight", false);
-
-        setup(20, "grass-sand/grass_sand_topLeft", false);
-        setup(21, "grass-sand/grass_sand_top", false);
-        setup(22, "grass-sand/grass_sand_topRight", false);
-
-        setup(23, "grass-sand/grass_sand_inside_topLeft", false);
-        setup(24, "grass-sand/grass_sand_inside_topRight", false);
-        setup(25, "grass-sand/grass_sand_inside_bottomLeft", false);
-        setup(26, "grass-sand/grass_sand_inside_bottomRight", false);
+        setup(i, "grass-sand/grass_sand_left", false); i++; // 15
+        setup(i, "grass-sand/grass_sand_right", false); i++; // 16
+        setup(i, "grass-sand/grass_sand_bottomLeft", false); i++; // 17
+        setup(i, "grass-sand/grass_sand_bottom", false); i++; // 18
+        setup(i, "grass-sand/grass_sand_bottomRight", false); i++; // 19
+        setup(i, "grass-sand/grass_sand_topLeft", false); i++; // 20
+        setup(i, "grass-sand/grass_sand_top", false); i++; // 21
+        setup(i, "grass-sand/grass_sand_topRight", false); i++; // 22
+        setup(i, "grass-sand/grass_sand_inside_topLeft", false); i++; // 23
+        setup(i, "grass-sand/grass_sand_inside_topRight", false); i++; // 24
+        setup(i, "grass-sand/grass_sand_inside_bottomLeft", false); i++; // 25
+        setup(i, "grass-sand/grass_sand_inside_bottomRight", false); i++; // 26
 
         // path tiles
-        setup(27, "path/path_00", false);
-        setup(28, "path/path_01", false);
-        setup(29, "path/path_02", false);
-
-        setup(30, "path/path_left", false);
-        setup(31, "path/path_right", false);
-
-        setup(32, "path/path_bottomLeft", false);
-        setup(33, "path/path_bottom", false);
-        setup(34, "path/path_bottomRight", false);
-
-        setup(35, "path/path_topLeft", false);
-        setup(36, "path/path_top", false);
-        setup(37, "path/path_topRight", false);
-
-        setup(38, "path/path_inside_topLeft", false);
-        setup(39, "path/path_inside_topRight", false);
-        setup(40, "path/path_inside_bottomLeft", false);
-        setup(41, "path/path_inside_bottomRight", false);
+        setup(i, "path/path_00", false); i++; // 27
+        setup(i, "path/path_01", false); i++; // 28
+        setup(i, "path/path_02", false); i++; // 29
+        setup(i, "path/path_left", false); i++; // 30
+        setup(i, "path/path_right", false); i++; // 31
+        setup(i, "path/path_bottomLeft", false); i++; // 32
+        setup(i, "path/path_bottom", false); i++; // 33
+        setup(i, "path/path_bottomRight", false); i++; // 34
+        setup(i, "path/path_topLeft", false); i++; // 35
+        setup(i, "path/path_top", false); i++; // 36
+        setup(i, "path/path_topRight", false); i++; // 37
+        setup(i, "path/path_inside_topLeft", false); i++; // 38
+        setup(i, "path/path_inside_topRight", false); i++; // 39
+        setup(i, "path/path_inside_bottomLeft", false); i++; // 40
+        setup(i, "path/path_inside_bottomRight", false); i++; // 41
 
         // sand tiles
-        setup(42, "sand/sand_00", false);
-        setup(43, "sand/sand_01", false);
-
-        setup(44, "sand/sand_left", false);
-        setup(45, "sand/sand_right", false);
-
-        setup(46, "sand/sand_bottomLeft", false);
-        setup(47, "sand/sand_bottom", false);
-        setup(48, "sand/sand_bottomRight", false);
-
-        setup(49, "sand/sand_topLeft", false);
-        setup(50, "sand/sand_top", false);
-        setup(51, "sand/sand_topRight", false);
-
-        setup(52, "sand/sand_inside_topLeft", false);
-        setup(53, "sand/sand_inside_topRight", false);
-        setup(54, "sand/sand_inside_bottomLeft", false);
-        setup(55, "sand/sand_inside_bottomRight", false);
+        setup(i, "sand/sand_00", false); i++; // 42
+        setup(i, "sand/sand_01", false); i++; // 43
+        setup(i, "sand/sand_left", false); i++; // 44
+        setup(i, "sand/sand_right", false); i++; // 45
+        setup(i, "sand/sand_bottomLeft", false); i++; // 46
+        setup(i, "sand/sand_bottom", false); i++; // 47
+        setup(i, "sand/sand_bottomRight", false); i++; // 48
+        setup(i, "sand/sand_topLeft", false); i++; // 49
+        setup(i, "sand/sand_top", false); i++; // 50
+        setup(i, "sand/sand_topRight", false); i++; // 51
+        setup(i, "sand/sand_inside_topLeft", false); i++; // 52
+        setup(i, "sand/sand_inside_topRight", false); i++; // 53
+        setup(i, "sand/sand_inside_bottomLeft", false); i++; // 54
+        setup(i, "sand/sand_inside_bottomRight", false); i++; // 55
 
         // water tiles
-        setup(56, "water/water_00", true);
-        setup(57, "water/water_01", true);
-        setup(58, "water/water_02", true);
-
-        setup(59, "water/water_left", true);
-        setup(60, "water/water_right", true);
-
-        setup(61, "water/water_bottomLeft", true);
-        setup(62, "water/water_bottom", true);
-        setup(63, "water/water_bottomRight", true);
-
-        setup(64, "water/water_topLeft", true);
-        setup(65, "water/water_top", true);
-        setup(66, "water/water_topRight", true);
-
-        setup(67, "water/water_inside_topLeft", true);
-        setup(68, "water/water_inside_topRight", true);
-        setup(69, "water/water_inside_bottomLeft", true);
-        setup(70, "water/water_inside_bottomRight", true);
+        setup(i, "water/water_00", true); i++; // 56
+        setup(i, "water/water_01", true); i++; // 57
+        setup(i, "water/water_02", true); i++; // 58
+        setup(i, "water/water_left", true); i++; // 59
+        setup(i, "water/water_right", true); i++; // 60
+        setup(i, "water/water_bottomLeft", true); i++; // 61
+        setup(i, "water/water_bottom", true); i++; // 62
+        setup(i, "water/water_bottomRight", true); i++; // 63
+        setup(i, "water/water_topLeft", true); i++; // 64
+        setup(i, "water/water_top", true); i++; // 65
+        setup(i, "water/water_topRight", true); i++; // 66
+        setup(i, "water/water_inside_topLeft", true); i++; // 67
+        setup(i, "water/water_inside_topRight", true); i++; // 68
+        setup(i, "water/water_inside_bottomLeft", true); i++; // 69
+        setup(i, "water/water_inside_bottomRight", true); i++; // 70
 
         // tree tiles
-        setup(71, "trees/tree_01", true);
-        setup(72, "trees/tree_02", true);
+        setup(i, "trees/tree_01", true); i++; // 71
+        setup(i, "trees/tree_02", true); i++; // 72
 
         // stone brick wall tiles
-        setup(73, "walls/wall_middle", false);
-
-        setup(74, "walls/stone_brick_wall_left", true);
-        setup(75, "walls/stone_brick_wall_right", true);
-
-        setup(76, "walls/stone_brick_wall_bottomLeft", true);
-        setup(77, "walls/stone_brick_wall_bottom", true);
-        setup(78, "walls/stone_brick_wall_bottomRight", true);
-
-        setup(79, "walls/stone_brick_wall_topLeft", true);
-        setup(80, "walls/stone_brick_wall_top", true);
-        setup(81, "walls/stone_brick_wall_topRight", true);
+        setup(i, "walls/wall_middle", false); i++; // 73
+        setup(i, "walls/stone_brick_wall_left", true); i++; // 74
+        setup(i, "walls/stone_brick_wall_right", true); i++; // 75
+        setup(i, "walls/stone_brick_wall_bottomLeft", true); i++; // 76
+        setup(i, "walls/stone_brick_wall_bottom", true); i++; // 77
+        setup(i, "walls/stone_brick_wall_bottomRight", true); i++; // 78
+        setup(i, "walls/stone_brick_wall_topLeft", true); i++; // 79
+        setup(i, "walls/stone_brick_wall_top", true); i++; // 80
+        setup(i, "walls/stone_brick_wall_topRight", true); i++; // 81
     }
 
     public void setup(int index, String imageName, boolean collision){

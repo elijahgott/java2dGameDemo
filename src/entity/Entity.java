@@ -167,9 +167,16 @@ public class Entity {
     public void update(){
         setAction();
 
+        // CHECK COLLISION
         collisionOn = false;
+        // tile collision
         gp.collisionChecker.checkTile(this);
+        gp.collisionChecker.checkEntity(this, gp.interactiveTile);
+
+        // object collision
         gp.collisionChecker.checkObject(this, false);
+
+        // collision with different types of entities
         gp.collisionChecker.checkEntity(this, gp.npc);
         gp.collisionChecker.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.collisionChecker.checkPlayer(this);

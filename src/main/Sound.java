@@ -11,19 +11,21 @@ public class Sound {
     URL soundURL[] = new URL[30];
 
     public Sound(){
-        soundURL[0] = getClass().getResource("/sound/BlueBoyAdventure.wav");
-        soundURL[1] = getClass().getResource("/sound/coin.wav");
-        soundURL[2] = getClass().getResource("/sound/powerup.wav");
-        soundURL[3] = getClass().getResource("/sound/unlock.wav");
-        soundURL[4] = getClass().getResource("/sound/fanfare.wav");
-        soundURL[5] = getClass().getResource("/sound/hitmonster.wav");
-        soundURL[6] = getClass().getResource("/sound/receivedamage.wav");
-        soundURL[7] = getClass().getResource("/sound/melee_low.wav");
-        soundURL[8] = getClass().getResource("/sound/melee_med.wav");
-        soundURL[9] = getClass().getResource("/sound/melee_high.wav");
-        soundURL[10] = getClass().getResource("/sound/cursor.wav");
-        soundURL[11] = getClass().getResource("/sound/burning.wav");
+        int i = 0;
 
+        soundURL[i] = getClass().getResource("/sound/BlueBoyAdventure.wav"); i++; // 0
+        soundURL[i] = getClass().getResource("/sound/coin.wav"); i++; // 1
+        soundURL[i] = getClass().getResource("/sound/powerup.wav"); i++; // 2
+        soundURL[i] = getClass().getResource("/sound/unlock.wav"); i++; // 3
+        soundURL[i] = getClass().getResource("/sound/fanfare.wav"); i++; // 4
+        soundURL[i] = getClass().getResource("/sound/hitmonster.wav"); i++; // 5
+        soundURL[i] = getClass().getResource("/sound/receivedamage.wav"); i++; // 6
+        soundURL[i] = getClass().getResource("/sound/melee_low.wav"); i++; // 7
+        soundURL[i] = getClass().getResource("/sound/melee_med.wav"); i++; // 8
+        soundURL[i] = getClass().getResource("/sound/melee_high.wav"); i++; // 9
+        soundURL[i] = getClass().getResource("/sound/cursor.wav"); i++; // 10
+        soundURL[i] = getClass().getResource("/sound/burning.wav"); i++; // 11
+        soundURL[i] = getClass().getResource("/sound/cuttree.wav"); i++; // 12
     }
 
     public void setFile(int index){

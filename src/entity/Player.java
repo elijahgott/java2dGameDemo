@@ -169,6 +169,10 @@ public class Player extends Entity{
             int monsterIndex = gp.collisionChecker.checkEntity(this, gp.monster);
             interactMonster(monsterIndex);
 
+            // CHECK INTERACTIVE TILE COLLISION
+            int interactiveTileIndex = gp.collisionChecker.checkEntity(this, gp.interactiveTile);
+//            interactTile();
+
             // CHECK EVENT
             gp.eventHandler.checkEvent();
 
@@ -326,6 +330,10 @@ public class Player extends Entity{
             int monsterIndex = gp.collisionChecker.checkEntity(this, gp.monster);
             damageMonster(monsterIndex, attack);
 
+            // check interactive tile collision
+            int interactiveTileIndex = gp.collisionChecker.checkEntity(this, gp.interactiveTile);
+            damageInteractiveTile(interactiveTileIndex);
+
             // restore position and solidArea
             worldX = currentWorldX;
             worldY = currentWorldY;
@@ -420,6 +428,18 @@ public class Player extends Entity{
                     exp += gp.monster[index].exp;
                     checkLevelUp();
                 }
+            }
+        }
+    }
+
+    public void damageInteractiveTile(int index){
+        if(index != 999 && gp.interactiveTile[index].destructible && gp.interactiveTile[index].isCorrectItem(this) && !gp.interactiveTile[index].invincible){
+            gp.interactiveTile[index].playSoundEffect();
+            gp.interactiveTile[index].health--;
+            gp.interactiveTile[index].invincible = true;
+
+            if(gp.interactiveTile[index].health <= 0){
+                gp.interactiveTile[index] = gp.interactiveTile[index].getDestroyedForm();
             }
         }
     }

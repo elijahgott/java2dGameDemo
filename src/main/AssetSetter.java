@@ -3,6 +3,8 @@ package main;
 import entity.NPC_OldMan;
 import monster.MON_GreenSlime;
 import object.*;
+import tile_interactive.IT_Tree;
+import tile_interactive.InteractiveTile;
 
 import java.security.Key;
 
@@ -91,6 +93,17 @@ public class AssetSetter {
         gp.monster[i] = new MON_GreenSlime(gp);
         gp.monster[i].worldX = gp.tileSize * 6;
         gp.monster[i].worldY = gp.tileSize * 10;
+        i++;
+    }
+
+    public void setInteractiveTile(){
+        int i = 0;
+
+        gp.interactiveTile[i] = new IT_Tree(gp, 16, 8);
+        i++;
+        gp.interactiveTile[i] = new IT_Tree(gp, 17, 8);
+        i++;
+        gp.interactiveTile[i] = new IT_Tree(gp, 18, 8);
         i++;
     }
 }
