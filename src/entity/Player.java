@@ -66,8 +66,8 @@ public class Player extends Entity{
         // default loadout
         currentWeapon = new OBJ_Sword_Normal(gp);
         currentShield = new OBJ_Shield_Wood(gp);
-//        projectile = new OBJ_Fireball(gp); // uses mana
-        projectile = new OBJ_Rock(gp); // uses ammo
+        projectile = new OBJ_Fireball(gp); // uses mana
+//        projectile = new OBJ_Rock(gp); // uses ammo
         attack = getAttack();
         defense = getDefense();
     }
@@ -437,6 +437,8 @@ public class Player extends Entity{
             gp.interactiveTile[index].playSoundEffect();
             gp.interactiveTile[index].health--;
             gp.interactiveTile[index].invincible = true;
+
+            generateParticle(gp.interactiveTile[index], gp.interactiveTile[index]);
 
             if(gp.interactiveTile[index].health <= 0){
                 gp.interactiveTile[index] = gp.interactiveTile[index].getDestroyedForm();

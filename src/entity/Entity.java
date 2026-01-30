@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.UtilityTool;
+import tile_interactive.InteractiveTile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -310,11 +311,13 @@ public class Entity {
                 }
             }
 
-            // lower opacity when invincible
-            if(invincible){
-                displayHealthBar = true;
-                healthBarCounter = 0; // reset counter every time monster is hit
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4F));
+            // lower opacity when invincible -- NOT ON INTERACTIVE TILES
+            if(!(this instanceof InteractiveTile)){
+                if(invincible){
+                    displayHealthBar = true;
+                    healthBarCounter = 0; // reset counter every time monster is hit
+                    g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4F));
+                }
             }
 
             if(dying){
@@ -331,6 +334,43 @@ public class Entity {
                 g2.fillRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height); // only shows tileSize * tileSize box, need to update to reflect actual solidAreas
             }
         }
+    }
+
+    // PARTICLES
+    public Color getParticleColor(){
+        Color color = null;
+        return color;
+    }
+
+    public int getParticleSize(){
+        int size = 0;
+        return size;
+    }
+
+    public int getParticleSpeed(){
+        int speed = 0;
+        return speed;
+    }
+
+    public int getParticleMaxHealth(){
+        int maxHealth = 0;
+        return maxHealth;
+    }
+
+    public void generateParticle(Entity generator, Entity target){
+        Color color = generator.getParticleColor();
+        int size = generator.getParticleSize();
+        int speed = generator.getParticleSpeed();
+        int maxHealth = generator.getParticleMaxHealth();
+
+        Particle p1 = new Particle(gp, target, color, size, speed, maxHealth, -1, -1);
+        Particle p2 = new Particle(gp, target, color, size, speed, maxHealth, -2, -1);
+        Particle p3 = new Particle(gp, target, color, size, speed, maxHealth, 1, -2);
+        Particle p4 = new Particle(gp, target, color, size, speed, maxHealth, 0, -1);
+        gp.particleList.add(p1);
+        gp.particleList.add(p2);
+        gp.particleList.add(p3);
+        gp.particleList.add(p4);
     }
 
     // setup with custom scale for width and height

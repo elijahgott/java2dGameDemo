@@ -10,6 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Objects;
 
 public class GamePanel extends JPanel implements Runnable{
     public boolean debug = false;
@@ -51,6 +52,9 @@ public class GamePanel extends JPanel implements Runnable{
 
     // projectiles from players and monsters
     public ArrayList<Entity> projectileList = new ArrayList<>();
+
+    // particles
+    public ArrayList<Entity> particleList = new ArrayList<>();
 
     // all types of entities will be in this list, used for render order
     ArrayList<Entity> entityList = new ArrayList<Entity>();
@@ -156,6 +160,19 @@ public class GamePanel extends JPanel implements Runnable{
                 }
             }
 
+            // particles
+            for(int i = 0; i < particleList.size(); i++){
+                if(particleList.get(i) != null){
+                    if(particleList.get(i).alive){
+                        particleList.get(i).update();
+                    }
+                    else if(!particleList.get(i).alive){
+                        particleList.remove(i);
+                    }
+                }
+            }
+
+            // interactive tiles
             for(int i = 0; i < interactiveTile.length; i++){
                 if(interactiveTile[i] != null){
                     interactiveTile[i].update();
@@ -163,7 +180,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
         if(gameState == pauseState){
-            // nothing
+            // nothing happens
         }
     }
 
@@ -217,6 +234,13 @@ public class GamePanel extends JPanel implements Runnable{
                 }
             }
 
+            // add particles
+            for(int i = 0; i < particleList.size(); i++){
+                if(particleList.get(i) != null){
+                    entityList.add(particleList.get(i));
+                }
+            }
+
             // add objects
             for(int i = 0; i < obj.length; i++){
                 if(obj[i] != null){
@@ -224,7 +248,7 @@ public class GamePanel extends JPanel implements Runnable{
                 }
             }
 
-            // sort by world y coordinates
+            // sort by world y coordinates -- entity below another entity is rendered in front
             Collections.sort(entityList, new Comparator<Entity>() {
                 @Override
                 public int compare(Entity e1, Entity e2) {
