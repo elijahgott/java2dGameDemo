@@ -75,6 +75,10 @@ public class UI {
             drawPlayerHealth();
             drawPlayerMana();
             drawMessage();
+
+            if(gp.debug){
+                drawDebug();
+            }
         }
 
         // PAUSE STATE
@@ -160,8 +164,8 @@ public class UI {
     }
 
     public void drawPlayerHealth(){
-        int x = gp.tileSize / 2;
-        int y = gp.tileSize / 2;
+        int x = gp.tileSize / 3;
+        int y = gp.tileSize / 3;
 
         int fullHearts = gp.player.health > 0 ? gp.player.health / 2 : 0;
         int halfHearts = gp.player.health > 0 ? gp.player.health % 2 : 0;
@@ -170,41 +174,44 @@ public class UI {
         // draw full hearts
         for(int i = 0; i < fullHearts; i++){
             g2.drawImage(heart_full, x, y,null);
-            x += gp.tileSize;
+            x += ((gp.tileSize * 3) / 4) + 2;
         }
         // draw half hearts
         for(int i = 0; i < halfHearts; i++){
             g2.drawImage(heart_half, x, y,null);
-            x += gp.tileSize;
+            x += ((gp.tileSize * 3) / 4) + 2;
         }
 
         // draw empty hearts
         for(int i = 0; i < emptyHearts; i++){
             g2.drawImage(heart_empty, x, y,null);
-            x += gp.tileSize;
+            x += ((gp.tileSize * 3) / 4) + 2;
         }
     }
 
     public void drawPlayerMana(){
-        int x = (gp.tileSize / 2) - 8;
-        int y = (gp.tileSize / 2) + gp.tileSize;
+        int manaSize = 40;
+
+        int x = (gp.tileSize / 3) + 3;
+        int y = (gp.tileSize / 3) + gp.tileSize;
 
         // draw max mana
         int i = 0;
         while(i < gp.player.maxMana){
-            g2.drawImage(manaCrystal_empty, x, y,null);
+            g2.drawImage(manaCrystal_empty, x, y, manaSize, manaSize, null);
             i++;
-            x += 32;
+            x += ((gp.tileSize * 3) / 4) - 4;
         }
 
         // draw current mana
-        x = (gp.tileSize / 2) - 8;
-        y = (gp.tileSize / 2) + gp.tileSize;
+        x = (gp.tileSize / 3) + 3;
+        y = (gp.tileSize / 3) + gp.tileSize;
+
         i = 0;
         while(i < gp.player.mana){
-            g2.drawImage(manaCrystal_full, x, y,null);
+            g2.drawImage(manaCrystal_full, x, y, manaSize, manaSize, null);
             i++;
-            x += 32;
+            x += ((gp.tileSize * 3) / 4) - 4;
         }
     }
 
@@ -231,6 +238,36 @@ public class UI {
                 }
             }
         }
+    }
+
+    public void drawDebug(){
+        // general debug
+        g2.setFont(new Font("Arial", Font.PLAIN, 20));
+
+        int x = gp.tileSize / 3;
+        int y = gp.tileSize * 4;
+        int lineHeight = 20;
+
+        // player coordinates
+        g2.setColor(Color.black);
+        g2.drawString(gp.player.worldX + ", " + gp.player.worldY, x + 2, y + 2);
+        g2.setColor(Color.white);
+        g2.drawString(gp.player.worldX + ", " + gp.player.worldY, x, y);
+        y += lineHeight;
+
+        // player column coords
+        g2.setColor(Color.black);
+        g2.drawString("Col: " + (gp.player.worldX + gp.player.solidArea.x) / gp.tileSize, x + 2, y + 2);
+        g2.setColor(Color.white);
+        g2.drawString("Col: " + (gp.player.worldX + gp.player.solidArea.x) / gp.tileSize, x, y);
+        y += lineHeight;
+
+        // player row coords
+        g2.setColor(Color.black);
+        g2.drawString("Row: " + (gp.player.worldY + gp.player.solidArea.y) / gp.tileSize, x + 2, y + 2);
+        g2.setColor(Color.white);
+        g2.drawString("Row: " + (gp.player.worldY + gp.player.solidArea.y) / gp.tileSize, x, y);
+        y += lineHeight;
     }
 
     public void drawPauseScreen(){

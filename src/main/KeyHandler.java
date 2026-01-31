@@ -7,7 +7,6 @@ import tile.TileManager;
 
 public class KeyHandler implements KeyListener {
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed, spacePressed, shotKeyPressed;
-    public boolean checkDrawTime = false;
 
     GamePanel gp;
 
@@ -145,16 +144,13 @@ public class KeyHandler implements KeyListener {
         if(code == KeyEvent.VK_E){
             gp.gameState = gp.inventoryState;
         }
+
         // DEBUG
         if(code == KeyEvent.VK_F3){
             gp.debug = !gp.debug;
         }
-        // DEBUG TOO
-        if(code == KeyEvent.VK_T){
-            checkDrawTime = !checkDrawTime;
-        }
         if(code == KeyEvent.VK_R){
-            gp.tileManager.loadMap("/maps/world01.txt");
+            gp.tileManager.loadMap("/maps/world01.txt"); // i dont think this works on intellij
         }
     }
 
