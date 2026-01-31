@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 import tile.TileManager;
 
 public class KeyHandler implements KeyListener {
-    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed, spacePressed, shotKeyPressed;
+    public boolean isFullScreen, upPressed, downPressed, leftPressed, rightPressed, enterPressed, spacePressed, shotKeyPressed;
 
     GamePanel gp;
 
@@ -111,6 +111,10 @@ public class KeyHandler implements KeyListener {
                 System.exit(0);
             }
         }
+        if(code == KeyEvent.VK_F11){
+            isFullScreen = !isFullScreen;
+            System.out.println("isFullScreen: " + isFullScreen);
+        }
     }
 
     public void playState(int code){
@@ -144,6 +148,9 @@ public class KeyHandler implements KeyListener {
         if(code == KeyEvent.VK_E){
             gp.gameState = gp.inventoryState;
         }
+        if(code == KeyEvent.VK_F11){
+            isFullScreen = !isFullScreen;
+        }
 
         // DEBUG
         if(code == KeyEvent.VK_F3){
@@ -158,11 +165,17 @@ public class KeyHandler implements KeyListener {
         if(code == KeyEvent.VK_ESCAPE){
             gp.gameState = gp.playState;
         }
+        if(code == KeyEvent.VK_F11){
+            isFullScreen = !isFullScreen;
+        }
     }
 
     public void dialogueState(int code){
         if(code == KeyEvent.VK_SPACE || code == KeyEvent.VK_ENTER || code == KeyEvent.VK_ESCAPE){
             gp.gameState = gp.playState;
+        }
+        if(code == KeyEvent.VK_F11){
+            isFullScreen = !isFullScreen;
         }
     }
 
@@ -214,6 +227,9 @@ public class KeyHandler implements KeyListener {
         if(code == KeyEvent.VK_SPACE || code == KeyEvent.VK_ENTER){
             gp.player.selectItem();
         }
+        if(code == KeyEvent.VK_F11){
+            isFullScreen = !isFullScreen;
+        }
     }
 
     public void characterState(int code){
@@ -222,6 +238,9 @@ public class KeyHandler implements KeyListener {
         }
         if(code == KeyEvent.VK_E){
             gp.gameState = gp.inventoryState;
+        }
+        if(code == KeyEvent.VK_F11){
+            isFullScreen = !isFullScreen;
         }
     }
 }
