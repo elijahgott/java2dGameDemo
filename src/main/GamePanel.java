@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.Objects;
 
 public class GamePanel extends JPanel implements Runnable{
+    Config config = new Config(this);
     public boolean debug = false;
 
     // SCREEN SETTINGS
@@ -80,8 +81,6 @@ public class GamePanel extends JPanel implements Runnable{
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        Color backgroundColor = new Color(73, 162, 105);
-        this.setBackground(backgroundColor);
         this.setDoubleBuffered(true);
 
         this.addKeyListener(keyHandler);
@@ -100,7 +99,9 @@ public class GamePanel extends JPanel implements Runnable{
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D)tempScreen.getGraphics();
 
-//        setFullScreen();
+        if(fullScreenOn){
+            setFullScreen();
+        }
     }
 
     public void setFullScreen(){
@@ -223,6 +224,12 @@ public class GamePanel extends JPanel implements Runnable{
             ui.draw(g2);
         }
         else{ // NON-TITLE SCREEN
+
+            // draw background -- DOESNT WORK
+            Color backgroundColor = new Color(73, 162, 105);
+            g2.setBackground(backgroundColor);
+            g2.drawRect(0, 0, screenWidth, screenHeight);
+
             // tiles
             tileManager.draw(g2); // before drawing player, so player is drawn on top
 
