@@ -123,6 +123,11 @@ public class UI {
 
             drawOptionsScreen();
         }
+
+        // GAME OVER STATE
+        if(gp.gameState == gp.gameOverState){
+            drawGameOver();
+        }
     }
 
     public void drawTitleScreen(){
@@ -838,6 +843,46 @@ public class UI {
                 gp.gameState = gp.pauseState;
                 commandNumber = 2;
             }
+        }
+    }
+
+    public void drawGameOver(){
+        // background
+        g2.setColor(new Color(0, 0, 0, 200));
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
+        // text
+        int x;
+        int y;
+        String text;
+        g2.setColor(Color.WHITE);
+        g2.setFont(UIFont.deriveFont(Font.PLAIN, 64F));
+
+
+        // game over
+        text = "GAME OVER";
+        x = getXForCenteredText(text);
+        y = gp.tileSize * 3;
+        g2.drawString(text, x, y);
+
+        g2.setFont(dialogueFont.deriveFont(Font.PLAIN, 20F));
+
+        // retry
+        text = "RETRY";
+        x = getXForCenteredText(text);
+        y += gp.tileSize * 6;
+        g2.drawString(text, x, y);
+        if(commandNumber == 0){
+            g2.drawString(">", x - 24, y);
+        }
+
+        // title screen
+        text = "QUIT";
+        x = getXForCenteredText(text);
+        y +=  gp.tileSize;
+        g2.drawString(text, x, y);
+        if(commandNumber == 1){
+            g2.drawString(">", x - 24, y);
         }
     }
 

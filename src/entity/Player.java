@@ -40,10 +40,7 @@ public class Player extends Entity{
     }
 
     public void setDefaultValues(){
-        // set default player location
-        worldX = gp.tileSize * 2;
-        worldY = gp.tileSize * 5;
-        direction = "down";
+        setDefaultPositions();
 
         speed = 4;
         diagonalSpeed = Math.toIntExact(Math.round(speed * (1 / Math.sqrt(2))));
@@ -55,6 +52,7 @@ public class Player extends Entity{
         // default player stats
         maxMana = 4;
         mana = maxMana;
+
         ammo = 10;
         level = 1;
         strength = 1; // more strength = more damage given
@@ -70,6 +68,19 @@ public class Player extends Entity{
 //        projectile = new OBJ_Rock(gp); // uses ammo
         attack = getAttack();
         defense = getDefense();
+    }
+
+    public void setDefaultPositions(){
+        // set default player location
+        worldX = gp.tileSize * 2;
+        worldY = gp.tileSize * 5;
+        direction = "down";
+    }
+
+    public void restoreLifeAndMana(){
+        health = maxHealth;
+        mana = maxMana;
+        invincible = false;
     }
 
     public int getAttack(){
@@ -117,6 +128,9 @@ public class Player extends Entity{
     }
 
     public void setItems(){
+        // clear inventory when starting
+        inventory.clear();
+
         // begin with basic shield and sword
         inventory.add(currentWeapon);
         inventory.add(currentShield);
@@ -290,6 +304,13 @@ public class Player extends Entity{
         if(mana > maxMana){
             mana = maxMana;
         }
+
+        if(health <= 0){
+            gp.stopMusic();
+            gp.playSoundEffect(13);
+
+            gp.gameState = gp.gameOverState;
+        }
     }
 
     public void attack(){
@@ -389,8 +410,8 @@ public class Player extends Entity{
                 gp.playSoundEffect(6); // received damage sound
 
                 int damage = gp.monster[index].attack - defense;
-                if(damage < 0){
-                    damage = 0;
+                if(damage <= 0){
+                    damage = 1;
                 }
                 health -= damage;
                 invincible = true;
