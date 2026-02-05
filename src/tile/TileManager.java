@@ -14,7 +14,7 @@ import main.UtilityTool;
 public class TileManager {
     GamePanel gp;
     public Tile[] tile;
-    public int mapTileNum[][];
+    public int mapTileNum[][][];
 
     UtilityTool utilityTool;
 
@@ -22,10 +22,11 @@ public class TileManager {
         this.gp = gp;
 
         tile = new Tile[100]; // 100 different types of tiles
-        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
+        mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
-        loadMap("/maps/world01.txt");
+        loadMap("/maps/world01.txt", 0); // main world map, index 0
+        loadMap("/maps/interior01.txt", 1); // house interior, index 1
     }
 
     public void getTileImage(){
@@ -145,7 +146,7 @@ public class TileManager {
         }
     }
 
-    public void loadMap(String filePath){
+    public void loadMap(String filePath, int mapIndex){
         try{
             InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -161,7 +162,7 @@ public class TileManager {
 
                     int num = Integer.parseInt(numbers[col]);
 
-                    mapTileNum[col][row] = num;
+                    mapTileNum[mapIndex][col][row] = num;
                     col++;
                 }
                 if(col == gp.maxWorldCol){
@@ -181,7 +182,7 @@ public class TileManager {
         int worldRow = 0;
 
         while((worldCol < gp.maxWorldCol) && (worldRow < gp.maxWorldRow)){
-            int tileNum = mapTileNum[worldCol][worldRow];
+            int tileNum = mapTileNum[gp.currentMap][worldCol][worldRow];
 
             int worldX = worldCol * gp.tileSize;
             int worldY = worldRow * gp.tileSize;
@@ -196,10 +197,18 @@ public class TileManager {
                 g2.drawImage(tile[tileNum].image, screenX, screenY, null);
 
                 if(gp.debug){ // grid coordinates for debugging
+                    int x = screenX + (gp.tileSize / 4);
+                    int y = screenY + (gp.tileSize / 2);
+                    int lineHeight = 16;
                     g2.setColor(Color.black);
+                    g2.setFont(new Font("Arial", Font.PLAIN, 12));
+                    g2.setStroke(new BasicStroke(2));
+
                     g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
-                    g2.drawString((worldCol) + ", " + (worldRow), screenX + (gp.tileSize / 4), screenY + (gp.tileSize / 2));
-                    g2.drawString(Integer.toString(tileNum), screenX + (gp.tileSize / 4), screenY + (gp.tileSize - (gp.tileSize / 4)));
+                    g2.drawString((worldCol) + ", " + (worldRow), x, y);
+                    y += lineHeight;
+
+                    g2.drawString(Integer.toString(tileNum), x, y);
                 }
             }
 

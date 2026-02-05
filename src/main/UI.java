@@ -877,7 +877,7 @@ public class UI {
         }
 
         // title screen
-        text = "QUIT";
+        text = "TITLE SCREEN";
         x = getXForCenteredText(text);
         y +=  gp.tileSize;
         g2.drawString(text, x, y);

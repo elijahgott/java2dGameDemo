@@ -163,7 +163,15 @@ public class KeyHandler implements KeyListener {
             gp.debug = !gp.debug;
         }
         if(code == KeyEvent.VK_R){
-            gp.tileManager.loadMap("/maps/world01.txt"); // i dont think this works on intellij
+            // i dont think this works with intellij
+            switch(gp.currentMap){
+                case 0:
+                    gp.tileManager.loadMap("/maps/world01.txt", 0);
+                    break;
+                case 1:
+                    gp.tileManager.loadMap("/maps/interior01.txt", 1);
+                    break;
+            }
         }
     }
 
@@ -363,6 +371,7 @@ public class KeyHandler implements KeyListener {
             if(gp.ui.commandNumber == 0){
                 // retry
                 gp.retry();
+                gp.playMusic(0);
                 gp.gameState = gp.playState;
             }
             else if(gp.ui.commandNumber == 1){

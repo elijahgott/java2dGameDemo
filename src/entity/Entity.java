@@ -154,12 +154,12 @@ public class Entity {
     }
 
     public void dropItem(Entity droppedItem){
-        for(int i = 0; i < gp.obj.length; i++){
-            if(gp.obj[i] == null){
+        for(int i = 0; i < gp.obj[gp.currentMap].length; i++){
+            if(gp.obj[gp.currentMap][i] == null){
                 // place dropped item where killed entity was
-                gp.obj[i] = droppedItem;
-                gp.obj[i].worldX = worldX;
-                gp.obj[i].worldY = worldY;
+                gp.obj[gp.currentMap][i] = droppedItem;
+                gp.obj[gp.currentMap][i].worldX = worldX;
+                gp.obj[gp.currentMap][i].worldY = worldY;
                 break; // prevents from going through all null slots
             }
         }
