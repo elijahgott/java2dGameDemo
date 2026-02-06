@@ -382,7 +382,7 @@ public class Player extends Entity{
                     inventory.add(gp.obj[gp.currentMap][index]);
                     gp.playSoundEffect(1);
                     text = "+1 " + gp.obj[gp.currentMap][index].name;
-                    gp.obj[index] = null;
+                    gp.obj[gp.currentMap][index] = null;
                 }
                 else{
                     text = "Inventory Full";

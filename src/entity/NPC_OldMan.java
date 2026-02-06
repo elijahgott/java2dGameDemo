@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 
+import java.awt.*;
 import java.util.Random;
 
 
@@ -11,8 +12,8 @@ public class NPC_OldMan extends Entity {
 
         type = type_npc;
         direction = "down";
-        speed = 1;
-//        solidArea = new Rectangle(0, 0, 48, 48); // not used because default entity solid area is used
+        speed = 2;
+        solidArea = new Rectangle(2, 2, 44, 44); // not used because default entity solid area is used
 
         getImage();
         setDialogue();
@@ -30,23 +31,36 @@ public class NPC_OldMan extends Entity {
     }
 
     public void setAction(){
-        actionLockCounter++;
+        if(onPath){
+            // send NPC to 2, 5
+//            int goalCol = 2;
+//            int goalRow = 5;
 
-        if(actionLockCounter == 120) {
-            Random random = new Random();
-            int i = random.nextInt(100) + 1; // random number from 1 - 100
+            // follow player
+            int goalCol = (gp.player.worldX + gp.player.solidArea.x) / gp.tileSize;
+            int goalRow = (gp.player.worldY + gp.player.solidArea.y) / gp.tileSize;
 
-            if (i <= 25) {
-                direction = "up";
-            } else if (i <= 50) {
-                direction = "down";
-            } else if (i <= 75) {
-                direction = "left";
-            } else {
-                direction = "right";
+            searchPath(goalCol, goalRow, true); // goes to home at spawn
+        }
+        else{
+            actionLockCounter++;
+
+            if(actionLockCounter == 120) {
+                Random random = new Random();
+                int i = random.nextInt(100) + 1; // random number from 1 - 100
+
+                if (i <= 25) {
+                    direction = "up";
+                } else if (i <= 50) {
+                    direction = "down";
+                } else if (i <= 75) {
+                    direction = "left";
+                } else {
+                    direction = "right";
+                }
+
+                actionLockCounter = 0;
             }
-
-            actionLockCounter = 0;
         }
     }
 
@@ -62,5 +76,6 @@ public class NPC_OldMan extends Entity {
         super.speak();
 
         // can add character specific stuff
+        onPath = true;
     }
 }

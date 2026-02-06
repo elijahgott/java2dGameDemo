@@ -32,7 +32,8 @@ public class Entity {
     boolean attacking = false;
     public boolean alive = true;
     public boolean dying = false;
-    boolean displayHealthBar = false; // build breaks when using this ???
+    boolean displayHealthBar = false;
+    public boolean onPath = false;
 
     // COUNTERS
     public int spriteCounter = 0;
@@ -171,9 +172,7 @@ public class Entity {
         }
     }
 
-    public void update(){
-        setAction();
-
+    public void checkCollision(){
         // CHECK COLLISION
         collisionOn = false;
         // tile collision
@@ -191,6 +190,11 @@ public class Entity {
         if(this.type == type_monster && contactPlayer){ // type == monster
             damagePlayer(attack);
         }
+    }
+
+    public void update(){
+        setAction();
+        checkCollision();
 
         if(!collisionOn){
             switch(direction){
@@ -377,6 +381,88 @@ public class Entity {
         gp.particleList.add(p2);
         gp.particleList.add(p3);
         gp.particleList.add(p4);
+    }
+
+    public void searchPath(int goalCol, int goalRow, boolean followingPlayer){
+        int startCol = (worldX + solidArea.x) / gp.tileSize;
+        int startRow = (worldY + solidArea.y) / gp.tileSize;
+        gp.pathFinder.setNode(startCol, startRow, goalCol, goalRow, this);
+
+        if(gp.pathFinder.search()){ // found path
+            // next worldX and worldY
+            int nextX = gp.pathFinder.pathList.getFirst().col * gp.tileSize;
+            int nextY = gp.pathFinder.pathList.getFirst().row * gp.tileSize;
+
+            // entity's solidArea positions
+            int entityLeftX = worldX + solidArea.x;
+            int entityRightX = worldX + solidArea.x + solidArea.width;
+            int entityTopY = worldY + solidArea.y;
+            int entityBottomY = worldY + solidArea.y + solidArea.height;
+
+            // next is above entity
+            if((entityTopY > nextY) && (entityLeftX >= nextX) && (entityRightX < nextX + gp.tileSize)){
+                direction = "up";
+            }
+            // next is below entity
+            else if((entityTopY < nextY) && (entityLeftX >= nextX) && (entityRightX < nextX + gp.tileSize)){
+                direction = "down";
+            }
+            // next is on either side of entity
+            else if((entityTopY >= nextY) && (entityBottomY < nextY + gp.tileSize)){
+                // left or right
+                if(entityLeftX > nextX){
+                    direction = "left";
+                }
+                else if(entityLeftX < nextX){
+                    direction = "right";
+                }
+            }
+            // next is up and left
+            else if((entityTopY > nextY) && (entityLeftX > nextX)){
+                // up or left
+                direction = "up";
+                checkCollision();
+                if(collisionOn){
+                    direction = "left";
+                }
+            }
+            // next is up and right
+            else if((entityTopY > nextY) && (entityLeftX < nextX)){
+                // up or right
+                direction = "up";
+                checkCollision();
+                if(collisionOn){
+                    direction = "right";
+                }
+            }
+            // next is down and left
+            else if((entityTopY < nextY) && (entityLeftX > nextX)){
+                // down or left
+                direction = "down";
+                checkCollision();
+                if(collisionOn){
+                    direction = "left";
+                }
+            }
+            // next is down and right
+            else if((entityTopY < nextY) && (entityLeftX < nextX)){
+                // down or right
+                direction = "down";
+                checkCollision();
+                if(collisionOn){
+                    direction = "right";
+                }
+            }
+
+            if(!followingPlayer){
+                int nextCol = gp.pathFinder.pathList.getFirst().col;
+                int nextRow = gp.pathFinder.pathList.getFirst().row;
+                // if reaches goal, stops following path
+                if(nextCol == goalCol && nextRow == goalRow){
+                    onPath = false;
+                }
+            }
+        }
     }
 
     // setup with custom scale for width and height
