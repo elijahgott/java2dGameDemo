@@ -10,6 +10,7 @@ public class OBJ_Heart extends Entity{
         this.gp = gp;
 
         name = "Heart";
+        price = 20;
         type = type_pickupOnly;
         value = 2;
 

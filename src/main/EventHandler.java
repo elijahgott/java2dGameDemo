@@ -1,5 +1,7 @@
 package main;
 
+import entity.Entity;
+
 import java.awt.*;
 
 public class EventHandler{
@@ -8,6 +10,7 @@ public class EventHandler{
 
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
+    int tempMap, tempCol, tempRow;
 
     public EventHandler(GamePanel gp){
         this.gp = gp;
@@ -69,6 +72,9 @@ public class EventHandler{
             }
 
             currentMap++; // interior map
+            if(hit(currentMap, 12, 9, "up")){
+                speak(gp.npc[1][0]);
+            }
         }
     }
 
@@ -127,13 +133,21 @@ public class EventHandler{
     }
 
     public void teleport(int map, int col, int row){
-        gp.playSoundEffect(12); // cut tree PLACEHOLDER
-        gp.currentMap = map;
-        gp.player.worldX = gp.tileSize * col;
-        gp.player.worldY = gp.tileSize * row;
+        gp.gameState = gp.transitionState;
 
-        previousEventX = gp.player.worldX;
-        previousEventY = gp.player.worldY;
+        tempMap = map;
+        tempCol = col;
+        tempRow = row;
+
         canTouchEvent = false;
+        gp.playSoundEffect(12); // cut tree PLACEHOLDER
+    }
+
+    public void speak(Entity entity){
+        if(gp.keyHandler.enterPressed || gp.keyHandler.spacePressed){
+            gp.gameState = gp.dialogueState;
+            gp.player.attackCanceled = true;
+            entity.speak();
+        }
     }
 }

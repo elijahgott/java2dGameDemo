@@ -10,6 +10,7 @@ public class OBJ_Coin extends Entity {
         this.gp = gp;
 
         name = "Coin";
+        price = 1;
         type = type_pickupOnly;
         value = 1;
         down1 = setup("objects/coin");

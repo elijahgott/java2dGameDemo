@@ -12,6 +12,7 @@ public class OBJ_Potion_Red extends Entity {
 
         type = type_consumable;
         name = "Red Potion";
+        price = 45;
         description = "[" + name + "]\nHeals " + value + " health.";
         value = 5;
 

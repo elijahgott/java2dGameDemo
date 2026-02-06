@@ -9,6 +9,7 @@ public class OBJ_Axe_Normal extends Entity {
 
         type = type_axe;
         name = "Woodcutter's Axe";
+        price = 50;
         description = "[" + name + "]\nOld and heavy axe.";
         down1 = setup("objects/axe", gp.tileSize, gp.tileSize);
 

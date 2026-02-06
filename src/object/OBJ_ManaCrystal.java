@@ -11,6 +11,7 @@ public class OBJ_ManaCrystal extends Entity {
         this.gp = gp;
 
         name = "Mana Crystal";
+        price = 25;
         type = type_pickupOnly;
         value = 1;
 

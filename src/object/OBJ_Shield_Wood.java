@@ -9,6 +9,7 @@ public class OBJ_Shield_Wood extends Entity {
 
         type = type_shield;
         name = "Wooden Shield";
+        price = 10;
         description = "[" + name + "]" + "\nWorst shield money can't buy.";
 
         down1 = setup("objects/shield_wood", gp.tileSize, gp.tileSize);

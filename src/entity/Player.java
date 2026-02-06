@@ -16,9 +16,6 @@ public class Player extends Entity{
     int standCounter = 0;
     public boolean attackCanceled = false;
 
-    public ArrayList<Entity> inventory = new ArrayList<>();
-    public final int maxInventorySize = 28; // 4 * 7 inventory
-
     public Player(GamePanel gp, KeyHandler keyHandler) {
         super(gp); // call constructor up Entity class and pass in gp
         this.keyHandler = keyHandler;
@@ -492,7 +489,7 @@ public class Player extends Entity{
     }
 
     public void selectItem(){
-        int itemIndex = gp.ui.getItemIndex();
+        int itemIndex = gp.ui.getItemIndex(gp.ui.playerSlotCol, gp.ui.playerSlotRow);
         if(itemIndex < inventory.size()){ // not empty slot
             Entity selectedItem = inventory.get(itemIndex);
             // select new weapon from inventory

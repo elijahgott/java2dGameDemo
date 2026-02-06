@@ -9,6 +9,7 @@ public class OBJ_Sword_Normal extends Entity {
 
         type = type_sword;
         name="Normal Sword";
+        price = 10;
         description = "[" + name + "]" + "\nThis sword is old and dull.";
 
         down1 = setup("objects/sword_normal", gp.tileSize, gp.tileSize);
