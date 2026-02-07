@@ -18,9 +18,13 @@ public class MON_GreenSlime extends Entity {
 
         name = "Green Slime";
         type = type_monster;
-        speed = 1;
+
+        defaultSpeed = 1;
+        speed = defaultSpeed;
+
         maxHealth = 4;
         health = maxHealth;
+
         attack = 5;
         defense = 0;
         exp = 2;
@@ -73,13 +77,22 @@ public class MON_GreenSlime extends Entity {
 
             searchPath(goalCol, goalRow, true); // goes to home at spawn
 
-            // shoot rocks
-            int i = new Random().nextInt(100) + 1;
-            if(i > 98 && !projectile.alive && shotAvailableCounter == 30){
-                projectile.set(worldX, worldY, direction, true, this);
-                gp.projectileList.add(projectile);
-                shotAvailableCounter = 0;
-            }
+//            // shoot rocks
+//            int i = new Random().nextInt(100) + 1;
+//            if(i > 98 && !projectile.alive && shotAvailableCounter == 30){
+//                projectile.set(worldX, worldY, direction, true, this);
+////                gp.projectileList.add(projectile);
+//
+//                // CHECK FOR EMPTY SPOT AND FILL
+//                for(int j = 0; j < gp.projectile.length; j++){
+//                    if(gp.projectile[gp.currentMap][j] == null){
+//                        gp.projectile[gp.currentMap][j] = projectile;
+//                        break;
+//                    }
+//                }
+//
+//                shotAvailableCounter = 0;
+//            }
         }
         else{
             actionLockCounter++;
@@ -106,9 +119,7 @@ public class MON_GreenSlime extends Entity {
     public void damageReaction(){
         actionLockCounter = 0;
 
-//        direction = gp.player.direction; // slime flees when hit
         onPath = true; // slime follows player
-        speed = 1; // 2 too fast
     }
 
     public void checkDrop(){

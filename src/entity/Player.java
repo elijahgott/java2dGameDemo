@@ -39,7 +39,8 @@ public class Player extends Entity{
     public void setDefaultValues(){
         setDefaultPositions();
 
-        speed = 4;
+        defaultSpeed = 4;
+        speed = defaultSpeed;
         diagonalSpeed = Math.toIntExact(Math.round(speed * (1 / Math.sqrt(2))));
 
         // health
@@ -270,8 +271,12 @@ public class Player extends Entity{
             // SUBTRACT RESOURCE COST
             projectile.useResource(this);
 
-            // ADD TO ARRAY LIST
-            gp.projectileList.add(projectile);
+            // CHECK FOR EMPTY SPOTS AND FILL
+            for(int i = 0; i < gp.projectile.length; i++){
+                if(gp.projectile[gp.currentMap][i] == null){
+                    gp.projectile[gp.currentMap][i] = projectile;
+                }
+            }
 
             shotAvailableCounter = 0;
             gp.playSoundEffect(11);
@@ -317,7 +322,7 @@ public class Player extends Entity{
         if(spriteCounter <= 5){
             spriteNumber = 1;
         }
-        if(spriteCounter > 5 && spriteCounter <= 25){
+        if(spriteCounter > 5 && spriteCounter <= 20){
             spriteNumber = 2;
 
             // save current worldX, worldY, and solidArea
@@ -348,11 +353,15 @@ public class Player extends Entity{
 
             // check monster collision with updated position
             int monsterIndex = gp.collisionChecker.checkEntity(this, gp.monster);
-            damageMonster(monsterIndex, attack);
+            damageMonster(monsterIndex, attack, currentWeapon.knockBackPower);
 
             // check interactive tile collision
             int interactiveTileIndex = gp.collisionChecker.checkEntity(this, gp.interactiveTile);
             damageInteractiveTile(interactiveTileIndex);
+
+            // check projectile collision
+            int projectileIndex = gp.collisionChecker.checkEntity(this, gp.projectile);
+            damageProjectile(projectileIndex);
 
             // restore position and solidArea
             worldX = currentWorldX;
@@ -360,7 +369,7 @@ public class Player extends Entity{
             solidArea.width = solidAreaWidth;
             solidArea.height = solidAreaHeight;
         }
-        if(spriteCounter > 25){
+        if(spriteCounter > 20){
             spriteNumber = 1;
             spriteCounter = 0;
             attacking = false;
@@ -421,11 +430,15 @@ public class Player extends Entity{
         }
     }
 
-    public void damageMonster(int index, int attack){
+    public void damageMonster(int index, int attack, int knockBackPower){
         if(index != 999){
             // monster has been hit
             if(!gp.monster[gp.currentMap][index].invincible){
                 gp.playSoundEffect(5); // hit monster sound
+
+                if(knockBackPower > 0){
+                    knockBack(gp.monster[gp.currentMap][index], knockBackPower);
+                }
 
                 int damage = attack - gp.monster[gp.currentMap][index].defense;
                 if(damage < 0){
@@ -452,6 +465,12 @@ public class Player extends Entity{
         }
     }
 
+    public void knockBack(Entity entity, int knockBackPower){
+        entity.direction = direction;
+        entity.speed += knockBackPower;
+        entity.knockedBack = true;
+    }
+
     public void damageInteractiveTile(int index){
         if(index != 999 && gp.interactiveTile[gp.currentMap][index].destructible && gp.interactiveTile[gp.currentMap][index].isCorrectItem(this) && !gp.interactiveTile[gp.currentMap][index].invincible){
             gp.interactiveTile[gp.currentMap][index].playSoundEffect();
@@ -464,6 +483,14 @@ public class Player extends Entity{
             if(gp.interactiveTile[gp.currentMap][index].health <= 0){
                 gp.interactiveTile[gp.currentMap][index] = gp.interactiveTile[gp.currentMap][index].getDestroyedForm();
             }
+        }
+    }
+
+    public void damageProjectile(int index){
+        if(index != 999){
+            Entity projectile = gp.projectile[gp.currentMap][index];
+            projectile.alive = false;
+            generateParticle(projectile, projectile);
         }
     }
 
