@@ -165,10 +165,10 @@ public class TileManager {
 
                     // place interactable trees instead of tree tiles
                     if((num == 71 || num == 72) && (IT_index < gp.interactiveTile[mapIndex].length)){
+//                        System.out.println("Map #" + mapIndex + " Col " + col + ", Row " + row + ", Index " + IT_index);
                         gp.assetSetter.setInteractiveTile(IT_index, "IT_tree", mapIndex, col, row);
                         IT_index++;
                     }
-                    System.out.println("Col " + col + ", Row " + row + " TileNum " + num);
 
                     mapTileNum[mapIndex][col][row] = num;
                     col++;

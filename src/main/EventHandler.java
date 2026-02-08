@@ -56,11 +56,11 @@ public class EventHandler{
 
             // damage pit
             if(hit(currentMap, 7, 5, "any")){
-                damagePit(gp.dialogueState);
+                damagePit();
             }
             // healing pool
             else if(hit(currentMap, 7, 4, "right")){ // needs right key to be actively pressed to work
-                healingPool(gp.dialogueState);
+                healingPool();
             }
 //            // teleport into house
 //            else if(hit(currentMap, 2, 5, "any")){
@@ -108,21 +108,35 @@ public class EventHandler{
         return hit;
     }
 
-    public void damagePit(int gameState){
-        gp.gameState = gameState;
-        gp.ui.currentDialogue = "You fall into a pit of death\nand despair!";
-        // play damage sound effect
+    public void damagePit(){
+        // play falling sound effect & animation?
+        gp.playSoundEffect(3); // placeholder
         gp.player.health--;
+        gp.player.invincible = true;
 //        eventRect[col][row].eventDone = true; // one time event
-        canTouchEvent = false;
+        canTouchEvent = true;
+
+        // move player outside of pit
+        switch(gp.player.direction){
+            case "up":
+                gp.player.worldY += gp.tileSize;
+                break;
+            case "down":
+                gp.player.worldY -= gp.tileSize;
+                break;
+            case "left", "up-left", "down-left":
+                gp.player.worldX += gp.tileSize;
+                break;
+            case "right", "up-right", "down-right":
+                gp.player.worldX -= gp.tileSize;
+                break;
+        }
     }
 
-    public void healingPool(int gameState){
+    public void healingPool(){
         if(((gp.player.health < gp.player.maxHealth) || (gp.player.mana < gp.player.maxMana)) && (gp.keyHandler.enterPressed || gp.keyHandler.spacePressed)){
             gp.player.attackCanceled = true;
-            gp.gameState = gameState;
-            // play drinking water sound effect
-            gp.ui.currentDialogue = "You drink the pond water.\nYour health is now replenished!";
+
             gp.player.health++;
             gp.player.mana++;
 

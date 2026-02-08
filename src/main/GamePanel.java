@@ -46,7 +46,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // TILE -- in this order so i can set interactive tiles while loading map
     public AssetSetter assetSetter = new AssetSetter(this);
-    public InteractiveTile interactiveTile[][] = new InteractiveTile[maxMap][350];
+    public InteractiveTile interactiveTile[][] = new InteractiveTile[maxMap][500];
     public TileManager tileManager = new TileManager(this);
 
     // SYSTEM

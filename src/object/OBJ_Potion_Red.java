@@ -14,7 +14,7 @@ public class OBJ_Potion_Red extends Entity {
         name = "Red Potion";
         price = 45;
         description = "[" + name + "]\nHeals " + value + " health.";
-        value = 5;
+        value = 3;
 
         down1 = setup("objects/potion_red", gp.tileSize, gp.tileSize);
     }
@@ -22,6 +22,9 @@ public class OBJ_Potion_Red extends Entity {
     public boolean use(Entity entity){
         gp.ui.addMessage("You drank the " + name + "!");
         entity.health += value;
+        if(entity.health > entity.maxHealth){
+            entity.health = entity.maxHealth;
+        }
 
         gp.playSoundEffect(2); // power up sound effect PLACEHOLDER
         return true;

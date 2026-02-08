@@ -66,7 +66,7 @@ public class AssetSetter {
         i++;
 
         // door to house
-        gp.obj[currentMap][i] = new OBJ_Door(gp, 1, 12, 13);
+        gp.obj[currentMap][i] = new OBJ_Door(gp, 1, 12, 12);
         gp.obj[currentMap][i].worldX = gp.tileSize * 2;
         gp.obj[currentMap][i].worldY = gp.tileSize * 4;
         i++;
@@ -123,16 +123,19 @@ public class AssetSetter {
 //        i++;
     }
 
+    // manually set interactive tiles, I don't want to do it this way
     public void setInteractiveTile(){
-        int i = 0;
         int currentMap = 0;
+        int i = gp.interactiveTile[currentMap].length - 1;
 
         gp.interactiveTile[currentMap][i] = new IT_Tree(gp, 16, 8);
-        i++;
+        i--;
+
         gp.interactiveTile[currentMap][i] = new IT_Tree(gp, 17, 8);
-        i++;
+        i--;
+
         gp.interactiveTile[currentMap][i] = new IT_Tree(gp, 18, 8);
-        i++;
+        i--;
     }
 
     public void setInteractiveTile(int index, String type, int map, int col, int row){

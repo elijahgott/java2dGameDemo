@@ -15,7 +15,7 @@ public class IT_Trunk extends InteractiveTile{
         this.worldX = gp.tileSize * col;
         this.worldY = gp.tileSize * row;
 
-        health = 2;
+        health = 3;
         down1 = setup("tiles_interactive/trunk");
         destructible = true;
 
