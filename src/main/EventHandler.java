@@ -62,16 +62,17 @@ public class EventHandler{
             else if(hit(currentMap, 7, 4, "right")){ // needs right key to be actively pressed to work
                 healingPool(gp.dialogueState);
             }
-            // teleport into house
-            else if(hit(currentMap, 2, 5, "any")){
-                teleport(1, 12, 13);
-            }
+//            // teleport into house
+//            else if(hit(currentMap, 2, 5, "any")){
+//                teleport(1, 12, 13);
+//            }
             // teleport out of house
             else if(hit(1, 12, 13, "any")){
                 teleport(0, 2, 5);
             }
 
             currentMap++; // interior map
+            // talk to goblin guy in house
             if(hit(currentMap, 12, 9, "up")){
                 speak(gp.npc[1][0]);
             }

@@ -60,7 +60,7 @@ public class OBJ_Rock extends Projectile {
         return maxHealth;
     }
 
-    public void use(Entity entity){
+    public boolean use(Entity entity){
         gp.playSoundEffect(1); // coin sound effect
         if(value == 1){
             gp.ui.addMessage("+1 Rock");
@@ -69,6 +69,7 @@ public class OBJ_Rock extends Projectile {
             gp.ui.addMessage("+" + value + " Rocks");
         }
         gp.player.ammo += value;
+        return true;
     }
 
     public void getImage(){

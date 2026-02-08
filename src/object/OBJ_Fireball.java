@@ -13,7 +13,7 @@ public class OBJ_Fireball extends Projectile {
         this.gp = gp;
 
         name = "Fireball";
-        speed = 5;
+        speed = 2;
         maxHealth = 80;
         health = maxHealth;
         attack = 2;

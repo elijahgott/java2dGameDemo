@@ -10,12 +10,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import main.UtilityTool;
+import tile_interactive.IT_Tree;
 
 public class TileManager {
     GamePanel gp;
     public Tile[] tile;
     public int mapTileNum[][][];
-    boolean drawPath = true;
 
     UtilityTool utilityTool;
 
@@ -117,8 +117,8 @@ public class TileManager {
         setup(i, "water/water_inside_bottomRight", true); i++; // 70
 
         // tree tiles
-        setup(i, "trees/tree_01", true); i++; // 71
-        setup(i, "trees/tree_02", true); i++; // 72
+        setup(i, "grass/grass_00", false); i++; // 71 -- grass under tree
+        setup(i, "grass/grass_00", false); i++; // 72
 
         // stone brick wall tiles
         setup(i, "walls/wall_middle", false); i++; // 73
@@ -153,6 +153,7 @@ public class TileManager {
 
             int col = 0;
             int row = 0;
+            int IT_index = 0;
 
             while((col < gp.maxWorldCol) && (row < gp.maxWorldRow)){
                 String line = br.readLine();
@@ -161,6 +162,13 @@ public class TileManager {
                     String[] numbers = line.split(" ");
 
                     int num = Integer.parseInt(numbers[col]);
+
+                    // place interactable trees instead of tree tiles
+                    if((num == 71 || num == 72) && (IT_index < gp.interactiveTile[mapIndex].length)){
+                        gp.assetSetter.setInteractiveTile(IT_index, "IT_tree", mapIndex, col, row);
+                        IT_index++;
+                    }
+                    System.out.println("Col " + col + ", Row " + row + " TileNum " + num);
 
                     mapTileNum[mapIndex][col][row] = num;
                     col++;
@@ -220,7 +228,7 @@ public class TileManager {
             }
         }
 
-        if(drawPath){
+        if(gp.debug){
             g2.setColor(new Color(255, 255, 255, 100));
             for(int i = 0; i < gp.pathFinder.pathList.size(); i++){
                 int worldX = gp.pathFinder.pathList.get(i).col * gp.tileSize;

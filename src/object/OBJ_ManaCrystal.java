@@ -20,8 +20,9 @@ public class OBJ_ManaCrystal extends Entity {
         image2 = setup("objects/manacrystal_blank");
     }
 
-    public void use(Entity entity){
+    public boolean use(Entity entity){
         gp.playSoundEffect(1); // coin sound effect
         gp.player.mana += value;
+        return true;
     }
 }

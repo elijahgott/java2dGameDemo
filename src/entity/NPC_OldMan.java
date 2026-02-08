@@ -12,7 +12,7 @@ public class NPC_OldMan extends Entity {
 
         type = type_npc;
         direction = "down";
-        speed = 2;
+        speed = 1;
         solidArea = new Rectangle(2, 2, 44, 44); // not used because default entity solid area is used
 
         getImage();

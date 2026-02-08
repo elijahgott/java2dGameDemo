@@ -79,6 +79,7 @@ public class Entity {
     public int useCost;
     public int price;
     public int knockBackPower = 0;
+    public boolean opened = false;
 
     // TYPE
     public int type; // 0 = player, 1 = npc, 2 = monster, ...
@@ -90,12 +91,13 @@ public class Entity {
     public final int type_shield = 5;
     public final int type_consumable = 6;
     public final int type_pickupOnly = 7;
+    public final int type_obstacle = 8;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
     }
 
-    public void use(Entity entity){}
+    public boolean use(Entity entity){return false;}
 
     public void setAction(){}
 
@@ -124,6 +126,49 @@ public class Entity {
                 direction = "left";
                 break;
         }
+    }
+
+    public void interact(){
+
+    }
+
+    public int getDetected(Entity user, Entity target[][], String targetName){
+        int index = 999;
+
+        // CHECK SURROUNDING OBJECT
+        int nextWorldX = user.getLeftX();
+        int nextWorldY = user.getTopY();
+
+        switch(user.direction){
+            case "up":
+                nextWorldY = user.getTopY() - user.speed;
+                break;
+            case "down":
+                nextWorldY = user.getBottomY() + user.speed;
+                break;
+            case "left":
+                nextWorldX = user.getLeftX() - user.speed;
+                break;
+            case "right":
+                nextWorldX = user.getRightX() + user.speed;
+                break;
+        }
+
+        int col = nextWorldX / gp.tileSize;
+        int row = nextWorldY / gp.tileSize;
+
+        for(int i = 0; i < target[gp.currentMap].length; i++){
+            if(target[gp.currentMap][i] != null){
+                if((target[gp.currentMap][i].getCol() == col) &&
+                        (target[gp.currentMap][i].getRow() == row) &&
+                        (target[gp.currentMap][i].name.equals(targetName))){
+                    index = i;
+                    break;
+                }
+            }
+        }
+
+        return index;
     }
 
     public void dyingAnimation(Graphics2D g2){
@@ -198,7 +243,6 @@ public class Entity {
 
     public void update(){
         if(knockedBack){
-            System.out.println(speed);
             checkCollision();
 
             if(collisionOn){
@@ -503,6 +547,31 @@ public class Entity {
             }
         }
     }
+
+    // getter functions
+    public int getLeftX(){
+        return worldX + solidArea.x;
+    }
+
+    public int getRightX(){
+        return worldX + solidArea.x + solidArea.width;
+    }
+
+    public int getTopY(){
+        return worldY + solidArea.y;
+    }
+    public int getBottomY(){
+        return worldY + solidArea.y + solidArea.height;
+    }
+
+    public int getCol(){
+        return (worldX + solidArea.x) / gp.tileSize;
+    }
+
+    public int getRow(){
+        return (worldY + solidArea.y) / gp.tileSize;
+    }
+
 
     // setup with custom scale for width and height
     public BufferedImage setup(String imagePath, int width, int height){

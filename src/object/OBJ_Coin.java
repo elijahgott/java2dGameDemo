@@ -16,7 +16,7 @@ public class OBJ_Coin extends Entity {
         down1 = setup("objects/coin");
     }
 
-    public void use(Entity entity){
+    public boolean use(Entity entity){
         gp.playSoundEffect(1); // coin sound effect
         if(value == 1){
             gp.ui.addMessage("+1 Coin");
@@ -25,5 +25,6 @@ public class OBJ_Coin extends Entity {
             gp.ui.addMessage("+" + value + " Coins");
         }
         gp.player.coin += value;
+        return true;
     }
 }

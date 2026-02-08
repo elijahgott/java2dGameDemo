@@ -384,6 +384,13 @@ public class Player extends Entity{
                 gp.obj[gp.currentMap][index].use(this);
                 gp.obj[gp.currentMap][index] = null;
             }
+            // OBSTACLES
+            else if(gp.obj[gp.currentMap][index].type == type_obstacle){
+                if(keyHandler.enterPressed){
+                    attackCanceled = true;
+                    gp.obj[gp.currentMap][index].interact();
+                }
+            }
             else{
                 // INVENTORY ITEMS
                 String text;
@@ -472,7 +479,9 @@ public class Player extends Entity{
     }
 
     public void damageInteractiveTile(int index){
-        if(index != 999 && gp.interactiveTile[gp.currentMap][index].destructible && gp.interactiveTile[gp.currentMap][index].isCorrectItem(this) && !gp.interactiveTile[gp.currentMap][index].invincible){
+        if(index != 999 && gp.interactiveTile[gp.currentMap][index].destructible &&
+                gp.interactiveTile[gp.currentMap][index].isCorrectItem(this) &&
+                !gp.interactiveTile[gp.currentMap][index].invincible){
             gp.interactiveTile[gp.currentMap][index].playSoundEffect();
             gp.interactiveTile[gp.currentMap][index].health--;
             gp.interactiveTile[gp.currentMap][index].invincible = true;
@@ -481,7 +490,11 @@ public class Player extends Entity{
 
             // replace interactive tile with destroyed form
             if(gp.interactiveTile[gp.currentMap][index].health <= 0){
+                attackCanceled = true;
                 gp.interactiveTile[gp.currentMap][index] = gp.interactiveTile[gp.currentMap][index].getDestroyedForm();
+                if(gp.interactiveTile[gp.currentMap][index] != null){
+                    gp.interactiveTile[gp.currentMap][index].invincible = true;
+                }
             }
         }
     }
@@ -534,8 +547,9 @@ public class Player extends Entity{
 
             // use consumable
             if(selectedItem.type == type_consumable){
-                selectedItem.use(this);
-                inventory.remove(itemIndex);
+                if(selectedItem.use(this)){
+                    inventory.remove(itemIndex);
+                }
             }
         }
     }

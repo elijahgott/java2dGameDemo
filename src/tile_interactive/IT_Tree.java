@@ -18,6 +18,14 @@ public class IT_Tree extends InteractiveTile{
         health = 4;
         down1 = setup("tiles_interactive/drytree");
         destructible = true;
+
+        // collision box
+        solidArea.x = 14;
+        solidArea.y = 32;
+        solidArea.width = 20;
+        solidArea.height = gp.tileSize - solidArea.y;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
     }
 
     public boolean isCorrectItem(Entity entity){
@@ -29,8 +37,7 @@ public class IT_Tree extends InteractiveTile{
     }
 
     public InteractiveTile getDestroyedForm(){
-        InteractiveTile tile = new IT_Trunk(gp, worldX / gp.tileSize, worldY / gp.tileSize);
-        return tile;
+        return new IT_Trunk(gp, worldX / gp.tileSize, worldY / gp.tileSize);
     }
 
     // PARTICLES

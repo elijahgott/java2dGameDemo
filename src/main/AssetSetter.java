@@ -65,9 +65,15 @@ public class AssetSetter {
         gp.obj[currentMap][i].worldY = gp.tileSize * 3;
         i++;
 
-        gp.obj[currentMap][i] = new OBJ_Door(gp);
+        // door to house
+        gp.obj[currentMap][i] = new OBJ_Door(gp, 1, 12, 13);
         gp.obj[currentMap][i].worldX = gp.tileSize * 2;
         gp.obj[currentMap][i].worldY = gp.tileSize * 4;
+        i++;
+
+        gp.obj[currentMap][i] = new OBJ_Chest(gp, new OBJ_Key(gp));
+        gp.obj[currentMap][i].worldX = gp.tileSize * 6;
+        gp.obj[currentMap][i].worldY = gp.tileSize * 12;
         i++;
 
         currentMap++; // interior map
@@ -100,21 +106,21 @@ public class AssetSetter {
         gp.monster[currentMap][i].worldX = gp.tileSize * 12;
         gp.monster[currentMap][i].worldY = gp.tileSize * 8;
         i++;
-
-        gp.monster[currentMap][i] = new MON_GreenSlime(gp);
-        gp.monster[currentMap][i].worldX = gp.tileSize * 13;
-        gp.monster[currentMap][i].worldY = gp.tileSize * 10;
-        i++;
-
-        gp.monster[currentMap][i] = new MON_GreenSlime(gp);
-        gp.monster[currentMap][i].worldX = gp.tileSize * 10;
-        gp.monster[currentMap][i].worldY = gp.tileSize * 6;
-        i++;
-
-        gp.monster[currentMap][i] = new MON_GreenSlime(gp);
-        gp.monster[currentMap][i].worldX = gp.tileSize * 6;
-        gp.monster[currentMap][i].worldY = gp.tileSize * 10;
-        i++;
+//
+//        gp.monster[currentMap][i] = new MON_GreenSlime(gp);
+//        gp.monster[currentMap][i].worldX = gp.tileSize * 13;
+//        gp.monster[currentMap][i].worldY = gp.tileSize * 10;
+//        i++;
+//
+//        gp.monster[currentMap][i] = new MON_GreenSlime(gp);
+//        gp.monster[currentMap][i].worldX = gp.tileSize * 10;
+//        gp.monster[currentMap][i].worldY = gp.tileSize * 6;
+//        i++;
+//
+//        gp.monster[currentMap][i] = new MON_GreenSlime(gp);
+//        gp.monster[currentMap][i].worldX = gp.tileSize * 6;
+//        gp.monster[currentMap][i].worldY = gp.tileSize * 10;
+//        i++;
     }
 
     public void setInteractiveTile(){
@@ -127,5 +133,23 @@ public class AssetSetter {
         i++;
         gp.interactiveTile[currentMap][i] = new IT_Tree(gp, 18, 8);
         i++;
+    }
+
+    public void setInteractiveTile(int index, String type, int map, int col, int row){
+            if(gp.interactiveTile[map][index] == null){ // can set interactive tile
+                switch (type){
+                    case "IT_tree":
+                        gp.interactiveTile[map][index] = new IT_Tree(gp, col, row);
+                        break;
+                    case "IT_wall":
+                        // placeholder for other types of interactable tiles i want to put on a tile map
+                        break;
+                    default:
+                        System.out.println("ERROR: Unknown interactive tile type: " + type);
+                }
+            }
+            else{
+
+            }
     }
 }

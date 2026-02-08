@@ -44,13 +44,18 @@ public class GamePanel extends JPanel implements Runnable{
 
     final int FPS = 60;
 
-    // SYSTEM
+    // TILE -- in this order so i can set interactive tiles while loading map
+    public AssetSetter assetSetter = new AssetSetter(this);
+    public InteractiveTile interactiveTile[][] = new InteractiveTile[maxMap][350];
     public TileManager tileManager = new TileManager(this);
+
+    // SYSTEM
+//    public TileManager tileManager = new TileManager(this);
     public KeyHandler keyHandler = new KeyHandler(this);
     Sound music = new Sound();
     Sound soundEffect = new Sound();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
-    public AssetSetter assetSetter = new AssetSetter(this);
+//    public AssetSetter assetSetter = new AssetSetter(this);
     public UI ui = new UI(this);
     public EventHandler eventHandler = new EventHandler(this);
     public PathFinder pathFinder = new PathFinder(this);
@@ -61,7 +66,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Entity obj[][] = new Entity[maxMap][50]; // display 50 objects at a time, can replace after objects are picked up
     public Entity npc[][] = new Entity[maxMap][10]; // holds up to 10 NPCs
     public Entity monster[][] = new Entity[maxMap][20]; // holds up to 10 monsters at once
-    public InteractiveTile interactiveTile[][] = new InteractiveTile[maxMap][50];
+//    public InteractiveTile interactiveTile[][] = new InteractiveTile[maxMap][100];
 
     // projectiles from players and monsters
     public Entity projectile[][] = new Entity[maxMap][20];
@@ -262,10 +267,17 @@ public class GamePanel extends JPanel implements Runnable{
             // tiles
             tileManager.draw(g2); // before drawing player, so player is drawn on top
 
+//            // interactive tiles
+//            for(int i = 0; i < interactiveTile[currentMap].length; i++){
+//                if(interactiveTile[currentMap][i] != null){
+//                    interactiveTile[currentMap][i].draw(g2);
+//                }
+//            }
+
             // interactive tiles
             for(int i = 0; i < interactiveTile[currentMap].length; i++){
                 if(interactiveTile[currentMap][i] != null){
-                    interactiveTile[currentMap][i].draw(g2);
+                    entityList.add(interactiveTile[currentMap][i]);
                 }
             }
 
