@@ -1,9 +1,7 @@
 package entity;
 
 import main.GamePanel;
-import object.OBJ_Heart;
-import object.OBJ_ManaCrystal;
-import object.OBJ_Shield_Blue;
+import object.*;
 
 public class NPC_Merchant extends Entity {
     public NPC_Merchant(GamePanel gp) {
@@ -35,9 +33,10 @@ public class NPC_Merchant extends Entity {
     }
 
     public void setItems(){
-        inventory.add(new OBJ_Heart(gp));
-        inventory.add(new OBJ_ManaCrystal(gp));
+        inventory.add(new OBJ_Shield_Wood(gp));
         inventory.add(new OBJ_Shield_Blue(gp));
+        inventory.add(new OBJ_Boots(gp));
+        inventory.add(new OBJ_Potion_Red(gp));
     }
 
     public void getImage(){

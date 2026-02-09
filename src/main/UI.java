@@ -422,6 +422,21 @@ public class UI {
                 g2.drawRect(slotX + 4, slotY + 4, slotSize - 10, slotSize - 10);
             }
             g2.drawImage(entity.inventory.get(i).down1, slotX + ((slotSize - gp.tileSize) / 2), slotY + ((slotSize - gp.tileSize) / 2),null);
+
+            // DISPLAY AMOUNT OF ITEMS
+            if((entity == gp.player) && (entity.inventory.get(i).amount > 1)){
+                String text = "" + entity.inventory.get(i).amount;
+                int amountX = getXForRightAlignedText(text, slotX + gp.tileSize);
+                int amountY = slotY + (int)(gp.tileSize * 1.4);
+
+                g2.setFont(dialogueFont.deriveFont(Font.PLAIN, 16F));
+                g2.setColor(Color.BLACK);
+                g2.drawString(text, amountX, amountY);
+
+                g2.setColor(Color.WHITE);
+                g2.drawString(text, amountX - 2, amountY - 2);
+            }
+
             slotX += slotSize;
             // next row of items
             if(i == 6 || i == 13 || i == 20 || i == 27){
@@ -1059,14 +1074,15 @@ public class UI {
                 currentDialogue = "Too poor. Get out.";
                 drawDialogueScreen();
             }
-            else if(gp.player.inventory.size() == gp.player.maxInventorySize){
-                subState = 0;
-                gp.gameState = gp.dialogueState;
-                currentDialogue = "You cannot carry any more items!";
-            }
             else{
-                gp.player.coin -= npc.inventory.get(itemIndex).price;
-                gp.player.inventory.add(npc.inventory.get(itemIndex));
+                if(gp.player.canObtainItem(npc.inventory.get(itemIndex))){
+                    gp.player.coin -= npc.inventory.get(itemIndex).price;
+                }
+                else{
+                    subState = 0;
+                    gp.gameState = gp.dialogueState;
+                    currentDialogue = "You cannot carry any more items!";
+                }
             }
         }
     }
@@ -1124,7 +1140,12 @@ public class UI {
                 currentDialogue = "You do not have any more\nitems to sell!";
             }
             else{
-                gp.player.inventory.remove(gp.player.inventory.get(itemIndex));
+                if(gp.player.inventory.get(itemIndex).amount > 1){
+                    gp.player.inventory.get(itemIndex).amount--;
+                }
+                else{
+                    gp.player.inventory.remove(gp.player.inventory.get(itemIndex));
+                }
                 gp.player.coin += itemValue;
             }
         }

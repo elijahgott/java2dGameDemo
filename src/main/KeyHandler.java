@@ -358,7 +358,6 @@ public class KeyHandler implements KeyListener {
         if(code == KeyEvent.VK_ENTER || code == KeyEvent.VK_SPACE){
             enterPressed = true;
         }
-        System.out.println(gp.ui.subState);
         if(gp.ui.subState == 0){
             int maxCommandNumber = 2;
             if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP){
