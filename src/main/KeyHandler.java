@@ -353,7 +353,12 @@ public class KeyHandler implements KeyListener {
 
     public void tradeState(int code){
         if(code == KeyEvent.VK_ESCAPE){
-            gp.gameState = gp.playState;
+            if(gp.ui.subState ==0){
+                gp.gameState = gp.playState;
+            }
+            else{
+                gp.ui.subState--;
+            }
         }
         if(code == KeyEvent.VK_ENTER || code == KeyEvent.VK_SPACE){
             enterPressed = true;
@@ -390,28 +395,30 @@ public class KeyHandler implements KeyListener {
     }
 
     public void playerInventory(int code){
+        int maxRow = 2; // 3rd row = index 2
+        int maxCol = 6; // 7th col = index 6
         if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP){
             // do not allow row outside of range (5 rows)
             if(gp.ui.playerSlotRow != 0) {
                 gp.ui.playerSlotRow--;
             }
             else{
-                gp.ui.playerSlotRow = 3;
+                gp.ui.playerSlotRow = maxRow;
             }
             gp.playSoundEffect(10);
         }
-        // do not allow col outside of range (9 cols)
+        // do not allow col outside of range (7 cols)
         if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT){
             if(gp.ui.playerSlotCol != 0) {
                 gp.ui.playerSlotCol--;
             }
             else{
-                gp.ui.playerSlotCol = 6;
+                gp.ui.playerSlotCol = maxCol;
             }
             gp.playSoundEffect(10);
         }
         if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){
-            if(gp.ui.playerSlotRow != 3) {
+            if(gp.ui.playerSlotRow != maxRow) {
                 gp.ui.playerSlotRow++;
             }
             else{
@@ -420,7 +427,7 @@ public class KeyHandler implements KeyListener {
             gp.playSoundEffect(10);
         }
         if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT){
-            if(gp.ui.playerSlotCol != 6) {
+            if(gp.ui.playerSlotCol != maxCol) {
                 gp.ui.playerSlotCol++;
             }
             else{

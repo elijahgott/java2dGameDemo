@@ -136,46 +136,6 @@ public class Player extends Entity{
         inventory.add(new OBJ_Key(gp));
     }
 
-    public int searchItemInInventory(String itemName){
-        int index = 999;
-
-        for(int i = 0; i < inventory.size(); i++){
-            if(inventory.get(i).name.equals(itemName)){
-                index = i;
-                break;
-            }
-        }
-
-        return index;
-    }
-
-    public boolean canObtainItem(Entity item){
-        boolean canObtain = false;
-
-        // CHECK IF STACKABLE
-        if(item.stackable){
-            int index = searchItemInInventory(item.name);
-            if(index != 999){ // already have item in inventory
-                inventory.get(index).amount++;
-                canObtain = true;
-            }
-            else{ // new item, need to check for empty inventory space
-                if(inventory.size() != maxInventorySize){
-                    inventory.add(item);
-                    canObtain = true;
-                }
-            }
-        }
-        else{ // NOT STACKABLE
-            if(inventory.size() != maxInventorySize){
-                inventory.add(item);
-                canObtain = true;
-            }
-        }
-
-        return canObtain;
-    }
-
     public void update(){
         if(attacking){
             attack();

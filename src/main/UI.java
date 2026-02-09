@@ -404,12 +404,12 @@ public class UI {
             slotRow = npcSlotRow;
         }
 
-        final int slotSize = width / 9;
+        final int slotSize = width / 8;
 
         drawSubWindow(x, y, width, height);
 
         // SLOT
-        final int slotXStart = x + slotSize;
+        final int slotXStart = x + ((width - slotSize * 7) / 2);
         final int slotYStart = y + 20;
         int slotX = slotXStart;
         int slotY = slotYStart;
@@ -426,8 +426,8 @@ public class UI {
             // DISPLAY AMOUNT OF ITEMS
             if((entity == gp.player) && (entity.inventory.get(i).amount > 1)){
                 String text = "" + entity.inventory.get(i).amount;
-                int amountX = getXForRightAlignedText(text, slotX + gp.tileSize);
-                int amountY = slotY + (int)(gp.tileSize * 1.4);
+                int amountX = getXForRightAlignedText(text, slotX + (int)(slotSize * .7));
+                int amountY = slotY + (int)(slotSize * .9);
 
                 g2.setFont(dialogueFont.deriveFont(Font.PLAIN, 16F));
                 g2.setColor(Color.BLACK);
@@ -1013,8 +1013,8 @@ public class UI {
         // draw player inventory
         int x = gp.tileSize;
         int y = gp.tileSize * 2;
-        int width = gp.tileSize * 7;
-        int height = gp.tileSize * 4;
+        int width = gp.tileSize * 8;
+        int height = gp.tileSize * 6;
         drawInventory(gp.player, false, x, y, width, height);
 
         // draw coin window
@@ -1044,7 +1044,7 @@ public class UI {
         // draw npc inventory
         x = gp.screenWidth - (gp.tileSize + width);
         y = gp.tileSize * 2;
-        height = gp.tileSize * 4;
+        height = gp.tileSize * 6;
         drawInventory(npc, true, x, y, width, height);
 
         // draw price window
@@ -1069,7 +1069,7 @@ public class UI {
         // BUY AN ITEM
         if(gp.keyHandler.enterPressed){
             if(npc.inventory.get(itemIndex).price > gp.player.coin){
-                subState = 0;
+//                subState = 0;
                 gp.gameState = gp.dialogueState;
                 currentDialogue = "Too poor. Get out.";
                 drawDialogueScreen();
@@ -1079,7 +1079,7 @@ public class UI {
                     gp.player.coin -= npc.inventory.get(itemIndex).price;
                 }
                 else{
-                    subState = 0;
+//                    subState = 0;
                     gp.gameState = gp.dialogueState;
                     currentDialogue = "You cannot carry any more items!";
                 }
@@ -1091,8 +1091,8 @@ public class UI {
         // draw player inventory
         int x = gp.tileSize;
         int y = gp.tileSize * 2;
-        int width = gp.tileSize * 7;
-        int height = gp.tileSize * 4;
+        int width = gp.tileSize * 8;
+        int height = gp.tileSize * 6;
         drawInventory(gp.player, true, x, y, width, height);
 
         // draw coin window
@@ -1113,7 +1113,7 @@ public class UI {
         x += (int)(gp.tileSize * 1.5);
         y += gp.tileSize;
         g2.setFont(dialogueFont.deriveFont(Font.PLAIN, 32F));
-        g2.drawString(Integer.toString(gp.player.coin) + "+" + Integer.toString(itemValue), x, y);
+        g2.drawString(gp.player.coin + " + " + itemValue, x, y);
 
         // draw nav hint
         String text = "[ESC] Back";
@@ -1121,32 +1121,47 @@ public class UI {
         y += (int)(gp.tileSize * 1.5);
         g2.setFont(dialogueFont.deriveFont(Font.PLAIN, 20F));
         g2.setColor(Color.black);
-        g2.drawString(text, x, y);
+        g2.drawString(text, x - 8, y);
         g2.setColor(Color.white);
-        g2.drawString(text, x - 2, y - 2);
+        g2.drawString(text, x - 10, y - 2);
+
+        // draw npc inventory
+        x = gp.screenWidth - (gp.tileSize + width);
+        y = gp.tileSize * 2;
+        height = gp.tileSize * 6;
+        drawInventory(npc, false, x, y, width, height);
 
         // SELL AN ITEM
         if(gp.keyHandler.enterPressed){
             if(gp.player.inventory.get(itemIndex) == gp.player.currentWeapon ||
             gp.player.inventory.get(itemIndex) == gp.player.currentShield){
-                subState = 0;
+//                subState = 0;
                 gp.gameState = gp.dialogueState;
                 currentDialogue = "You cannot sell an equipped item!";
                 drawDialogueScreen();
             }
             else if(gp.player.inventory.isEmpty()){
-                subState = 0;
+//                subState = 0;
                 gp.gameState = gp.dialogueState;
                 currentDialogue = "You do not have any more\nitems to sell!";
             }
             else{
+                // add item to npc inventory
+                if(npc.canObtainItem(gp.player.inventory.get(itemIndex))){
+                    gp.player.coin += itemValue;
+                }
+                else{
+                    gp.gameState = gp.dialogueState;
+                    currentDialogue = "I cannot hold any more items!\nSooo stuffed...";
+                }
+
+                // remove item from players inventory
                 if(gp.player.inventory.get(itemIndex).amount > 1){
                     gp.player.inventory.get(itemIndex).amount--;
                 }
                 else{
                     gp.player.inventory.remove(gp.player.inventory.get(itemIndex));
                 }
-                gp.player.coin += itemValue;
             }
         }
     }
