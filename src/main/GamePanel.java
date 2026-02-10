@@ -2,6 +2,7 @@ package main;
 
 import ai.PathFinder;
 import entity.Player;
+import environment.EnvironmentManager;
 import tile.TileManager;
 import entity.Entity;
 import tile_interactive.InteractiveTile;
@@ -59,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable{
     public UI ui = new UI(this);
     public EventHandler eventHandler = new EventHandler(this);
     public PathFinder pathFinder = new PathFinder(this);
+    EnvironmentManager environmentManager = new EnvironmentManager(this);
     Thread gameThread;
 
     // ENTITIES AND OBJECTS
@@ -100,10 +102,14 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void setupGame(){
+        // set all assets
         assetSetter.setInteractiveTile();
         assetSetter.setObject();
         assetSetter.setNPC();
         assetSetter.setMonster();
+
+        environmentManager.setup();
+
         playMusic(0); // BlueBoyAdventure song at index 0
 
         gameState = titleState;
@@ -337,7 +343,10 @@ public class GamePanel extends JPanel implements Runnable{
             // EMPTY ENTITY LIST
             entityList.clear();
 
-            // ui - usually top layer -> rendered last
+            // ENVIRONMENT
+            environmentManager.draw(g2);
+
+            // UI - usually top layer -> rendered last
             ui.draw(g2);
 
             // DEBUG
