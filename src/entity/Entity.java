@@ -403,7 +403,7 @@ public class Entity {
 
         // only draw object if it is just outside or inside the screen
         if((worldX + gp.tileSize > gp.player.worldX - gp.player.screenX) && (worldX - gp.tileSize < gp.player.worldX + gp.player.screenX)
-                && (worldY + gp.tileSize > gp.player.worldY - gp.player.screenY) && (worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)){
+                && (worldY + gp.tileSize > gp.player.worldY - gp.player.screenY) && (worldY - (gp.tileSize * 2) < gp.player.worldY + gp.player.screenY)){
 
             switch(direction){
                 case "up", "up-right", "up-left" :
