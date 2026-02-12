@@ -15,6 +15,7 @@ public class Player extends Entity{
     public final int screenY;
     int standCounter = 0;
     public boolean attackCanceled = false;
+    public boolean lightUpdated = false;
 
     public Player(GamePanel gp, KeyHandler keyHandler) {
         super(gp); // call constructor up Entity class and pass in gp
@@ -544,6 +545,17 @@ public class Player extends Entity{
             if(selectedItem.type == type_shield){
                 currentShield = selectedItem;
                 defense = getDefense(); // update defense for new shield
+            }
+
+            // select new light from inventory
+            if(selectedItem.type == type_light){
+                if(currentLight == selectedItem){
+                    currentLight = null; // toggle lantern off
+                }
+                else{
+                    currentLight = selectedItem;
+                }
+                lightUpdated = true;
             }
 
             // use consumable

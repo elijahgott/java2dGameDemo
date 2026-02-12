@@ -12,7 +12,13 @@ public class Lighting {
     GamePanel gp;
     BufferedImage darknessFilter;
 
-    public Lighting(GamePanel gp, int circleSize) {
+    public Lighting(GamePanel gp) {
+        this.gp = gp;
+
+        setLightSource();
+    }
+
+    public void setLightSource(){
         // Create a buffered image
         darknessFilter = new BufferedImage(gp.screenWidth, gp.screenHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = (Graphics2D)darknessFilter.getGraphics();
@@ -24,19 +30,6 @@ public class Lighting {
         // Create a gradation effect
         Color color[] = new Color[12];
         float fraction[] = new float[12];
-
-        color[0] = new Color(0,0,0,0.1f);
-        color[1] = new Color(0,0,0,0.42f);
-        color[2] = new Color(0,0,0,0.52f);
-        color[3] = new Color(0,0,0,0.61f);
-        color[4] = new Color(0,0,0,0.69f);
-        color[5] = new Color(0,0,0,0.76f);
-        color[6] = new Color(0,0,0,0.82f);
-        color[7] = new Color(0,0,0,0.87f);
-        color[8] = new Color(0,0,0,0.91f);
-        color[9] = new Color(0,0,0,0.94f);
-        color[10] = new Color(0,0,0,0.96f);
-        color[11] = new Color(0,0,0,0.98f);
 
         fraction[0] = 0f;
         fraction[1] = 0.4f;
@@ -51,15 +44,58 @@ public class Lighting {
         fraction[10] = 0.95f;
         fraction[11] = 1f;
 
-        // Create a gradation paint settings
-        RadialGradientPaint gPaint = new RadialGradientPaint(centerX, centerY, ((float)circleSize /2), fraction, color);
+        // check if player has light
+        if(gp.player.currentLight == null){
+            color[0] = new Color(0,0,0,0.5f);
+            color[1] = new Color(0,0,0,0.55f);
+            color[2] = new Color(0,0,0,0.60f);
+            color[3] = new Color(0,0,0,0.65f);
+            color[4] = new Color(0,0,0,0.70f);
+            color[5] = new Color(0,0,0,0.75f);
+            color[6] = new Color(0,0,0,0.80f);
+            color[7] = new Color(0,0,0,0.85f);
+            color[8] = new Color(0,0,0,0.90f);
+            color[9] = new Color(0,0,0,0.95f);
+            color[10] = new Color(0,0,0,0.96f);
+            color[11] = new Color(0,0,0,0.98f);
 
-        // Set the gradient data on g2
-        g2.setPaint(gPaint);
+            // Create a gradation paint settings
+            RadialGradientPaint gPaint = new RadialGradientPaint(centerX, centerY, 50, fraction, color); // player light radius without light source
+
+            // Set the gradient data on g2
+            g2.setPaint(gPaint);
+        }
+        else{
+            color[0] = new Color(0,0,0,0.1f);
+            color[1] = new Color(0,0,0,0.42f);
+            color[2] = new Color(0,0,0,0.52f);
+            color[3] = new Color(0,0,0,0.61f);
+            color[4] = new Color(0,0,0,0.69f);
+            color[5] = new Color(0,0,0,0.76f);
+            color[6] = new Color(0,0,0,0.82f);
+            color[7] = new Color(0,0,0,0.87f);
+            color[8] = new Color(0,0,0,0.91f);
+            color[9] = new Color(0,0,0,0.94f);
+            color[10] = new Color(0,0,0,0.96f);
+            color[11] = new Color(0,0,0,0.98f);
+
+            // Create a gradation paint settings
+            RadialGradientPaint gPaint = new RadialGradientPaint(centerX, centerY, gp.player.currentLight.lightRadius, fraction, color);
+
+            // Set the gradient data on g2
+            g2.setPaint(gPaint);
+        }
 
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
         g2.dispose();
+    }
+
+    public void update(){
+        if(gp.player.lightUpdated){
+            setLightSource();
+            gp.player.lightUpdated = false;
+        }
     }
 
     public void draw(Graphics2D g2){

@@ -417,7 +417,8 @@ public class UI {
         // DRAW INVENTORY ITEMS
         for(int i = 0; i < entity.inventory.size(); i++){
             if(entity.inventory.get(i) == entity.currentWeapon ||
-                    entity.inventory.get(i) == entity.currentShield){
+                    entity.inventory.get(i) == entity.currentShield ||
+                    entity.inventory.get(i) == entity.currentLight){
                 g2.setColor(Color.ORANGE);
                 g2.drawRect(slotX + 4, slotY + 4, slotSize - 10, slotSize - 10);
             }

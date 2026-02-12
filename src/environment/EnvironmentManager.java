@@ -13,11 +13,14 @@ public class EnvironmentManager {
     }
 
     public void setup(){
-        lighting = new Lighting(gp, 250);
+        lighting = new Lighting(gp); // default light around player
+    }
+
+    public void update(){
+        lighting.update();
     }
 
     public void draw(Graphics2D g2){
-
         lighting.draw(g2);
     }
 }

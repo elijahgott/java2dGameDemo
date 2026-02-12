@@ -5,10 +5,10 @@ import main.GamePanel;
 
 import java.awt.*;
 
-public class IT_Tree_Tall extends InteractiveTile {
+public class IT_Tree_Spruce extends InteractiveTile {
     GamePanel gp;
 
-    public IT_Tree_Tall(GamePanel gp, int col, int row){
+    public IT_Tree_Spruce(GamePanel gp, int col, int row){
         super(gp, col, row);
         this.gp = gp;
 
@@ -17,7 +17,7 @@ public class IT_Tree_Tall extends InteractiveTile {
 
         health = 4;
         height = 2;
-        down1 = setup("tiles_interactive/tree_tall", gp.tileSize,  gp.tileSize * 2);
+        down1 = setup("tiles_interactive/tree_spruce", gp.tileSize,  gp.tileSize * 2);
         destructible = true;
 
         // collision box

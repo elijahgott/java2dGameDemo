@@ -5,10 +5,7 @@ import entity.NPC_OldMan;
 import monster.MON_GreenSlime;
 import object.*;
 import tile_interactive.IT_Tree;
-import tile_interactive.IT_Tree_Tall;
-import tile_interactive.InteractiveTile;
-
-import java.security.Key;
+import tile_interactive.IT_Tree_Spruce;
 
 public class AssetSetter {
     GamePanel gp;
@@ -77,6 +74,11 @@ public class AssetSetter {
         gp.obj[currentMap][i].worldY = gp.tileSize * 12;
         i++;
 
+        gp.obj[currentMap][i] = new OBJ_Lantern(gp);
+        gp.obj[currentMap][i].worldX = gp.tileSize * 5;
+        gp.obj[currentMap][i].worldY = gp.tileSize * 12;
+        i++;
+
         currentMap++; // interior map
         i = 0;
     }
@@ -129,13 +131,13 @@ public class AssetSetter {
         int currentMap = 0;
         int i = gp.interactiveTile[currentMap].length - 1;
 
-        gp.interactiveTile[currentMap][i] = new IT_Tree_Tall(gp, 16, 8);
+        gp.interactiveTile[currentMap][i] = new IT_Tree_Spruce(gp, 16, 8);
         i--;
 
-        gp.interactiveTile[currentMap][i] = new IT_Tree_Tall(gp, 17, 8);
+        gp.interactiveTile[currentMap][i] = new IT_Tree_Spruce(gp, 17, 8);
         i--;
 
-        gp.interactiveTile[currentMap][i] = new IT_Tree_Tall(gp, 18, 8);
+        gp.interactiveTile[currentMap][i] = new IT_Tree_Spruce(gp, 18, 8);
         i--;
     }
 
