@@ -3,12 +3,12 @@ package tile_interactive;
 import entity.Entity;
 import main.GamePanel;
 
-import java.awt.Color;
+import java.awt.*;
 
-public class IT_Tree extends InteractiveTile{
+public class IT_Tree_Tall extends InteractiveTile {
     GamePanel gp;
 
-    public IT_Tree(GamePanel gp, int col, int row){
+    public IT_Tree_Tall(GamePanel gp, int col, int row){
         super(gp, col, row);
         this.gp = gp;
 
@@ -17,7 +17,7 @@ public class IT_Tree extends InteractiveTile{
 
         health = 4;
         height = 2;
-        down1 = setup("tiles_interactive/tree", gp.tileSize,  gp.tileSize * 2);
+        down1 = setup("tiles_interactive/tree_tall", gp.tileSize,  gp.tileSize * 2);
         destructible = true;
 
         // collision box
@@ -38,7 +38,7 @@ public class IT_Tree extends InteractiveTile{
     }
 
     public InteractiveTile getDestroyedForm(){
-        return new IT_Trunk(gp, worldX / gp.tileSize, worldY / gp.tileSize);
+        return new IT_Trunk(gp, worldX / gp.tileSize, worldY / gp.tileSize); // place trunk one tile down
     }
 
     // PARTICLES

@@ -13,6 +13,9 @@ import java.util.ArrayList;
 public class Entity {
     GamePanel gp;
 
+    public int width = 1; // default width is 1 tile
+    public int height = 1; // default height is 1 tile
+
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
     public BufferedImage image, image2, image3;
@@ -386,6 +389,10 @@ public class Entity {
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
+        if(height > 1){
+            screenY -= gp.tileSize * (height - 1);
+        }
+
         // only draw object if it is just outside or inside the screen
         if((worldX + gp.tileSize > gp.player.worldX - gp.player.screenX) && (worldX - gp.tileSize < gp.player.worldX + gp.player.screenX)
                 && (worldY + gp.tileSize > gp.player.worldY - gp.player.screenY) && (worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)){
@@ -466,7 +473,12 @@ public class Entity {
 
             if(gp.debug){
                 g2.setColor(new Color(255, 0, 0, 100));
-                g2.fillRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height); // only shows tileSize * tileSize box, need to update to reflect actual solidAreas
+                if(height > 1){
+                    g2.fillRect(screenX + solidArea.x, screenY + solidArea.y + gp.tileSize, solidArea.width, solidArea.height);
+                }
+                else{
+                    g2.fillRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+                }
             }
         }
     }

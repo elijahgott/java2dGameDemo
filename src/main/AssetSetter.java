@@ -5,6 +5,7 @@ import entity.NPC_OldMan;
 import monster.MON_GreenSlime;
 import object.*;
 import tile_interactive.IT_Tree;
+import tile_interactive.IT_Tree_Tall;
 import tile_interactive.InteractiveTile;
 
 import java.security.Key;
@@ -128,13 +129,13 @@ public class AssetSetter {
         int currentMap = 0;
         int i = gp.interactiveTile[currentMap].length - 1;
 
-        gp.interactiveTile[currentMap][i] = new IT_Tree(gp, 16, 8);
+        gp.interactiveTile[currentMap][i] = new IT_Tree_Tall(gp, 16, 8);
         i--;
 
-        gp.interactiveTile[currentMap][i] = new IT_Tree(gp, 17, 8);
+        gp.interactiveTile[currentMap][i] = new IT_Tree_Tall(gp, 17, 8);
         i--;
 
-        gp.interactiveTile[currentMap][i] = new IT_Tree(gp, 18, 8);
+        gp.interactiveTile[currentMap][i] = new IT_Tree_Tall(gp, 18, 8);
         i--;
     }
 

@@ -344,7 +344,7 @@ public class GamePanel extends JPanel implements Runnable{
             entityList.clear();
 
             // ENVIRONMENT
-            environmentManager.draw(g2);
+//            environmentManager.draw(g2);
 
             // UI - usually top layer -> rendered last
             ui.draw(g2);
