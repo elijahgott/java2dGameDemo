@@ -13,8 +13,8 @@ public class OBJ_Door extends Entity{
 
         name = "Door";
         type = type_obstacle;
-        image = setup("objects/door", gp.tileSize, gp.tileSize);
-        image2 = setup("objects/door_open", gp.tileSize, gp.tileSize);
+        image = setup("objects/door");
+        image2 = setup("objects/door_open");
         down1 = image;
 
         collision = true;

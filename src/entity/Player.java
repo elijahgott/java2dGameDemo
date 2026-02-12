@@ -126,6 +126,17 @@ public class Player extends Entity{
         }
     }
 
+    public void getPlayerSleepImage(BufferedImage image){
+        up1 = image;
+        up2 = image;
+        down1 = image;
+        down2 = image;
+        left1 = image;
+        left2 = image;
+        right1 = image;
+        right2 = image;
+    }
+
     public void setItems(){
         // clear inventory when starting
         inventory.clear();

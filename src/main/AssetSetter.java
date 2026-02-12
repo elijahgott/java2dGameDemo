@@ -79,6 +79,11 @@ public class AssetSetter {
         gp.obj[currentMap][i].worldY = gp.tileSize * 12;
         i++;
 
+        gp.obj[currentMap][i] = new OBJ_Tent(gp);
+        gp.obj[currentMap][i].worldX = gp.tileSize * 5;
+        gp.obj[currentMap][i].worldY = gp.tileSize * 14;
+        i++;
+
         currentMap++; // interior map
         i = 0;
     }

@@ -9,13 +9,14 @@ public class Lighting {
     GamePanel gp;
     BufferedImage darknessFilter;
 
-    int dayCounter;
-    float filterAlpha = 0F;
-    final int day = 0;
-    final int dusk = 1;
-    final int night = 2;
-    final int dawn = 3;
-    int dayState = day;
+    public int dayCounter;
+    public float filterAlpha = 0F;
+
+    public final int day = 0;
+    public final int dusk = 1;
+    public final int night = 2;
+    public final int dawn = 3;
+    public int dayState = day;
 //    int dayLength = 60 * 60 * 10; // 10 mins
     int dayLength = 60 * 60 * 1; // 10 mins
 
