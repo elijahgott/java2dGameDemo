@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class UI {
     GamePanel gp;
     Graphics2D g2;
-    Font UIFont, dialogueFont;
+    public Font UIFont, dialogueFont;
     BufferedImage heart_full, heart_half, heart_empty, manaCrystal_full, manaCrystal_empty, coin;
     public boolean messageOn = false;
 //    public String message = "";
