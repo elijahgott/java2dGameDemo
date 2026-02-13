@@ -19,5 +19,8 @@ public class OBJ_Axe_Normal extends Entity {
         // axe has shorter range than sword
         attackArea.width = 28;
         attackArea.height = 28;
+
+        motion1Duration = 20;
+        motion2Duration = 40;
     }
 }

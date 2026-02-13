@@ -2,7 +2,8 @@ package main;
 
 import entity.NPC_Merchant;
 import entity.NPC_OldMan;
-import monster.MON_GreenSlime;
+import entity.monster.MON_Orc;
+import entity.monster.MON_GreenSlime;
 import object.*;
 import tile_interactive.IT_Tree;
 import tile_interactive.IT_Tree_Spruce;
@@ -114,21 +115,11 @@ public class AssetSetter {
         gp.monster[currentMap][i].worldX = gp.tileSize * 12;
         gp.monster[currentMap][i].worldY = gp.tileSize * 8;
         i++;
-//
-//        gp.monster[currentMap][i] = new MON_GreenSlime(gp);
-//        gp.monster[currentMap][i].worldX = gp.tileSize * 13;
-//        gp.monster[currentMap][i].worldY = gp.tileSize * 10;
-//        i++;
-//
-//        gp.monster[currentMap][i] = new MON_GreenSlime(gp);
-//        gp.monster[currentMap][i].worldX = gp.tileSize * 10;
-//        gp.monster[currentMap][i].worldY = gp.tileSize * 6;
-//        i++;
-//
-//        gp.monster[currentMap][i] = new MON_GreenSlime(gp);
-//        gp.monster[currentMap][i].worldX = gp.tileSize * 6;
-//        gp.monster[currentMap][i].worldY = gp.tileSize * 10;
-//        i++;
+
+        gp.monster[currentMap][i] = new MON_Orc(gp);
+        gp.monster[currentMap][i].worldX = gp.tileSize * 5;
+        gp.monster[currentMap][i].worldY = gp.tileSize * 12;
+        i++;
     }
 
     // manually set interactive tiles, I don't want to do it this way

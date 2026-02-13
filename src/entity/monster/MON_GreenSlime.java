@@ -1,8 +1,7 @@
-package monster;
+package entity.monster;
 
 import entity.Entity;
 import main.GamePanel;
-import object.OBJ_Coin;
 import object.OBJ_Heart;
 import object.OBJ_ManaCrystal;
 import object.OBJ_Rock;
@@ -10,7 +9,6 @@ import object.OBJ_Rock;
 import java.util.Random;
 
 public class MON_GreenSlime extends Entity {
-
     GamePanel gp;
     public MON_GreenSlime(GamePanel gp) {
         super(gp);
