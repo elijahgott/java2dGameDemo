@@ -237,7 +237,7 @@ public class Player extends Entity{
                 }
             }
 
-            if((keyHandler.enterPressed || keyHandler.spacePressed) && !attackCanceled){
+            if(keyHandler.spacePressed && !attackCanceled){
                 Random random = new Random();
                 int i = random.nextInt(100) + 1; // random number from 1 - 100
                 // 33% chance to play low, med, and high melee sounds

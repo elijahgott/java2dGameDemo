@@ -51,68 +51,24 @@ public class MON_GreenSlime extends Entity {
         right2 = setup("monster/slime/greenslime_down_2");
     }
 
-    public void update(){
-        super.update(); // Entity class's update
-
-        int xDistance = Math.abs(worldX - gp.player.worldX);
-        int yDistance = Math.abs(worldY - gp.player.worldY);
-        int tileDistance = (xDistance + yDistance) / gp.tileSize;
-
-        if(!onPath && tileDistance < 5){
-            int i = new Random().nextInt(100) + 1;
-            if(i > 25){ // 75% of the time, it gets aggro
-                onPath = true;
-            }
-        }
-        if(onPath && tileDistance > 16){
-            onPath = false;
-        }
-    }
-
     public void setAction() {
-        if(onPath){
+        int tileDistance = getTileDistance(gp.player);
+
+        if(onPath){ // monster is following player
             // follow player
-            int goalCol = (gp.player.worldX + gp.player.solidArea.x) / gp.tileSize;
-            int goalRow = (gp.player.worldY + gp.player.solidArea.y) / gp.tileSize;
+            searchPath(getGoalCol(gp.player), getGoalRow(gp.player), true); // goes to home at spawn
 
-            searchPath(goalCol, goalRow, true); // goes to home at spawn
+            // shoot rocks
+            checkShoot(200, 10);
 
-//            // shoot rocks
-//            int i = new Random().nextInt(100) + 1;
-//            if(i > 98 && !projectile.alive && shotAvailableCounter == 30){
-//                projectile.set(worldX, worldY, direction, true, this);
-////                gp.projectileList.add(projectile);
-//
-//                // CHECK FOR EMPTY SPOT AND FILL
-//                for(int j = 0; j < gp.projectile.length; j++){
-//                    if(gp.projectile[gp.currentMap][j] == null){
-//                        gp.projectile[gp.currentMap][j] = projectile;
-//                        break;
-//                    }
-//                }
-//
-//                shotAvailableCounter = 0;
-//            }
+            // stop following player
+            checkStopChasing(gp.player, 16, 100); // 1% chance
         }
-        else{
-            actionLockCounter++;
+        else{ // check if monster starts chasing player
+            checkStartChasing(gp.player, 8, 100);
 
-            if(actionLockCounter == 120) {
-                Random random = new Random();
-                int i = random.nextInt(100) + 1; // random number from 1 - 100
-
-                if (i <= 25) {
-                    direction = "up";
-                } else if (i <= 50) {
-                    direction = "down";
-                } else if (i <= 75) {
-                    direction = "left";
-                } else {
-                    direction = "right";
-                }
-
-                actionLockCounter = 0;
-            }
+            // change slime direction randomly
+            getRandomDirection();
         }
     }
 
@@ -130,11 +86,11 @@ public class MON_GreenSlime extends Entity {
         if(i < 75){
             dropItem(new OBJ_Rock(gp));
         }
-        // 15% chance of heart
-        else if(i < 90){
+        // 5% chance of heart
+        else if(i < 80){
             dropItem(new OBJ_Heart(gp));
         }
-        // 10% chance of mana
+        // 20% chance of mana
         else{
             dropItem(new OBJ_ManaCrystal(gp));
         }

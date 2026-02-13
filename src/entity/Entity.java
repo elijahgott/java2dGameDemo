@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Entity {
     GamePanel gp;
@@ -528,6 +529,48 @@ public class Entity {
         gp.particleList.add(p4);
     }
 
+    // PATHFINDING
+    public int getXDistance(Entity target){
+        return Math.abs(worldX - target.worldX);
+    }
+
+    public int getYDistance(Entity target){
+        return Math.abs(worldY - target.worldY);
+    }
+
+    public int getTileDistance(Entity target){
+        return ((getXDistance(target) + getYDistance(target)) / gp.tileSize);
+    }
+
+    public int getGoalCol(Entity target){
+        return ((target.worldX + target.solidArea.x) / gp.tileSize);
+    }
+
+    public int getGoalRow(Entity target){
+        return ((target.worldY + target.solidArea.y) / gp.tileSize);
+    }
+
+    public void getRandomDirection(){
+        actionLockCounter++;
+
+        if(actionLockCounter == 120) {
+            Random random = new Random();
+            int i = random.nextInt(100) + 1; // random number from 1 - 100
+
+            if (i <= 25) {
+                direction = "up";
+            } else if (i <= 50) {
+                direction = "down";
+            } else if (i <= 75) {
+                direction = "left";
+            } else {
+                direction = "right";
+            }
+
+            actionLockCounter = 0;
+        }
+    }
+
     public void searchPath(int goalCol, int goalRow, boolean followingPlayer){
         int startCol = (worldX + solidArea.x) / gp.tileSize;
         int startRow = (worldY + solidArea.y) / gp.tileSize;
@@ -610,7 +653,44 @@ public class Entity {
         }
     }
 
-    // getter functions
+    public void checkStartChasing(Entity target, int distance, int rate){
+        if(getTileDistance(target) < distance){
+            int i = new Random().nextInt(rate);
+            if(i == 0){
+                // start chasing player
+                onPath = true;
+            }
+        }
+    }
+
+    public void checkStopChasing(Entity target, int distance, int rate){
+        if(getTileDistance(target) > distance){
+            int i = new Random().nextInt(rate);
+            if(i == 0){
+                // stop chasing player
+                onPath = false;
+            }
+        }
+    }
+
+    public void checkShoot(int rate, int shotInterval){
+        int i = new Random().nextInt(rate);
+        if(i == 0 && !projectile.alive && shotAvailableCounter == shotInterval){
+            projectile.set(worldX, worldY, direction, true, this);
+
+            // CHECK FOR EMPTY SPOT AND FILL
+            for(int j = 0; j < gp.projectile.length; j++){
+                if(gp.projectile[gp.currentMap][j] == null){
+                    gp.projectile[gp.currentMap][j] = projectile;
+                    break;
+                }
+            }
+
+            shotAvailableCounter = 0;
+        }
+    }
+
+    // MISC GETTER FUNCTIONS
     public int getLeftX(){
         return worldX + solidArea.x;
     }
