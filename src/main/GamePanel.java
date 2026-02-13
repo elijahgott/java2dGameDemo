@@ -3,6 +3,7 @@ package main;
 import ai.PathFinder;
 import entity.Player;
 import environment.EnvironmentManager;
+import tile.Map;
 import tile.TileManager;
 import entity.Entity;
 import tile_interactive.InteractiveTile;
@@ -61,6 +62,7 @@ public class GamePanel extends JPanel implements Runnable{
     public EventHandler eventHandler = new EventHandler(this);
     public PathFinder pathFinder = new PathFinder(this);
     EnvironmentManager environmentManager = new EnvironmentManager(this);
+    Map map = new Map(this);
     Thread gameThread;
 
     // ENTITIES AND OBJECTS
@@ -93,6 +95,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int transitionState = 8;
     public final int tradeState = 9;
     public final int sleepState = 10;
+    public final int mapState = 11;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -267,6 +270,10 @@ public class GamePanel extends JPanel implements Runnable{
         if(gameState == titleState){
             ui.draw(g2);
         }
+        // MAP SCREEN
+        else if(gameState == mapState){
+            map.drawFullMapScreen(g2);
+        }
         else{ // NON-TITLE SCREEN
 
             // draw background -- DOESNT WORK
@@ -349,6 +356,9 @@ public class GamePanel extends JPanel implements Runnable{
 
             // ENVIRONMENT
             environmentManager.draw(g2);
+
+            // minimap
+            map.drawMiniMap(g2);
 
             // UI - usually top layer -> rendered last
             ui.draw(g2);

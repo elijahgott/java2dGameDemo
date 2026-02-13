@@ -130,6 +130,9 @@ public class TileManager {
         setup(i, "walls/stone_brick_wall_topLeft", true); i++; // 79
         setup(i, "walls/stone_brick_wall_top", true); i++; // 80
         setup(i, "walls/stone_brick_wall_topRight", true); i++; // 81
+
+        // tree tile for maps
+        setup(i, "trees/tree_01", true); i++; // 82
     }
 
     public void setup(int index, String imageName, boolean collision){
