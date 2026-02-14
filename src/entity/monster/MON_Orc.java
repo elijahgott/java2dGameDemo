@@ -25,6 +25,7 @@ public class MON_Orc extends Entity {
         health = maxHealth;
 
         attack = 8;
+        knockBackPower = 5;
         motion1Duration = 40;
         motion2Duration = 85;
 

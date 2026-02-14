@@ -1191,7 +1191,7 @@ public class UI {
                 counter = 0;
                 gp.environmentManager.lighting.dayState = gp.environmentManager.lighting.day;
                 gp.environmentManager.lighting.dayCounter = 0;
-                gp.player.getPlayerImage();
+                gp.player.getImage();
                 gp.gameState = gp.playState;
             }
         }
