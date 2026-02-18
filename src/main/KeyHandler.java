@@ -124,13 +124,15 @@ public class KeyHandler implements KeyListener {
             if(gp.ui.commandNumber == 0){
                 // NEW GAME
                 gp.gameState = gp.playState;
-//                gp.playMusic(0);
+                gp.playMusic(0); // play song when game loads
 
                 // video #17 shows how to add character class selection in a new game
             }
             else if(gp.ui.commandNumber == 1){
                 // LOAD GAME
-                // add later
+                gp.saveLoad.load();
+                gp.gameState = gp.playState;
+                gp.playMusic(0); // play song when game loads
             }
             else{
                 // QUIT GAME
@@ -357,12 +359,12 @@ public class KeyHandler implements KeyListener {
         if(code == KeyEvent.VK_ENTER){
             if(gp.ui.commandNumber == 0){
                 // retry
-                gp.retry();
+                gp.resetGame(false);
                 gp.playMusic(0);
                 gp.gameState = gp.playState;
             }
             else if(gp.ui.commandNumber == 1){
-                gp.restart();
+                gp.resetGame(true);
                 gp.gameState = gp.titleState;
             }
         }

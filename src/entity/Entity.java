@@ -102,6 +102,7 @@ public class Entity {
     public int knockBackPower = 0;
     public boolean stackable = false;
     public int amount = 1;
+    public Entity loot;
     public boolean opened = false;
 
     // TYPE
@@ -520,8 +521,7 @@ public class Entity {
                     offBalance = true;
                     spriteCounter = -60; // return sprite to motion 1, frozen for longer than usual
                 }
-                // normal guard
-                else{
+                else{ // normal guard
                     damage /= 3;
                     gp.playSoundEffect(15); // blocked sound effect
                     setKnockBack(gp.player, this, knockBackPower / 2);
@@ -584,6 +584,8 @@ public class Entity {
 
         return canObtain;
     }
+
+    public void setLoot(Entity loot){}
 
     public void draw(Graphics2D g2){
         BufferedImage image = null;

@@ -134,16 +134,22 @@ public class EventHandler{
     }
 
     public void healingPool(){
-        if(((gp.player.health < gp.player.maxHealth) || (gp.player.mana < gp.player.maxMana)) && (gp.keyHandler.enterPressed || gp.keyHandler.spacePressed)){
+        if(gp.keyHandler.enterPressed){
             gp.player.attackCanceled = true;
 
-            gp.player.health++;
-            gp.player.mana++;
+            // heal player and restore mana
+            if(((gp.player.health < gp.player.maxHealth) || (gp.player.mana < gp.player.maxMana))){
+                gp.player.health++;
+                gp.player.mana++;
+            }
 
-            if(gp.player.health ==  gp.player.maxHealth){
-                // respawn monsters when at full health
+            if(gp.player.health == gp.player.maxHealth && gp.player.mana == gp.player.maxMana){
+                // respawn monsters when at full health and mana
                 gp.assetSetter.setMonster();
             }
+
+            System.out.println("Saved progress!"); // want to add text to one of the corners saying game has been saved
+            gp.saveLoad.save();
         }
     }
 

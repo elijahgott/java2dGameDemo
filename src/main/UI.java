@@ -879,7 +879,9 @@ public class UI {
             if(gp.keyHandler.enterPressed){
                 // save game ???
                 subState = 0;
+                gp.stopMusic();
                 gp.gameState = gp.titleState;
+                gp.resetGame(true);
             }
         }
 

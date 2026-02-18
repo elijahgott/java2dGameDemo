@@ -32,10 +32,6 @@ public class Player extends Entity{
         attackArea.height = 36;
 
         setDefaultValues();
-        getImage();
-        getAttackImage();
-        getGuardImage();
-        setItems();
     }
 
     public void setDefaultValues(){
@@ -64,10 +60,16 @@ public class Player extends Entity{
         // default loadout
         currentWeapon = new OBJ_Sword_Normal(gp);
         currentShield = new OBJ_Shield_Wood(gp);
-        projectile = new OBJ_Fireball(gp); // uses mana
-//        projectile = new OBJ_Rock(gp); // uses ammo
+        currentLight = null;
+//        projectile = new OBJ_Fireball(gp); // uses mana
+        projectile = new OBJ_Rock(gp); // uses ammo
         attack = getAttack();
         defense = getDefense();
+
+        setItems();
+        getImage();
+        getAttackImage();
+        getGuardImage();
     }
 
     public void setDefaultPositions(){
@@ -77,11 +79,17 @@ public class Player extends Entity{
         direction = "down";
     }
 
-    public void restoreLifeAndMana(){
+    public void restoreStatus(){
         health = maxHealth;
         mana = maxMana;
+        speed = defaultSpeed;
+
         invincible = false;
         transparent = false;
+        attacking = false;
+        guarding = false;
+        knockedBack = false;
+        lightUpdated = true;
     }
 
     public int getAttack(){
@@ -155,8 +163,6 @@ public class Player extends Entity{
         // begin with basic shield and sword
         inventory.add(currentWeapon);
         inventory.add(currentShield);
-
-        inventory.add(new OBJ_Key(gp));
     }
 
     public void update(){
@@ -712,5 +718,35 @@ public class Player extends Entity{
             }
 
         }
+    }
+
+    public int getCurrentWeaponSlot(){
+        int currentWeaponSlot = 0;
+        for(int i = 0; i < inventory.size(); i++){
+            if(inventory.get(i) == currentWeapon){
+                currentWeaponSlot = i;
+            }
+        }
+        return currentWeaponSlot;
+    }
+
+    public int getCurrentShieldSlot(){
+        int currentShieldSlot = 0;
+        for(int i = 0; i < inventory.size(); i++){
+            if(inventory.get(i) == currentShield){
+                currentShieldSlot = i;
+            }
+        }
+        return currentShieldSlot;
+    }
+
+    public int getCurrentLightSlot(){
+        int currentLightSlot = 0;
+        for(int i = 0; i < inventory.size(); i++){
+            if(inventory.get(i) == currentLight){
+                currentLightSlot = i;
+            }
+        }
+        return currentLightSlot;
     }
 }

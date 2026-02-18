@@ -1,6 +1,7 @@
 package main;
 
 import ai.PathFinder;
+import data.SaveLoad;
 import entity.Player;
 import environment.EnvironmentManager;
 import tile.Map;
@@ -63,6 +64,7 @@ public class GamePanel extends JPanel implements Runnable{
     public PathFinder pathFinder = new PathFinder(this);
     EnvironmentManager environmentManager = new EnvironmentManager(this);
     Map map = new Map(this);
+    SaveLoad saveLoad = new SaveLoad(this);
     Thread gameThread;
 
     // ENTITIES AND OBJECTS
@@ -114,8 +116,6 @@ public class GamePanel extends JPanel implements Runnable{
 
         environmentManager.setup();
 
-        playMusic(0); // BlueBoyAdventure song at index 0
-
         gameState = titleState;
 
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
@@ -138,26 +138,22 @@ public class GamePanel extends JPanel implements Runnable{
         screenHeight2 = Main.window.getHeight(); // monitor fullscreen height
     }
 
-    public void retry(){
+    public void resetGame(boolean restart){
         // reset player position and life
         player.setDefaultPositions();
-        player.restoreLifeAndMana();
+        player.restoreStatus();
 
         // reset NPC and monsters
         assetSetter.setNPC();
         assetSetter.setMonster();
-    }
 
-    public void restart(){
-        // reset player inventory and stats
-        player.setDefaultValues();
-        player.setItems();
-
-        // reset all objects and entities
-        assetSetter.setObject();
-        assetSetter.setNPC();
-        assetSetter.setMonster();
-        assetSetter.setInteractiveTile();
+        if(restart){
+            // reset everything else when quitting game
+            player.setDefaultValues();
+            assetSetter.setObject();
+            assetSetter.setInteractiveTile();
+            environmentManager.lighting.resetDay();
+        }
     }
 
     public void startGameThread(){

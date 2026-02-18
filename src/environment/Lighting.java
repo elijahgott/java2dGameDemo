@@ -18,7 +18,7 @@ public class Lighting {
     public final int dawn = 3;
     public int dayState = day;
 //    int dayLength = 60 * 60 * 10; // 10 mins
-    int dayLength = 60 * 60 * 1; // 10 mins
+    int dayLength = 60 * 60 * 1; // 1 min for testing
 
 
     public Lighting(GamePanel gp) {
@@ -100,6 +100,11 @@ public class Lighting {
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
         g2.dispose();
+    }
+
+    public void resetDay(){
+        dayState = day;
+        filterAlpha = 0F;
     }
 
     public void update(){
