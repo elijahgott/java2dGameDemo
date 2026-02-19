@@ -15,6 +15,8 @@ public class NPC_OldMan extends Entity {
         speed = 1;
         solidArea = new Rectangle(2, 2, 44, 44); // not used because default entity solid area is used
 
+        dialogueSet = -1;
+
         getImage();
         setDialogue();
     }
@@ -64,16 +66,35 @@ public class NPC_OldMan extends Entity {
         }
     }
 
-    public void setDialogue(){
-        dialogues[0] = "Crazy? I was crazy once. They\nput me in a room, a room with\nrats. Rats make me crazy.";
-        dialogues[1] = "What.";
-        dialogues[2] = "I am NOT old.";
-        dialogues[3] = "JK I'm lowkey pretty old.";
-        dialogues[4] = "Got any cute sisters?";
+    public void setDialogue() {
+        dialogues[0][0] = "Crazy? I was crazy once. They\nput me in a room, a room with\nrats. Rats make me crazy.";
+        dialogues[0][1] = "What.";
+        dialogues[0][2] = "I am NOT crazy. Anymore...";
+        dialogues[0][3] = "JK I'm lowkey pretty crazy.";
+        dialogues[0][4] = "Got any cute sisters?";
+
+        dialogues[1][0] = "I am 1";
+        dialogues[1][1] = "I am 2";
+        dialogues[1][2] = "I am 3";
+
+        dialogues[2][0] = "LOL you're almost dead!";
     }
 
     public void speak(){
-        super.speak();
+        facePlayer();
+        startDialogue(this, dialogueSet);
+
+        dialogueSet++;
+
+        if(dialogues[dialogueSet][0] == null){
+//            dialogueSet = 0; // loops around back to beginning
+            dialogueSet--; // goes back to the previous one
+        }
+
+        // special text when player at 1 heart or less
+//        if(gp.player.health <= 2){
+//            dialogueSet = 2;
+//        }
 
         // can add character specific stuff
         onPath = true;

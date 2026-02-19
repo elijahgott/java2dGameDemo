@@ -25,14 +25,15 @@ public class Entity {
     public Rectangle attackArea =  new Rectangle(0, 0, 0, 0);
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collision = false;
-    String dialogues[] = new String[20];
+    public String[][] dialogues = new String[20][20];
     public Entity attacker;
 
     // STATE
     public int worldX, worldY;
     public String direction = "down";
     public int spriteNumber = 1;
-    int dialogueIndex = 0;
+    public int dialogueSet = 0;
+    public int dialogueIndex = 0;
     public boolean collisionOn = false;
     public boolean invincible = false;
     public boolean transparent = false;
@@ -139,12 +140,16 @@ public class Entity {
     }
 
     public void speak(){
-        if(dialogues[dialogueIndex] == null){
-            dialogueIndex = 0;
-        }
-        gp.ui.currentDialogue = dialogues[dialogueIndex];
-        dialogueIndex++;
 
+    }
+
+    public void startDialogue(Entity entity, int setNum){
+        gp.gameState = gp.dialogueState;
+        gp.ui.npc = entity;
+        dialogueSet = setNum;
+    }
+
+    public void facePlayer(){
         switch(gp.player.direction){
             case "up":
                 direction = "down";
@@ -271,100 +276,6 @@ public class Entity {
 
         if(this.type == type_monster && contactPlayer){ // type == monster
             damagePlayer(attack);
-        }
-    }
-
-    public void update(){
-        if(knockedBack){
-            checkCollision();
-
-            if(collisionOn){
-                knockBackCounter = 0;
-                knockedBack = false;
-                speed = defaultSpeed;
-            }
-            else{
-                switch(knockBackDirection){
-                    case "up":
-                        worldY -= speed;
-                        break;
-                    case "down":
-                        worldY += speed;
-                        break;
-                    case "left":
-                        worldX -= speed;
-                        break;
-                    case "right":
-                        worldX += speed;
-                        break;
-                }
-            }
-            knockBackCounter++;
-            if(knockBackCounter > 10){
-                knockBackCounter = 0;
-                knockedBack = false;
-                speed = defaultSpeed;
-            }
-        }
-        else if(attacking){
-            attack();
-        }
-        else{
-            setAction();
-            checkCollision();
-
-            if(!collisionOn){
-                switch(direction){
-                    case "up":
-                        worldY -= speed;
-                        break;
-                    case "down":
-                        worldY += speed;
-                        break;
-                    case "left":
-                        worldX -= speed;
-                        break;
-                    case "right":
-                        worldX += speed;
-                        break;
-                }
-            }
-
-            // sprite changer
-            spriteCounter++;
-            if(spriteCounter > 24){ // every 10 frames, sprite alternates
-                if(spriteNumber == 1){
-                    spriteNumber = 2;
-                }
-                else if(spriteNumber == 2){
-                    spriteNumber = 1;
-                }
-                spriteCounter = 0;
-            }
-        }
-
-        // invincibility timer after being hit
-        if(invincible){
-            invincibleTimer++;
-            if(invincibleTimer > 60){
-                invincible = false;
-                invincibleTimer = 0;
-            }
-        }
-
-        // cooldown for shooting projectiles
-        if(shotAvailableCounter < 30){
-            shotAvailableCounter++;
-        }
-
-        // off balance
-        if(offBalance){
-            offBalanceCounter++;
-
-            if(offBalanceCounter > 60){
-                offBalance = false;
-                offBalanceCounter = 0;
-            }
         }
     }
 
@@ -586,6 +497,112 @@ public class Entity {
     }
 
     public void setLoot(Entity loot){}
+
+    public void resetCounters(){
+        spriteCounter = 0;
+        actionLockCounter = 0;
+        invincibleTimer = 0;
+        shotAvailableCounter = 0;
+        dyingCounter = 0;
+        healthBarCounter = 0;
+        knockBackCounter = 0;
+        guardCounter = 0;
+        offBalanceCounter = 0;
+    }
+
+    public void update(){
+        if(knockedBack){
+            checkCollision();
+
+            if(collisionOn){
+                knockBackCounter = 0;
+                knockedBack = false;
+                speed = defaultSpeed;
+            }
+            else{
+                switch(knockBackDirection){
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
+            }
+            knockBackCounter++;
+            if(knockBackCounter > 10){
+                knockBackCounter = 0;
+                knockedBack = false;
+                speed = defaultSpeed;
+            }
+        }
+        else if(attacking){
+            attack();
+        }
+        else{
+            setAction();
+            checkCollision();
+
+            if(!collisionOn){
+                switch(direction){
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
+            }
+
+            // sprite changer
+            spriteCounter++;
+            if(spriteCounter > 24){ // every 10 frames, sprite alternates
+                if(spriteNumber == 1){
+                    spriteNumber = 2;
+                }
+                else if(spriteNumber == 2){
+                    spriteNumber = 1;
+                }
+                spriteCounter = 0;
+            }
+        }
+
+        // invincibility timer after being hit
+        if(invincible){
+            invincibleTimer++;
+            if(invincibleTimer > 60){
+                invincible = false;
+                invincibleTimer = 0;
+            }
+        }
+
+        // cooldown for shooting projectiles
+        if(shotAvailableCounter < 30){
+            shotAvailableCounter++;
+        }
+
+        // off balance
+        if(offBalance){
+            offBalanceCounter++;
+
+            if(offBalanceCounter > 60){
+                offBalance = false;
+                offBalanceCounter = 0;
+            }
+        }
+    }
 
     public void draw(Graphics2D g2){
         BufferedImage image = null;

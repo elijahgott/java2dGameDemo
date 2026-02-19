@@ -7,6 +7,7 @@ import java.awt.*;
 public class EventHandler{
     GamePanel gp;
     EventRect eventRect[][][];
+    Entity eventMaster;
 
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
@@ -14,6 +15,8 @@ public class EventHandler{
 
     public EventHandler(GamePanel gp){
         this.gp = gp;
+
+        eventMaster = new Entity(gp);
 
         eventRect = new EventRect[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
         int map = 0;
@@ -39,6 +42,15 @@ public class EventHandler{
                 }
             }
         }
+        setDialogue();
+    }
+
+    public void setDialogue(){
+        eventMaster.dialogues[0][0] = "You fall into a pit! Placeholder";
+
+        eventMaster.dialogues[1][0] = "You drink from the pond of...\nhealthy liquid...";
+        eventMaster.dialogues[2][0] = "You drink from the pond of...\nhealthy liquid...\n\nSaved game.";
+
     }
 
     public void checkEvent() {
@@ -110,8 +122,9 @@ public class EventHandler{
 
     public void damagePit(){
         // play falling sound effect & animation?
+        eventMaster.startDialogue(eventMaster, 0);
         gp.playSoundEffect(3); // placeholder
-        gp.player.health--;
+        gp.player.health -= 1;
         gp.player.invincible = true;
 //        eventRect[col][row].eventDone = true; // one time event
         canTouchEvent = true;
@@ -136,6 +149,8 @@ public class EventHandler{
     public void healingPool(){
         if(gp.keyHandler.enterPressed){
             gp.player.attackCanceled = true;
+            // add drinking sound effect?
+            eventMaster.startDialogue(eventMaster, 1);
 
             // heal player and restore mana
             if(((gp.player.health < gp.player.maxHealth) || (gp.player.mana < gp.player.maxMana))){

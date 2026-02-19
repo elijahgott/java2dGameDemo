@@ -17,25 +17,31 @@ public class OBJ_Key extends Entity {
 
         down1 = setup("objects/key", gp.tileSize, gp.tileSize);
 
+        setDialogue();
+
 //        solidArea.x = 8; // set custom solid area
 //        solidArea.y = 8; // set custom solid area
 
     }
 
-    public boolean use(Entity entity){
-        gp.gameState = gp.dialogueState;
+    public void setDialogue(){
+        dialogues[0][0] = "Hell naw";
 
+        dialogues[1][0] = "You used the " + name + "!";
+    }
+
+    public boolean use(Entity entity){
         int objIndex = getDetected(entity, gp.obj, "Door");
 
         if(objIndex != 999){
-            gp.ui.currentDialogue = "You used the " + name + "!";
+            startDialogue(this, 1);
             gp.playSoundEffect(3);
             gp.obj[gp.currentMap][objIndex].opened = true;
             gp.obj[gp.currentMap][objIndex].down1 = gp.obj[gp.currentMap][objIndex].image2;
             return true;
         }
         else{
-            gp.ui.currentDialogue = "Hell naw";
+            startDialogue(this, 0);
             return false;
         }
     }

@@ -31,12 +31,17 @@ public class OBJ_Door extends Entity{
         this.toMap = toMap;
         this.toCol = toCol;
         this.toRow = toRow;
+
+        setDialogue();
+    }
+
+    public void setDialogue(){
+        dialogues[0][0] = "You need a key to open the door.";
     }
 
     public void interact(){
         if(!opened){
-            gp.gameState = gp.dialogueState;
-            gp.ui.currentDialogue = "You need a key to open the door.";
+            startDialogue(this, 0);
         }
         else{
             gp.eventHandler.teleport(toMap, toCol, toRow);

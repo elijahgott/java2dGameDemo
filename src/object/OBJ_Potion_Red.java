@@ -16,11 +16,17 @@ public class OBJ_Potion_Red extends Entity {
         description = "[" + name + "]\nHeals " + value + " health.";
         value = 3;
 
+        setDialogue();
+
         down1 = setup("objects/potion_red", gp.tileSize, gp.tileSize);
     }
 
+    public void setDialogue(){
+        dialogues[0][0] = "You drank the " + name + "!";
+    }
+
     public boolean use(Entity entity){
-        gp.ui.addMessage("You drank the " + name + "!");
+        startDialogue(this, 0);
         entity.health += value;
         if(entity.health > entity.maxHealth){
             entity.health = entity.maxHealth;

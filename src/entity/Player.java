@@ -70,6 +70,7 @@ public class Player extends Entity{
         getImage();
         getAttackImage();
         getGuardImage();
+        setDialogue();
     }
 
     public void setDefaultPositions(){
@@ -163,6 +164,10 @@ public class Player extends Entity{
         // begin with basic shield and sword
         inventory.add(currentWeapon);
         inventory.add(currentShield);
+    }
+
+    public void setDialogue(){
+        dialogues[0][0] = "Placeholder! Leveled up!!";
     }
 
     public void update(){
@@ -438,7 +443,6 @@ public class Player extends Entity{
         if(gp.keyHandler.enterPressed || gp.keyHandler.spacePressed){
             if(index != 999){
                 attackCanceled = true;
-                gp.gameState = gp.dialogueState;
                 gp.npc[gp.currentMap][index].speak();
             }
         }
@@ -551,6 +555,8 @@ public class Player extends Entity{
 //            gp.ui.currentDialogue = "Level Up!";
             gp.ui.addMessage("Level up!");
             gp.ui.addMessage("Current level: " + level);
+
+//            startDialogue(this, 0); // displays dialogue text when leveling up
 
         }
     }

@@ -18,12 +18,17 @@ public class NPC_Merchant extends Entity {
     }
 
     public void setDialogue(){
-        dialogues[0] = "Wanna trade? ;P";
+        dialogues[0][0] = "Wanna trade? ;P";
+        dialogues[1][0] = "Okayy...\nByeeee!!! <3";
+        dialogues[2][0] = "Too poor. Get out.";
+        dialogues[3][0] = "You're too weak to carry any\nmore items!";
+        dialogues[4][0] = "You cannot sell an equipped item!";
+        dialogues[5][0] = "You do not have any more\nitems to sell!";
+        dialogues[6][0] = "You're too big!\nI cannot hold any more items!\nSooo stuffed...";
     }
 
     public void speak(){
-        super.speak();
-
+        facePlayer();
         // can add character specific stuff
         // merchant specific
         gp.gameState = gp.tradeState;
