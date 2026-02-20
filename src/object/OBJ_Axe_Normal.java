@@ -4,11 +4,14 @@ import entity.Entity;
 import main.GamePanel;
 
 public class OBJ_Axe_Normal extends Entity {
+
+    public static final String objName = "Woodcutter's Axe";
+
     public OBJ_Axe_Normal(GamePanel gp){
         super(gp);
 
         type = type_axe;
-        name = "Woodcutter's Axe";
+        name = objName;
         price = 50;
         description = "[" + name + "]\nOld and heavy axe.";
 

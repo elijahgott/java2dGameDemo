@@ -7,11 +7,13 @@ public class OBJ_Door extends Entity{
     GamePanel gp;
     int toMap, toCol, toRow;
 
+    public static final String objName = "Door";
+
     public OBJ_Door(GamePanel gp, int toMap, int toCol, int toRow) {
         super(gp);
         this.gp = gp;
 
-        name = "Door";
+        name = objName;
         type = type_obstacle;
         image = setup("objects/door");
         image2 = setup("objects/door_open");

@@ -13,23 +13,6 @@ public class SaveLoad {
         this.gp = gp;
     }
 
-    public Entity getObject(String itemName){
-        Entity obj = null;
-
-        switch(itemName){
-            case "Normal Sword": obj = new OBJ_Sword_Normal(gp); break;
-            case "Wooden Shield": obj = new OBJ_Shield_Wood(gp); break;
-            case "Woodcutter's Axe": obj = new OBJ_Axe_Normal(gp); break;
-            case "Blue Shield": obj = new OBJ_Shield_Blue(gp); break;
-            case "Lantern": obj = new OBJ_Lantern(gp); break;
-            case "Tent": obj = new OBJ_Tent(gp); break;
-            case "Key": obj = new OBJ_Key(gp); break;
-            // didn't add all objects because i think this gets changed in future video
-        }
-
-        return obj;
-    }
-
     public void save(){
 
         try{
@@ -82,6 +65,11 @@ public class SaveLoad {
                             ds.mapObjectLootNames[mapNum][i] = gp.obj[mapNum][i].loot.name;
                             ds.mapObjectOpened[mapNum][i] = gp.obj[mapNum][i].opened;
                         }
+
+                        // if obj is a door
+                        if(gp.obj[mapNum][i].name.equals("Door")){
+                            ds.mapObjectOpened[mapNum][i] = gp.obj[mapNum][i].opened;
+                        }
                     }
                 }
             }
@@ -118,7 +106,7 @@ public class SaveLoad {
             gp.player.inventory.clear();
 
             for(int i = 0; i < ds.itemNames.size(); i++){
-                gp.player.inventory.add(getObject(ds.itemNames.get(i)));
+                gp.player.inventory.add(gp.entityGenerator.getObject(ds.itemNames.get(i)));
                 gp.player.inventory.get(i).amount = ds.itemAmounts.get(i);
             }
 
@@ -144,7 +132,7 @@ public class SaveLoad {
 
                         // if object has loot
                         if(ds.mapObjectLootNames[mapNum][i] != null){
-                            gp.obj[mapNum][i].loot = getObject(ds.mapObjectLootNames[mapNum][i]);
+                            gp.obj[mapNum][i].loot = gp.entityGenerator.getObject(ds.mapObjectLootNames[mapNum][i]);
                         }
                         gp.obj[mapNum][i].opened = ds.mapObjectOpened[mapNum][i];
                         if(gp.obj[mapNum][i].opened){

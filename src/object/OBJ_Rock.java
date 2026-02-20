@@ -8,11 +8,14 @@ import java.awt.*;
 
 public class OBJ_Rock extends Projectile {
     GamePanel gp;
+
+    public static final String objName = "Rock";
+
     public OBJ_Rock(GamePanel gp) {
         super(gp);
         this.gp = gp;
 
-        name = "Rock";
+        name = objName;
         type = type_pickupOnly;
         speed = 8;
         maxHealth = 80;

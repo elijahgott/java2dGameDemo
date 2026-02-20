@@ -6,11 +6,13 @@ import main.GamePanel;
 public class OBJ_ManaCrystal extends Entity {
     GamePanel gp;
 
+    public static final String objName = "Mana Crystal";
+
     public OBJ_ManaCrystal(GamePanel gp) {
         super(gp);
         this.gp = gp;
 
-        name = "Mana Crystal";
+        name = objName;
         price = 25;
         type = type_pickupOnly;
         value = 1;

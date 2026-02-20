@@ -4,11 +4,14 @@ import entity.Entity;
 import main.GamePanel;
 
 public class OBJ_Sword_Normal extends Entity {
+
+    public static final String objName = "Normal Sword";
+
     public OBJ_Sword_Normal(GamePanel gp) {
         super(gp);
 
         type = type_sword;
-        name="Normal Sword";
+        name = objName;
         price = 10;
         description = "[" + name + "]" + "\nThis sword is old and dull.";
 

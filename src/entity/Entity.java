@@ -472,23 +472,25 @@ public class Entity {
     public boolean canObtainItem(Entity item){
         boolean canObtain = false;
 
+        Entity newItem = gp.entityGenerator.getObject(item.name);
+
         // CHECK IF STACKABLE
         if(item.stackable){
-            int index = searchItemInInventory(item.name);
+            int index = searchItemInInventory(newItem.name);
             if(index != 999){ // already have item in inventory
                 inventory.get(index).amount++;
                 canObtain = true;
             }
             else{ // new item, need to check for empty inventory space
                 if(inventory.size() != maxInventorySize){
-                    inventory.add(item);
+                    inventory.add(newItem);
                     canObtain = true;
                 }
             }
         }
         else{ // NOT STACKABLE
             if(inventory.size() != maxInventorySize){
-                inventory.add(item);
+                inventory.add(newItem);
                 canObtain = true;
             }
         }

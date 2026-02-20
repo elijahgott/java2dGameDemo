@@ -6,12 +6,14 @@ import main.GamePanel;
 public class OBJ_Tent extends Entity {
     GamePanel gp;
 
+    public static final String objName = "Tent";
+
     public OBJ_Tent(GamePanel gp) {
         super(gp);
         this.gp = gp;
 
         type = type_consumable;
-        name = "Tent";
+        name = objName;
         description = "[" + name + "]\nSleep inside until\nnext morning.";
         price = 200;
         stackable = true;

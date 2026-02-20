@@ -551,13 +551,8 @@ public class Player extends Entity{
             defense = getDefense();
 
             gp.playSoundEffect(1); // coin sound effect <- PLACEHOLDER
-//            gp.gameState = gp.dialogueState;
-//            gp.ui.currentDialogue = "Level Up!";
             gp.ui.addMessage("Level up!");
             gp.ui.addMessage("Current level: " + level);
-
-//            startDialogue(this, 0); // displays dialogue text when leveling up
-
         }
     }
 
