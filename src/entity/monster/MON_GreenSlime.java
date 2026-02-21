@@ -39,8 +39,8 @@ public class MON_GreenSlime extends Entity {
     }
 
     public void getImage() {
-        up1 = setup("monster/slime/greenslime_down_1");
-        up2 = setup("monster/slime/greenslime_down_2");
+        up1 = setup("monster/slime/greenslime_up_1");
+        up2 = setup("monster/slime/greenslime_up_2");
         down1 = setup("monster/slime/greenslime_down_1");
         down2 = setup("monster/slime/greenslime_down_2");
         left1 = setup("monster/slime/greenslime_down_1");
