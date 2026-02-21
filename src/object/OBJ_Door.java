@@ -46,7 +46,7 @@ public class OBJ_Door extends Entity{
             startDialogue(this, 0);
         }
         else{
-            gp.eventHandler.teleport(toMap, toCol, toRow);
+            gp.eventHandler.teleport(toMap, toCol, toRow, gp.inside);
         }
     }
 }

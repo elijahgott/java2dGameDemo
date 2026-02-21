@@ -74,19 +74,26 @@ public class EventHandler{
             else if(hit(currentMap, 7, 4, "right")){ // needs right key to be actively pressed to work
                 healingPool();
             }
-//            // teleport into house
-//            else if(hit(currentMap, 2, 5, "any")){
-//                teleport(1, 12, 13);
-//            }
+            // teleport into house handled by door
             // teleport out of house
             else if(hit(1, 12, 13, "any")){
-                teleport(0, 2, 5);
+                teleport(0, 2, 5, gp.outside);
             }
 
             currentMap++; // interior map
             // talk to goblin guy in house
             if(hit(currentMap, 12, 9, "up")){
                 speak(gp.npc[1][0]);
+            }
+            // stairs to get into dungeon
+            else if(hit(currentMap, 10, 12, "any")){
+                teleport(2, 16, 40, gp.dungeon);
+            }
+
+            currentMap++; // dungeon 1 map
+            // stairs to leave dungeon
+            if(hit(currentMap, 15, 40, "left")){
+                teleport(1, 11, 12, gp.inside);
             }
         }
     }
@@ -168,8 +175,9 @@ public class EventHandler{
         }
     }
 
-    public void teleport(int map, int col, int row){
+    public void teleport(int map, int col, int row, int area){
         gp.gameState = gp.transitionState;
+        gp.nextArea = area;
 
         tempMap = map;
         tempCol = col;

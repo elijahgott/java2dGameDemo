@@ -17,24 +17,26 @@ public class Sound {
     public Sound(){
         int i = 0;
 
-        soundURL[i] = getClass().getResource("/sound/BlueBoyAdventure.wav"); i++; // 0
-        soundURL[i] = getClass().getResource("/sound/coin.wav"); i++; // 1
-        soundURL[i] = getClass().getResource("/sound/powerup.wav"); i++; // 2
-        soundURL[i] = getClass().getResource("/sound/unlock.wav"); i++; // 3
-        soundURL[i] = getClass().getResource("/sound/fanfare.wav"); i++; // 4
-        soundURL[i] = getClass().getResource("/sound/hitmonster.wav"); i++; // 5
-        soundURL[i] = getClass().getResource("/sound/receivedamage.wav"); i++; // 6
-        soundURL[i] = getClass().getResource("/sound/melee_low.wav"); i++; // 7
-        soundURL[i] = getClass().getResource("/sound/melee_med.wav"); i++; // 8
-        soundURL[i] = getClass().getResource("/sound/melee_high.wav"); i++; // 9
-        soundURL[i] = getClass().getResource("/sound/cursor.wav"); i++; // 10
-        soundURL[i] = getClass().getResource("/sound/burning.wav"); i++; // 11
-        soundURL[i] = getClass().getResource("/sound/cuttree.wav"); i++; // 12
-        soundURL[i] = getClass().getResource("/sound/gameover.wav"); i++; // 13
-        soundURL[i] = getClass().getResource("/sound/sleep.wav"); i++; // 14
-        soundURL[i] = getClass().getResource("/sound/blocked.wav"); i++; // 15
-        soundURL[i] = getClass().getResource("/sound/parry.wav"); i++; // 16
-        soundURL[i] = getClass().getResource("/sound/speak.wav"); i++; // 17
+        soundURL[i] = getClass().getResource("/sound/music/BlueBoyAdventure.wav"); i++; // 0
+        soundURL[i] = getClass().getResource("/sound/soundEffects/coin.wav"); i++; // 1
+        soundURL[i] = getClass().getResource("/sound/soundEffects/powerup.wav"); i++; // 2
+        soundURL[i] = getClass().getResource("/sound/soundEffects/unlock.wav"); i++; // 3
+        soundURL[i] = getClass().getResource("/sound/soundEffects/fanfare.wav"); i++; // 4
+        soundURL[i] = getClass().getResource("/sound/soundEffects/hitmonster.wav"); i++; // 5
+        soundURL[i] = getClass().getResource("/sound/soundEffects/receivedamage.wav"); i++; // 6
+        soundURL[i] = getClass().getResource("/sound/soundEffects/melee_low.wav"); i++; // 7
+        soundURL[i] = getClass().getResource("/sound/soundEffects/melee_med.wav"); i++; // 8
+        soundURL[i] = getClass().getResource("/sound/soundEffects/melee_high.wav"); i++; // 9
+        soundURL[i] = getClass().getResource("/sound/soundEffects/cursor.wav"); i++; // 10
+        soundURL[i] = getClass().getResource("/sound/soundEffects/burning.wav"); i++; // 11
+        soundURL[i] = getClass().getResource("/sound/soundEffects/cuttree.wav"); i++; // 12
+        soundURL[i] = getClass().getResource("/sound/soundEffects/gameover.wav"); i++; // 13
+        soundURL[i] = getClass().getResource("/sound/soundEffects/sleep.wav"); i++; // 14
+        soundURL[i] = getClass().getResource("/sound/soundEffects/blocked.wav"); i++; // 15
+        soundURL[i] = getClass().getResource("/sound/soundEffects/parry.wav"); i++; // 16
+        soundURL[i] = getClass().getResource("/sound/soundEffects/speak.wav"); i++; // 17
+        soundURL[i] = getClass().getResource("/sound/music/Merchant.wav"); i++; // 18
+        soundURL[i] = getClass().getResource("/sound/music/Dungeon.wav"); i++; // 19
     }
 
     public void setFile(int index){

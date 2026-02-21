@@ -28,6 +28,11 @@ public class TileManager {
         getTileImage();
         loadMap("/maps/world01.txt", 0); // main world map, index 0
         loadMap("/maps/interior01.txt", 1); // house interior, index 1
+
+        // dungeons
+        loadMap("/maps/dungeons/dungeon01.txt", 2);
+        loadMap("/maps/dungeons/dungeon02.txt", 3);
+
     }
 
     public void getTileImage(){
@@ -133,6 +138,10 @@ public class TileManager {
 
         // tree tile for maps
         setup(i, "trees/tree_01", true); i++; // 82
+
+        // stairs for dungeons
+        setup(i, "stairs/stairs_up", false); i++; // 83
+        setup(i, "stairs/stairs_down", false); i++; // 84
     }
 
     public void setup(int index, String imageName, boolean collision){
