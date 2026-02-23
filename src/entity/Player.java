@@ -450,11 +450,13 @@ public class Player extends Entity{
     }
 
     public void interactNPC(int index){
-        if(gp.keyHandler.enterPressed || gp.keyHandler.spacePressed){
-            if(index != 999){
+        if(index != 999){
+            if(gp.keyHandler.enterPressed || gp.keyHandler.spacePressed){
                 attackCanceled = true;
                 gp.npc[gp.currentMap][index].speak();
             }
+
+            gp.npc[gp.currentMap][index].move(direction);
         }
 
     }

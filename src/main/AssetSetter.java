@@ -1,10 +1,12 @@
 package main;
 
+import entity.NPC_Big_Rock;
 import entity.NPC_Merchant;
 import entity.NPC_OldMan;
 import entity.monster.MON_Orc;
 import entity.monster.MON_GreenSlime;
 import object.*;
+import tile_interactive.IT_Metal_Plate;
 import tile_interactive.IT_Tree;
 import tile_interactive.IT_Tree_Spruce;
 import tile_interactive.IT_Wall_Destructible;
@@ -98,6 +100,11 @@ public class AssetSetter {
         gp.obj[currentMap][i].worldX = gp.tileSize * 40;
         gp.obj[currentMap][i].worldY = gp.tileSize * 41;
         i++;
+
+        gp.obj[currentMap][i] = new OBJ_Door_Iron(gp);
+        gp.obj[currentMap][i].worldX = gp.tileSize * 18;
+        gp.obj[currentMap][i].worldY = gp.tileSize * 23;
+        i++;
     }
 
     public void setNPC(){
@@ -115,6 +122,25 @@ public class AssetSetter {
         gp.npc[currentMap][i] = new NPC_Merchant(gp);
         gp.npc[currentMap][i].worldX = gp.tileSize * 12;
         gp.npc[currentMap][i].worldY = gp.tileSize * 7;
+        i++;
+
+        currentMap++; // dungeon 1
+        i = 0;
+
+        // big rocks
+        gp.npc[currentMap][i] = new NPC_Big_Rock(gp);
+        gp.npc[currentMap][i].worldX = gp.tileSize * 20;
+        gp.npc[currentMap][i].worldY = gp.tileSize * 25;
+        i++;
+
+        gp.npc[currentMap][i] = new NPC_Big_Rock(gp);
+        gp.npc[currentMap][i].worldX = gp.tileSize * 11;
+        gp.npc[currentMap][i].worldY = gp.tileSize * 18;
+        i++;
+
+        gp.npc[currentMap][i] = new NPC_Big_Rock(gp);
+        gp.npc[currentMap][i].worldX = gp.tileSize * 23;
+        gp.npc[currentMap][i].worldY = gp.tileSize * 14;
         i++;
     }
 
@@ -153,6 +179,7 @@ public class AssetSetter {
         currentMap++; // dungeon 1
         i = 0;
 
+        // walls
         gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 18, 30); i++;
         gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 17, 31); i++;
         gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 17, 32); i++;
@@ -160,6 +187,10 @@ public class AssetSetter {
         gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 18, 34); i++;
         gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 18, 34); i++;
 
+        // metal plates
+        gp.interactiveTile[currentMap][i] = new IT_Metal_Plate(gp, 20, 22); i++;
+        gp.interactiveTile[currentMap][i] = new IT_Metal_Plate(gp, 8, 17); i++;
+        gp.interactiveTile[currentMap][i] = new IT_Metal_Plate(gp, 39, 31); i++;
     }
 
     public void setInteractiveTile(int index, String type, int map, int col, int row){
