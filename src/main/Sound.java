@@ -37,6 +37,8 @@ public class Sound {
         soundURL[i] = getClass().getResource("/sound/soundEffects/speak.wav"); i++; // 17
         soundURL[i] = getClass().getResource("/sound/music/Merchant.wav"); i++; // 18
         soundURL[i] = getClass().getResource("/sound/music/Dungeon.wav"); i++; // 19
+        soundURL[i] = getClass().getResource("/sound/soundEffects/chipwall.wav"); i++; // 20
+        soundURL[i] = getClass().getResource("/sound/soundEffects/dooropen.wav"); i++; // 21
     }
 
     public void setFile(int index){

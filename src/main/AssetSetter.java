@@ -7,6 +7,7 @@ import entity.monster.MON_GreenSlime;
 import object.*;
 import tile_interactive.IT_Tree;
 import tile_interactive.IT_Tree_Spruce;
+import tile_interactive.IT_Wall_Destructible;
 
 public class AssetSetter {
     GamePanel gp;
@@ -88,6 +89,15 @@ public class AssetSetter {
 
         currentMap++; // interior map
         i = 0;
+
+        currentMap++; // dungeon 1 map
+        i = 0;
+
+        gp.obj[currentMap][i] = new OBJ_Chest(gp);
+        gp.obj[currentMap][i].setLoot(new OBJ_Pickaxe_Normal(gp));
+        gp.obj[currentMap][i].worldX = gp.tileSize * 40;
+        gp.obj[currentMap][i].worldY = gp.tileSize * 41;
+        i++;
     }
 
     public void setNPC(){
@@ -136,6 +146,20 @@ public class AssetSetter {
 
         gp.interactiveTile[currentMap][i] = new IT_Tree_Spruce(gp, 18, 8);
         i--;
+
+        currentMap++; // inside merchant house
+        i = 0;
+
+        currentMap++; // dungeon 1
+        i = 0;
+
+        gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 18, 30); i++;
+        gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 17, 31); i++;
+        gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 17, 32); i++;
+        gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 17, 34); i++;
+        gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 18, 34); i++;
+        gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 18, 34); i++;
+
     }
 
     public void setInteractiveTile(int index, String type, int map, int col, int row){

@@ -15,7 +15,7 @@ public class OBJ_Axe_Normal extends Entity {
         price = 50;
         description = "[" + name + "]\nOld and heavy axe.";
 
-        down1 = setup("objects/axe", gp.tileSize, gp.tileSize);
+        down1 = setup("objects/axe");
 
         attackValue = 2;
         knockBackPower = 10;

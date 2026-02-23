@@ -137,6 +137,16 @@ public class Player extends Entity{
             attackRight1 = setup("player/attack/boy_axe_right_1", gp.tileSize * 2, gp.tileSize);
             attackRight2 = setup("player/attack/boy_axe_right_2", gp.tileSize * 2, gp.tileSize);
         }
+        else if(currentWeapon.type == type_pickaxe){
+            attackUp1 = setup("player/attack/boy_pick_up_1", gp.tileSize, gp.tileSize * 2);
+            attackUp2 = setup("player/attack/boy_pick_up_2", gp.tileSize, gp.tileSize * 2);
+            attackDown1 = setup("player/attack/boy_pick_down_1", gp.tileSize, gp.tileSize * 2);
+            attackDown2 = setup("player/attack/boy_pick_down_2", gp.tileSize, gp.tileSize * 2);
+            attackLeft1 = setup("player/attack/boy_pick_left_1", gp.tileSize * 2, gp.tileSize);
+            attackLeft2 = setup("player/attack/boy_pick_left_2", gp.tileSize * 2, gp.tileSize);
+            attackRight1 = setup("player/attack/boy_pick_right_1", gp.tileSize * 2, gp.tileSize);
+            attackRight2 = setup("player/attack/boy_pick_right_2", gp.tileSize * 2, gp.tileSize);
+        }
     }
 
     public void getGuardImage(){
@@ -522,6 +532,7 @@ public class Player extends Entity{
             // replace interactive tile with destroyed form
             if(gp.interactiveTile[gp.currentMap][index].health <= 0){
                 attackCanceled = true;
+                gp.interactiveTile[gp.currentMap][index].checkDrop();
                 gp.interactiveTile[gp.currentMap][index] = gp.interactiveTile[gp.currentMap][index].getDestroyedForm();
                 if(gp.interactiveTile[gp.currentMap][index] != null){
                     gp.interactiveTile[gp.currentMap][index].invincible = true;
@@ -561,7 +572,7 @@ public class Player extends Entity{
         if(itemIndex < inventory.size()){ // not empty slot
             Entity selectedItem = inventory.get(itemIndex);
             // select new weapon from inventory
-            if(selectedItem.type == type_sword || selectedItem.type == type_axe){
+            if(selectedItem.type == type_sword || selectedItem.type == type_axe || selectedItem.type == type_pickaxe){
                 currentWeapon = selectedItem;
                 attack = getAttack(); // update attack values for new weapon
                 getAttackImage();
