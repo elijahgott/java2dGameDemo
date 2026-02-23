@@ -19,7 +19,14 @@ public class IT_Metal_Plate extends InteractiveTile{
         name = itName;
         health = 3;
         down1 = setup("tiles_interactive/metalplate");
-        collision = false;
+
+        // collision box disabled
+        solidArea.x = 0;
+        solidArea.y = 0;
+        solidArea.width = 0;
+        solidArea.height = 0;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
     }
 
     public void playSoundEffect(){

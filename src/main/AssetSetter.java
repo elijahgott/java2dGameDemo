@@ -173,6 +173,8 @@ public class AssetSetter {
         gp.interactiveTile[currentMap][i] = new IT_Tree_Spruce(gp, 18, 8);
         i--;
 
+        gp.interactiveTile[currentMap][i] = new IT_Metal_Plate(gp, 10, 10); i--;
+
         currentMap++; // inside merchant house
         i = 0;
 
@@ -184,7 +186,6 @@ public class AssetSetter {
         gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 17, 31); i++;
         gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 17, 32); i++;
         gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 17, 34); i++;
-        gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 18, 34); i++;
         gp.interactiveTile[currentMap][i] = new IT_Wall_Destructible(gp, 18, 34); i++;
 
         // metal plates

@@ -38,7 +38,7 @@ public class IT_Wall_Destructible extends InteractiveTile {
     }
 
     public void playSoundEffect(){
-        gp.playSoundEffect(12);
+        gp.playSoundEffect(20);
     }
 
     public InteractiveTile getDestroyedForm(){

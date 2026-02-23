@@ -420,7 +420,10 @@ public class GamePanel extends JPanel implements Runnable{
             }
             else if(nextArea == dungeon){
                 playMusic(19);
+                // reset dungeons here?
             }
+
+            assetSetter.setNPC(); // resets all NPCs when changing areas (may change to just resetting dungeons)
         }
 
         currentArea = nextArea;
