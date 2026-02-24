@@ -53,7 +53,7 @@ public class Player extends Entity{
         level = 1;
         strength = 1; // more strength = more damage given
         dexterity = 1; // more dexterity = less damage received
-        exp = 0;
+        exp = 100;
         nextLevelExp = 5;
         coin = 0;
 
@@ -71,6 +71,8 @@ public class Player extends Entity{
         getAttackImage();
         getGuardImage();
         setDialogue();
+
+        checkLevelUp();
     }
 
     public void setDefaultPositions(){
@@ -570,6 +572,10 @@ public class Player extends Entity{
             gp.playSoundEffect(1); // coin sound effect <- PLACEHOLDER
             gp.ui.addMessage("Level up!");
             gp.ui.addMessage("Current level: " + level);
+        }
+
+        if(exp >= nextLevelExp){
+            checkLevelUp();
         }
     }
 

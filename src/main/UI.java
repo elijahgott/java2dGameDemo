@@ -87,6 +87,8 @@ public class UI {
 
         // PLAY STATE
         if(gp.gameState == gp.playState){
+            drawMonsterHealth();
+
             drawPlayerHealth();
             drawPlayerMana();
 
@@ -99,6 +101,8 @@ public class UI {
 
         // PAUSE STATE
         if(gp.gameState == gp.pauseState){
+            drawMonsterHealth();
+
             drawPlayerHealth();
             drawPlayerMana();
 
@@ -107,6 +111,8 @@ public class UI {
 
         // DIALOGUE STATE
         if(gp.gameState == gp.dialogueState){
+            drawMonsterHealth();
+
             drawPlayerHealth();
             drawPlayerMana();
 
@@ -115,6 +121,8 @@ public class UI {
 
         // INVENTORY STATE
         if(gp.gameState == gp.inventoryState){
+            drawMonsterHealth();
+
             drawPlayerHealth();
             drawPlayerMana();
 
@@ -127,6 +135,8 @@ public class UI {
 
         // CHARACTER STATE
         if(gp.gameState == gp.characterState){
+            drawMonsterHealth();
+
             drawPlayerHealth();
             drawPlayerMana();
 
@@ -135,6 +145,8 @@ public class UI {
 
         // OPTIONS STATE
         if(gp.gameState == gp.optionsState){
+            drawMonsterHealth();
+
             drawPlayerHealth();
             drawPlayerMana();
 
@@ -192,8 +204,15 @@ public class UI {
         text = "New Game";
         x = getXForCenteredText(text);
         y += gp.tileSize * 5;
+
+        g2.setColor(Color.BLACK);
+        g2.drawString(text, x + 2, y + 2);
+        g2.setColor(Color.WHITE);
         g2.drawString(text, x, y);
         if(commandNumber == 0){
+            g2.setColor(Color.BLACK);
+            g2.drawString(">", x - gp.tileSize + 2, y + 2);
+            g2.setColor(Color.WHITE);
             g2.drawString(">", x - gp.tileSize, y);
             // drawImage to use image for selector
         }
@@ -203,8 +222,16 @@ public class UI {
         text = "Load Game";
         x = getXForCenteredText(text);
         y += gp.tileSize;
+
+        g2.setColor(Color.BLACK);
+        g2.drawString(text, x + 2, y + 2);
+        g2.setColor(Color.WHITE);
+
         g2.drawString(text, x, y);
         if(commandNumber == 1){
+            g2.setColor(Color.BLACK);
+            g2.drawString(">", x - gp.tileSize + 2, y + 2);
+            g2.setColor(Color.WHITE);
             g2.drawString(">", x - gp.tileSize, y);
         }
 
@@ -213,13 +240,21 @@ public class UI {
         text = "Quit";
         x = getXForCenteredText(text);
         y += gp.tileSize;
+
+        g2.setColor(Color.BLACK);
+        g2.drawString(text, x + 2, y + 2);
+        g2.setColor(Color.WHITE);
         g2.drawString(text, x, y);
         if(commandNumber == 2){
+            g2.setColor(Color.BLACK);
+            g2.drawString(">", x - gp.tileSize + 2, y + 2);
+            g2.setColor(Color.WHITE);
             g2.drawString(">", x - gp.tileSize, y);
         }
     }
 
     public void drawPlayerHealth(){
+        int iconSize = 32;
         int x = gp.tileSize / 3;
         int y = gp.tileSize / 3;
 
@@ -229,45 +264,99 @@ public class UI {
 
         // draw full hearts
         for(int i = 0; i < fullHearts; i++){
-            g2.drawImage(heart_full, x, y,null);
-            x += ((gp.tileSize * 3) / 4) + 2;
+            g2.drawImage(heart_full, x, y, iconSize, iconSize, null);
+            x += iconSize - 4;
         }
         // draw half hearts
         for(int i = 0; i < halfHearts; i++){
-            g2.drawImage(heart_half, x, y,null);
-            x += ((gp.tileSize * 3) / 4) + 2;
+            g2.drawImage(heart_half, x, y, iconSize, iconSize, null);
+            x += iconSize - 4;
         }
 
         // draw empty hearts
         for(int i = 0; i < emptyHearts; i++){
-            g2.drawImage(heart_empty, x, y,null);
-            x += ((gp.tileSize * 3) / 4) + 2;
+            g2.drawImage(heart_empty, x, y, iconSize, iconSize, null);
+            x += iconSize - 4;
         }
     }
 
     public void drawPlayerMana(){
-        int manaSize = 40;
+        int manaSize = 28;
 
-        int x = (gp.tileSize / 3) + 3;
-        int y = (gp.tileSize / 3) + gp.tileSize;
+        int x = (gp.tileSize / 3);
+        int y = (gp.tileSize / 3) + 32;
 
         // draw max mana
         int i = 0;
         while(i < gp.player.maxMana){
             g2.drawImage(manaCrystal_empty, x, y, manaSize, manaSize, null);
             i++;
-            x += ((gp.tileSize * 3) / 4) - 4;
+            x += manaSize - 4;
         }
 
         // draw current mana
-        x = (gp.tileSize / 3) + 3;
-        y = (gp.tileSize / 3) + gp.tileSize;
+        x = (gp.tileSize / 3);
+        y = (gp.tileSize / 3) + 32;
 
         i = 0;
         while(i < gp.player.mana){
             g2.drawImage(manaCrystal_full, x, y, manaSize, manaSize, null);
             i++;
-            x += ((gp.tileSize * 3) / 4) - 4;
+            x += manaSize - 4;
+        }
+    }
+
+    public void drawMonsterHealth(){
+        for(int i = 0; i < gp.monster[1].length; i++){
+            Entity monster = gp.monster[gp.currentMap][i];
+            if(monster != null && monster.inCamera()){
+                // monster hp bar
+                if(!monster.boss && monster.displayHealthBar){
+                    int screenX = monster.getScreenX();
+                    int screenY = monster.getScreenY();
+
+                    double oneHealthScale = (double)gp.tileSize / monster.maxHealth;
+                    double healthBarValue = oneHealthScale * monster.health;
+
+                    // render health bar
+                    int healthBarHeight = 10;
+                    g2.setColor(new Color(0, 0, 0));
+                    g2.fillRect(screenX - 2, screenY - 10, gp.tileSize + 4, healthBarHeight + 4);
+                    g2.setColor(new Color(255, 0, 30));
+                    g2.fillRect(screenX, screenY - 8, (int)healthBarValue, healthBarHeight);
+
+                    // health bar disappears after 5 seconds of not hitting monster
+                    monster.healthBarCounter++;
+
+                    if(monster.healthBarCounter > 300){
+                        monster.displayHealthBar = false;
+                        monster.healthBarCounter = 0;
+                    }
+                }
+                else if(monster.boss){ // BOSS
+                    int healthBarHeight = 24;
+                    int healthBarWidth = gp.tileSize * 8;
+                    int borderThickness = 4;
+
+                    double oneHealthScale = (double)healthBarWidth / monster.maxHealth;
+                    double healthBarValue = oneHealthScale * monster.health;
+
+                    int x = (gp.screenWidth / 2) - (gp.tileSize * 4);
+                    int y = gp.tileSize;
+
+                    // render health bar
+                    g2.setColor(Color.BLACK);
+                    g2.fillRect(x - borderThickness, y - borderThickness, healthBarWidth + borderThickness, healthBarHeight + borderThickness);
+                    g2.setColor(new Color(255, 0, 30));
+                    g2.fillRect(x, y, (int)healthBarValue - borderThickness, healthBarHeight - borderThickness);
+
+                    g2.setFont(UIFont.deriveFont(Font.PLAIN, 24F));
+                    g2.setColor(Color.WHITE);
+                    String text = monster.name;
+                    g2.drawString(text, x, y - borderThickness);
+
+                }
+            }
         }
     }
 

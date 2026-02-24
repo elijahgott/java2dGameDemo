@@ -41,7 +41,7 @@ public class Entity {
     public boolean attacking = false;
     public boolean alive = true;
     public boolean dying = false;
-    boolean displayHealthBar = false;
+    public boolean displayHealthBar = false;
     public boolean onPath = false;
     public boolean knockedBack = false;
     public String knockBackDirection;
@@ -55,7 +55,7 @@ public class Entity {
     public int invincibleTimer = 0;
     public int shotAvailableCounter = 0;
     int dyingCounter = 0;
-    int healthBarCounter = 0;
+    public int healthBarCounter = 0;
     int knockBackCounter = 0;
     public int guardCounter = 0;
     int offBalanceCounter = 0;
@@ -93,6 +93,7 @@ public class Entity {
     // public Entity currentPants;
     // public Entity currentShoes;
     public Projectile projectile;
+    public boolean boss;
 
     // ITEM ATTRIBUTES
     public int value;
@@ -641,16 +642,15 @@ public class Entity {
         BufferedImage image = null;
 
         // coordinates where objects will be drawn
-        int screenX = worldX - gp.player.worldX + gp.player.screenX;
-        int screenY = worldY - gp.player.worldY + gp.player.screenY;
+        int screenX = getScreenX();
+        int screenY = getScreenY();
 
         if(height > 1){
             screenY -= gp.tileSize * (height - 1);
         }
 
         // only draw object if it is just outside or inside the screen
-        if((worldX + gp.tileSize * 5 > gp.player.worldX - gp.player.screenX) && (worldX - gp.tileSize < gp.player.worldX + gp.player.screenX)
-                && (worldY + gp.tileSize * 5 > gp.player.worldY - gp.player.screenY) && (worldY - (gp.tileSize * 2) < gp.player.worldY + gp.player.screenY)){
+        if(inCamera()){
 
             int tempScreenX = screenX;
             int tempScreenY = screenY;
@@ -730,27 +730,6 @@ public class Entity {
                         }
                     }
                     break;
-            }
-
-            // monster hp bar
-            if(type == 2 && displayHealthBar){
-                double oneHealthScale = (double)gp.tileSize / maxHealth;
-                double healthBarValue = oneHealthScale * health;
-
-                // render health bar
-                int healthBarHeight = 10;
-                g2.setColor(new Color(0, 0, 0));
-                g2.fillRect(screenX - 2, screenY - 10, gp.tileSize + 4, healthBarHeight + 4);
-                g2.setColor(new Color(255, 0, 30));
-                g2.fillRect(screenX, screenY - 8, (int)healthBarValue, healthBarHeight);
-
-                // health bar disappears after 5 seconds of not hitting monster
-                healthBarCounter++;
-
-                if(healthBarCounter > 300){
-                    displayHealthBar = false;
-                    healthBarCounter = 0;
-                }
             }
 
             // lower opacity when invincible -- NOT ON INTERACTIVE TILES
@@ -973,6 +952,14 @@ public class Entity {
     }
 
     // MISC GETTER FUNCTIONS
+    public int getScreenX(){
+        return worldX - gp.player.worldX + gp.player.screenX;
+    }
+
+    public int getScreenY(){
+        return worldY - gp.player.worldY + gp.player.screenY;
+    }
+
     public int getLeftX(){
         return worldX + solidArea.x;
     }
@@ -1017,6 +1004,16 @@ public class Entity {
         return oppositeDirection;
     }
 
+    public boolean inCamera(){
+        boolean inCamera = false;
+
+        if((worldX + gp.tileSize * 5 > gp.player.worldX - gp.player.screenX) && (worldX - gp.tileSize < gp.player.worldX + gp.player.screenX)
+                && (worldY + gp.tileSize * 5 > gp.player.worldY - gp.player.screenY) && (worldY - (gp.tileSize * 2) < gp.player.worldY + gp.player.screenY)){
+            inCamera = true;
+        }
+
+        return inCamera;
+    }
 
     // setup with custom scale for width and height
     public BufferedImage setup(String imagePath, int width, int height){

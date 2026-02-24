@@ -19,6 +19,7 @@ public class MON_Skeleton_Lord extends Entity {
 
         name = monName;
         type = type_monster;
+        boss = true;
 
         defaultSpeed = 1;
         speed = defaultSpeed;
