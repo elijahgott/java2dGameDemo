@@ -66,7 +66,7 @@ public class MON_GreenSlime extends Entity {
             checkStartChasing(gp.player, 8, 100);
 
             // change slime direction randomly
-            getRandomDirection();
+            getRandomDirection(120);
         }
     }
 

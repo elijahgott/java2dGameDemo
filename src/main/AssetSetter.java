@@ -3,8 +3,10 @@ package main;
 import entity.NPC_Big_Rock;
 import entity.NPC_Merchant;
 import entity.NPC_OldMan;
+import entity.monster.MON_Bat;
 import entity.monster.MON_Orc;
 import entity.monster.MON_GreenSlime;
+import entity.monster.MON_Skeleton_Lord;
 import object.*;
 import tile_interactive.IT_Metal_Plate;
 import tile_interactive.IT_Tree;
@@ -156,6 +158,36 @@ public class AssetSetter {
         gp.monster[currentMap][i] = new MON_Orc(gp);
         gp.monster[currentMap][i].worldX = gp.tileSize * 5;
         gp.monster[currentMap][i].worldY = gp.tileSize * 12;
+        i++;
+
+        currentMap++; // inside merchant house
+        i = 0;
+
+        currentMap++; // dungeon 1
+        i = 0;
+
+        gp.monster[currentMap][i] = new MON_Bat(gp);
+        gp.monster[currentMap][i].worldX = gp.tileSize * 34;
+        gp.monster[currentMap][i].worldY = gp.tileSize * 39;
+        i++;
+
+        gp.monster[currentMap][i] = new MON_Bat(gp);
+        gp.monster[currentMap][i].worldX = gp.tileSize * 39;
+        gp.monster[currentMap][i].worldY = gp.tileSize * 26;
+        i++;
+
+        gp.monster[currentMap][i] = new MON_Bat(gp);
+        gp.monster[currentMap][i].worldX = gp.tileSize * 10;
+        gp.monster[currentMap][i].worldY = gp.tileSize * 19;
+        i++;
+
+        currentMap++; // dungeon 2nd layer
+        i = 0;
+
+        // BOSS
+        gp.monster[currentMap][i] = new MON_Skeleton_Lord(gp);
+        gp.monster[currentMap][i].worldX = gp.tileSize * 23;
+        gp.monster[currentMap][i].worldY = gp.tileSize * 16;
         i++;
     }
 

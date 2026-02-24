@@ -324,6 +324,23 @@ public class UI {
         g2.setColor(Color.white);
         g2.drawString("Row: " + (gp.player.worldY + gp.player.solidArea.y) / gp.tileSize, x, y);
         y += lineHeight;
+
+        // player godmode status
+        if(gp.keyHandler.godModeOn){
+            g2.setColor(Color.black);
+            g2.drawString("Godmode: ON",x + 2, y + 2);
+            g2.setColor(Color.white);
+            g2.drawString("Godmode: ON",x, y);
+            y += lineHeight;
+        }
+        else{
+            g2.setColor(Color.black);
+            g2.drawString("Godmode: OFF",x + 2, y + 2);
+            g2.setColor(Color.white);
+            g2.drawString("Godmode: OFF",x, y);
+            y += lineHeight;
+        }
+
     }
 
     public void drawPauseScreen(){

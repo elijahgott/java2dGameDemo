@@ -95,6 +95,17 @@ public class EventHandler{
             if(hit(currentMap, 15, 40, "left")){
                 teleport(1, 11, 12, gp.inside);
             }
+            // stairs to dungeon 2
+            if(hit(currentMap, 15, 39, "left")){
+                teleport(3, 25, 27, gp.dungeon);
+            }
+
+            currentMap++; // dungeon 2
+
+            // stairs back to dungeon 1
+            if(hit(currentMap, 25, 28, "any")){
+                teleport(2, 16, 39, gp.dungeon);
+            }
         }
     }
 

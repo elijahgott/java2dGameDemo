@@ -151,6 +151,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void resetGame(boolean restart){
         // reset player position and life
+        currentArea = outside;
         player.setDefaultPositions();
         player.restoreStatus();
         player.resetCounters();

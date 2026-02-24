@@ -74,6 +74,8 @@ public class Player extends Entity{
     }
 
     public void setDefaultPositions(){
+        gp.currentMap = 0;
+
         // set default player location
         worldX = gp.tileSize * 2;
         worldY = gp.tileSize * 6;
@@ -408,13 +410,15 @@ public class Player extends Entity{
             mana = maxMana;
         }
 
-        if(health <= 0){
-            gp.stopMusic();
-            gp.playSoundEffect(13);
+        if(!keyHandler.godModeOn){
+            if(health <= 0){
+                gp.stopMusic();
+                gp.playSoundEffect(13);
 
-            gp.ui.commandNumber = -1;
+                gp.ui.commandNumber = -1;
 
-            gp.gameState = gp.gameOverState;
+                gp.gameState = gp.gameOverState;
+            }
         }
     }
 

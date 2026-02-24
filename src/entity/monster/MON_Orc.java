@@ -81,8 +81,8 @@ public class MON_Orc extends Entity {
         else{ // check if monster starts chasing player
             checkStartChasing(gp.player, 6, 100);
 
-            // change slime direction randomly
-            getRandomDirection();
+            // change orc direction randomly
+            getRandomDirection(150);
         }
 
         // check if it attacks
