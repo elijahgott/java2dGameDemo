@@ -1,5 +1,6 @@
 package main;
 
+import data.Progress;
 import entity.NPC_Big_Rock;
 import entity.NPC_Merchant;
 import entity.NPC_OldMan;
@@ -115,6 +116,17 @@ public class AssetSetter {
         gp.obj[currentMap][i].worldX = gp.tileSize * 25;
         gp.obj[currentMap][i].worldY = gp.tileSize * 15;
         i++;
+
+//        gp.obj[currentMap][i] = new OBJ_Chest(gp);
+//        gp.obj[currentMap][i].setLoot(new OBJ_Heart_Blue(gp));
+//        gp.obj[currentMap][i].worldX = gp.tileSize * 25;
+//        gp.obj[currentMap][i].worldY = gp.tileSize * 8;
+//        i++;
+
+        gp.obj[currentMap][i] = new OBJ_Heart_Blue(gp);
+        gp.obj[currentMap][i].worldX = gp.tileSize * 25;
+        gp.obj[currentMap][i].worldY = gp.tileSize * 8;
+        i++;
     }
 
     public void setNPC(){
@@ -192,11 +204,14 @@ public class AssetSetter {
         currentMap++; // dungeon 2nd layer
         i = 0;
 
-        // BOSS
-        gp.monster[currentMap][i] = new MON_Skeleton_Lord(gp);
-        gp.monster[currentMap][i].worldX = gp.tileSize * 23;
-        gp.monster[currentMap][i].worldY = gp.tileSize * 16;
-        i++;
+        if(!Progress.skeletonLordDefeated){
+            // BOSS
+            gp.monster[currentMap][i] = new MON_Skeleton_Lord(gp);
+            gp.monster[currentMap][i].worldX = gp.tileSize * 23;
+            gp.monster[currentMap][i].worldY = gp.tileSize * 16;
+            i++;
+        }
+
     }
 
     // manually set interactive tiles, I don't want to do it this way

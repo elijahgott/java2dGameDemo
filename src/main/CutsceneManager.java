@@ -4,6 +4,7 @@ import entity.Entity;
 import entity.PlayerDummy;
 import entity.monster.MON_Skeleton_Lord;
 import object.OBJ_Door_Iron;
+import object.OBJ_Heart_Blue;
 
 import java.awt.*;
 
@@ -13,12 +14,37 @@ public class CutsceneManager {
     public int sceneNum;
     public int scenePhase;
 
+    int counter = 0;
+    float alpha = 0F;
+    int y;
+
+    String endCredits;
+
     // Scene Numbers
     public final int NA = 0;
     public final int skeletonLord = 1;
+    public final int ending = 2;
 
     public CutsceneManager(GamePanel gp) {
         this.gp = gp;
+
+        endCredits =
+        "Lead Programmer\n" +
+        "RyiSnow\n" +
+        "\n" +
+        "Associate Programmer\n" +
+        "Elijah Gott\n" +
+        "\n\n\n" +
+
+        "Lead Artist\n" +
+        "RyiSnow\n" +
+        "\n" +
+        "Associate Artist\n" +
+        "Elijah Gott\n" +
+        "\n\n\n" +
+
+        "Senior Musician\n" +
+        "RyiSnow\n";
     }
 
     public void draw(Graphics2D g2) {
@@ -27,6 +53,9 @@ public class CutsceneManager {
         switch(sceneNum){
             case skeletonLord:
                 skeletonLordCutscene();
+                break;
+            case ending:
+                endingCutscene();
                 break;
         }
     }
@@ -115,5 +144,137 @@ public class CutsceneManager {
                 }
             }
         }
+    }
+
+    public void endingCutscene(){
+        if(scenePhase == 0){
+            gp.stopMusic();
+            gp.ui.npc = new OBJ_Heart_Blue(gp);
+            scenePhase++;
+        }
+        else if(scenePhase == 1){
+            // display dialogues
+            gp.ui.drawDialogueScreen();
+        }
+        else if(scenePhase == 2){
+            // turn player to face camera
+            gp.player.direction = "down";
+
+            // play the fanfare music
+            gp.playSoundEffect(4);
+            scenePhase++;
+        }
+        else if(scenePhase == 3){
+            if(counterReached(4 * 60)){
+                scenePhase++;
+            }
+        }
+        else if(scenePhase == 4){
+            // fade screen to black
+            alpha += 0.005F;
+            if(alpha >= 1F){
+                alpha = 1F;
+            }
+            drawBlackBackground(alpha);
+
+            if(alpha == 1F){
+                alpha = 0F;
+                scenePhase++;
+            }
+        }
+        else if(scenePhase == 5){
+            // draw ending text
+            drawBlackBackground(1F);
+            alpha += 0.005F;
+            if(alpha >= 1F){
+                alpha = 1F;
+            }
+            String text = "The Joker beat the Skeleton Lord\n" +
+                    "and obtained the Blue Heart to give himself\n" +
+                    "the upper hand in his biggest battle yet...\n" +
+                    "against THE BATMAN";
+
+            drawString(alpha, 20F, 200, text, 54, "na");
+            if(counterReached(10 * 60)){
+                gp.playMusic(0);
+                scenePhase++;
+            }
+        }
+        else if(scenePhase == 6){
+            // display game title
+            drawBlackBackground(1F);
+
+            drawString(1F, 54F, gp.screenHeight / 2, "Da Jokah Adventure", 0, "title");
+
+            if(counterReached(6 * 60)){
+                scenePhase++;
+            }
+        }
+        else if(scenePhase == 7){
+            // ending credits
+            drawBlackBackground(1F);
+
+            y = gp.screenHeight / 2;
+
+            drawString(1F, 24F, y, endCredits, 32, "na");
+
+            if(counterReached(6 * 60)){
+                scenePhase++;
+            }
+        }
+        else if(scenePhase == 8){
+            // scroll credits
+            drawBlackBackground(1F);
+
+            y--;
+            drawString(1F, 24F, y, endCredits, 32, "na");
+
+            if(counterReached(10 * 60)){
+                sceneNum = NA;
+                scenePhase = 0;
+
+                // respawn player
+                gp.player.setDefaultPositions();
+                gp.gameState = gp.playState;
+            }
+        }
+    }
+
+    public boolean counterReached(int targetNum){
+        boolean counterReached = false;
+        counter++;
+        if(counter >= targetNum){
+            counterReached = true;
+            counter = 0;
+        }
+        return counterReached;
+    }
+
+    public void drawBlackBackground(float alpha){
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+        g2.setColor(Color.BLACK);
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+        // reset alpha
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
+    }
+
+    public void drawString(float alpha, float fontSize, int y, String text, int lineHeight, String type){
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+        g2.setColor(Color.WHITE);
+        if(type.equals("title")){
+            g2.setFont(gp.ui.UIFont.deriveFont(fontSize));
+        }
+        else{
+            g2.setFont(gp.ui.dialogueFont.deriveFont(fontSize));
+        }
+
+        for(String line: text.split("\n")){
+            int x = gp.ui.getXForCenteredText(line);
+            g2.drawString(line, x, y);
+            y += lineHeight;
+        }
+
+        // reset alpha
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
     }
 }

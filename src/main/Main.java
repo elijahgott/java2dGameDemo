@@ -1,6 +1,6 @@
 package main;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class Main {
     public static JFrame window;
@@ -9,7 +9,8 @@ public class Main {
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("2D Adventure");
+        window.setTitle("Da Jokah Adventure");
+        new Main().setIcon();
 
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
@@ -27,5 +28,10 @@ public class Main {
 
         gamePanel.setupGame();
         gamePanel.startGameThread();
+    }
+
+    public void setIcon(){
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("player/walk/boy_down_1.png"));
+        window.setIconImage(icon.getImage());
     }
 }
