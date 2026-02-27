@@ -28,6 +28,7 @@ public class Entity {
     public String[][] dialogues = new String[20][20];
     public Entity attacker;
     public Entity linkedEntity;
+    public boolean temporary = false;
 
     // STATE
     public int worldX, worldY;
@@ -48,6 +49,8 @@ public class Entity {
     public boolean guarding = false;
     public boolean offBalance = false;
     public boolean enraged = false;
+    public boolean sleep = false;
+    public boolean drawing = true;
 
     // COUNTERS
     public int spriteCounter = 0;
@@ -545,95 +548,97 @@ public class Entity {
     }
 
     public void update(){
-        if(knockedBack){
-            checkCollision();
+        if(!sleep){
+            if(knockedBack){
+                checkCollision();
 
-            if(collisionOn){
-                knockBackCounter = 0;
-                knockedBack = false;
-                speed = defaultSpeed;
+                if(collisionOn){
+                    knockBackCounter = 0;
+                    knockedBack = false;
+                    speed = defaultSpeed;
+                }
+                else{
+                    switch(knockBackDirection){
+                        case "up":
+                            worldY -= speed;
+                            break;
+                        case "down":
+                            worldY += speed;
+                            break;
+                        case "left":
+                            worldX -= speed;
+                            break;
+                        case "right":
+                            worldX += speed;
+                            break;
+                    }
+                }
+                knockBackCounter++;
+                if(knockBackCounter > 10){
+                    knockBackCounter = 0;
+                    knockedBack = false;
+                    speed = defaultSpeed;
+                }
+            }
+            else if(attacking){
+                attack();
             }
             else{
-                switch(knockBackDirection){
-                    case "up":
-                        worldY -= speed;
-                        break;
-                    case "down":
-                        worldY += speed;
-                        break;
-                    case "left":
-                        worldX -= speed;
-                        break;
-                    case "right":
-                        worldX += speed;
-                        break;
-                }
-            }
-            knockBackCounter++;
-            if(knockBackCounter > 10){
-                knockBackCounter = 0;
-                knockedBack = false;
-                speed = defaultSpeed;
-            }
-        }
-        else if(attacking){
-            attack();
-        }
-        else{
-            setAction();
-            checkCollision();
+                setAction();
+                checkCollision();
 
-            if(!collisionOn){
-                switch(direction){
-                    case "up":
-                        worldY -= speed;
-                        break;
-                    case "down":
-                        worldY += speed;
-                        break;
-                    case "left":
-                        worldX -= speed;
-                        break;
-                    case "right":
-                        worldX += speed;
-                        break;
+                if(!collisionOn){
+                    switch(direction){
+                        case "up":
+                            worldY -= speed;
+                            break;
+                        case "down":
+                            worldY += speed;
+                            break;
+                        case "left":
+                            worldX -= speed;
+                            break;
+                        case "right":
+                            worldX += speed;
+                            break;
+                    }
+                }
+
+                // sprite changer
+                spriteCounter++;
+                if(spriteCounter > 24){ // every 10 frames, sprite alternates
+                    if(spriteNumber == 1){
+                        spriteNumber = 2;
+                    }
+                    else if(spriteNumber == 2){
+                        spriteNumber = 1;
+                    }
+                    spriteCounter = 0;
                 }
             }
 
-            // sprite changer
-            spriteCounter++;
-            if(spriteCounter > 24){ // every 10 frames, sprite alternates
-                if(spriteNumber == 1){
-                    spriteNumber = 2;
+            // invincibility timer after being hit
+            if(invincible){
+                invincibleTimer++;
+                if(invincibleTimer > 60){
+                    invincible = false;
+                    invincibleTimer = 0;
                 }
-                else if(spriteNumber == 2){
-                    spriteNumber = 1;
+            }
+
+            // cooldown for shooting projectiles
+            if(shotAvailableCounter < 30){
+                shotAvailableCounter++;
+            }
+
+            // off balance
+            if(offBalance){
+                offBalanceCounter++;
+
+                if(offBalanceCounter > 60){
+                    offBalance = false;
+                    offBalanceCounter = 0;
                 }
-                spriteCounter = 0;
-            }
-        }
-
-        // invincibility timer after being hit
-        if(invincible){
-            invincibleTimer++;
-            if(invincibleTimer > 60){
-                invincible = false;
-                invincibleTimer = 0;
-            }
-        }
-
-        // cooldown for shooting projectiles
-        if(shotAvailableCounter < 30){
-            shotAvailableCounter++;
-        }
-
-        // off balance
-        if(offBalance){
-            offBalanceCounter++;
-
-            if(offBalanceCounter > 60){
-                offBalance = false;
-                offBalanceCounter = 0;
             }
         }
     }

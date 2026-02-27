@@ -66,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable{
     Map map = new Map(this);
     SaveLoad saveLoad = new SaveLoad(this);
     public EntityGenerator entityGenerator = new EntityGenerator(this);
+    public CutsceneManager cutsceneManager = new CutsceneManager(this);
     Thread gameThread;
 
     // ENTITIES AND OBJECTS
@@ -99,6 +100,10 @@ public class GamePanel extends JPanel implements Runnable{
     public final int tradeState = 9;
     public final int sleepState = 10;
     public final int mapState = 11;
+    public final int cutsceneState = 12;
+
+    // OTHERS
+    public boolean bossBattleOn = false;
 
     // AREA
     public int currentArea;
@@ -156,9 +161,12 @@ public class GamePanel extends JPanel implements Runnable{
         player.restoreStatus();
         player.resetCounters();
 
-        // reset NPC and monsters
+        bossBattleOn = false;
+
+        // reset NPCs, monsters, and remove temp entities
         assetSetter.setNPC();
         assetSetter.setMonster();
+        removeTempEntity();
 
         if(restart){
             // reset everything else when quitting game
@@ -369,6 +377,9 @@ public class GamePanel extends JPanel implements Runnable{
             // minimap
             map.drawMiniMap(g2);
 
+            // CUTSCENE
+            cutsceneManager.draw(g2);
+
             // UI - usually top layer -> rendered last
             ui.draw(g2);
 
@@ -429,5 +440,15 @@ public class GamePanel extends JPanel implements Runnable{
 
         currentArea = nextArea;
         assetSetter.setMonster();
+    }
+
+    public void removeTempEntity(){
+        for(int mapNum = 0; mapNum < maxMap; mapNum++){
+            for(int i = 0; i < obj[1].length; i++){
+                if(obj[mapNum][i] != null && obj[mapNum][i].temporary){
+                    obj[mapNum][i] = null;
+                }
+            }
+        }
     }
 }

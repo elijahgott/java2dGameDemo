@@ -107,6 +107,14 @@ public class AssetSetter {
         gp.obj[currentMap][i].worldX = gp.tileSize * 18;
         gp.obj[currentMap][i].worldY = gp.tileSize * 23;
         i++;
+
+        currentMap++; // skeleton lord boss battle
+        i = 0;
+
+        gp.obj[currentMap][i] = new OBJ_Door_Iron(gp);
+        gp.obj[currentMap][i].worldX = gp.tileSize * 25;
+        gp.obj[currentMap][i].worldY = gp.tileSize * 15;
+        i++;
     }
 
     public void setNPC(){
@@ -238,9 +246,6 @@ public class AssetSetter {
                     default:
                         System.out.println("ERROR: Unknown interactive tile type: " + type);
                 }
-            }
-            else{
-
             }
     }
 }

@@ -1,7 +1,9 @@
 package entity.monster;
 
+import data.Progress;
 import entity.Entity;
 import main.GamePanel;
+import object.OBJ_Door_Iron;
 import object.OBJ_Heart;
 import object.OBJ_ManaCrystal;
 import object.OBJ_Rock;
@@ -20,6 +22,7 @@ public class MON_Skeleton_Lord extends Entity {
         name = monName;
         type = type_monster;
         boss = true;
+        sleep = true;
 
         defaultSpeed = 1;
         speed = defaultSpeed;
@@ -48,6 +51,8 @@ public class MON_Skeleton_Lord extends Entity {
 
         getImage();
         getAttackImage();
+
+        setDialogue();
     }
 
     public void getImage() {
@@ -130,6 +135,21 @@ public class MON_Skeleton_Lord extends Entity {
     }
 
     public void checkDrop(){
+        gp.bossBattleOn = false;
+        Progress.skeletonLordDefeated = true;
+
+        // restore previous music
+        gp.stopMusic();
+        gp.playMusic(19);
+
+        // remove iron doors
+        for(int i = 0; i < gp.obj[1].length; i++){
+            if(gp.obj[gp.currentMap][i] != null && gp.obj[gp.currentMap][i].name.equals(OBJ_Door_Iron.objName)){
+                gp.playSoundEffect(21); // door open
+                gp.obj[gp.currentMap][i] = null;
+            }
+        }
+
         int i  = new Random().nextInt(100) + 1; // random from 1-100
 
         // SET DROPS
@@ -145,5 +165,11 @@ public class MON_Skeleton_Lord extends Entity {
         else{
             dropItem(new OBJ_ManaCrystal(gp));
         }
+    }
+
+    public void setDialogue(){
+        dialogues[0][0] = "GTFO!!!";
+        dialogues[0][1] = "I will murder you...";
+        dialogues[0][2] = "and your entire family!";
     }
 }

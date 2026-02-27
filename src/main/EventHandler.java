@@ -1,5 +1,6 @@
 package main;
 
+import data.Progress;
 import entity.Entity;
 
 import java.awt.*;
@@ -97,14 +98,19 @@ public class EventHandler{
             }
             // stairs to dungeon 2
             if(hit(currentMap, 15, 39, "left")){
-                teleport(3, 25, 27, gp.dungeon);
+                teleport(3, 25, 31, gp.dungeon);
             }
 
             currentMap++; // dungeon 2
 
             // stairs back to dungeon 1
-            if(hit(currentMap, 25, 28, "any")){
+            if(hit(currentMap, 25, 32, "any")){
                 teleport(2, 16, 39, gp.dungeon);
+            }
+
+            // Skeleton Lord Cutscene
+            if(hit(currentMap, 25, 26, "any")){
+                startSkeletonLordFight();
             }
         }
     }
@@ -203,6 +209,13 @@ public class EventHandler{
             gp.gameState = gp.dialogueState;
             gp.player.attackCanceled = true;
             entity.speak();
+        }
+    }
+
+    public void startSkeletonLordFight(){
+        if(!gp.bossBattleOn && !Progress.skeletonLordDefeated){
+            gp.gameState = gp.cutsceneState;
+            gp.cutsceneManager.sceneNum = gp.cutsceneManager.skeletonLord;
         }
     }
 }

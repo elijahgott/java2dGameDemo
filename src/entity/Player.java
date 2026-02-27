@@ -724,7 +724,9 @@ public class Player extends Entity{
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6F));
         }
 
-        g.drawImage(image, tempScreenX, tempScreenY, null);
+        if(drawing){
+            g.drawImage(image, tempScreenX, tempScreenY, null);
+        }
 
         // reset opacity
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
