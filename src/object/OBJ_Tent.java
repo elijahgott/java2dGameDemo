@@ -22,13 +22,22 @@ public class OBJ_Tent extends Entity {
     }
 
     public boolean use(Entity entity){
-        gp.gameState = gp.sleepState;
-        gp.playSoundEffect(14); // sleep sound effect
-        gp.player.health = gp.player.maxHealth;
-        gp.player.mana = gp.player.maxMana;
+        if(gp.environmentManager.lighting.dayState == gp.environmentManager.lighting.night){
+            gp.gameState = gp.sleepState;
+            gp.playSoundEffect(14); // sleep sound effect
+            gp.player.health = gp.player.maxHealth;
+            gp.player.mana = gp.player.maxMana;
 
-        gp.player.getPlayerSleepImage(down1);
+            gp.player.getPlayerSleepImage(down1);
 
-        return true; // makes item disappear -> false keeps item
+            return true; // makes item disappear -> false keeps item
+        }
+        else{
+            gp.gameState = gp.playState;
+            gp.ui.addMessage("Cannot sleep during the day!");
+
+            return false;
+        }
+
     }
 }

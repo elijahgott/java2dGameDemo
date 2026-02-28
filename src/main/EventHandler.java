@@ -187,7 +187,8 @@ public class EventHandler{
                 gp.assetSetter.setMonster();
             }
 
-            System.out.println("Saved progress!"); // want to add text to one of the corners saying game has been saved
+            gp.ui.addMessage("Saved Game!");
+//            System.out.println("Saved progress!"); // want to add text to one of the corners saying game has been saved
             gp.saveLoad.save();
         }
     }

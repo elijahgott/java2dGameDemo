@@ -62,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable{
     public UI ui = new UI(this);
     public EventHandler eventHandler = new EventHandler(this);
     public PathFinder pathFinder = new PathFinder(this);
-    EnvironmentManager environmentManager = new EnvironmentManager(this);
+    public EnvironmentManager environmentManager = new EnvironmentManager(this);
     Map map = new Map(this);
     SaveLoad saveLoad = new SaveLoad(this);
     public EntityGenerator entityGenerator = new EntityGenerator(this);

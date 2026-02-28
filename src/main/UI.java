@@ -1339,7 +1339,7 @@ public class UI {
     }
 
     public int getItemIndex(int slotCol, int slotRow){
-        return slotCol + (slotRow * 5);
+        return slotCol + (slotRow * 7); // 7 = number of slots in 1 inventory row
     }
 
     public void drawSubWindow(int x, int y, int width, int height){
