@@ -239,7 +239,11 @@ public class Player extends Entity{
             guardCounter++;
         }
         else if(keyHandler.upPressed || keyHandler.downPressed ||
-           keyHandler.leftPressed || keyHandler.rightPressed || keyHandler.enterPressed || keyHandler.spacePressed) {
+           keyHandler.leftPressed || keyHandler.rightPressed ||
+            keyHandler.enterPressed || keyHandler.spacePressed) {
+            // cannot move while guarding
+            guarding = false;
+
             if(keyHandler.upPressed){
                 direction = "up";
             }

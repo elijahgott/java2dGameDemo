@@ -17,7 +17,7 @@ public class OBJ_Key extends Entity {
         type = type_consumable;
         stackable = true;
 
-        down1 = setup("objects/key", gp.tileSize, gp.tileSize);
+        down1 = setup("objects/key");
 
         setDialogue();
 
@@ -27,9 +27,9 @@ public class OBJ_Key extends Entity {
     }
 
     public void setDialogue(){
-        dialogues[0][0] = "Hell naw";
+        dialogues[0][0] = "Can't use that here.";
 
-        dialogues[1][0] = "You used the " + name + "!";
+        dialogues[1][0] = "You opened the door!";
     }
 
     public boolean use(Entity entity){

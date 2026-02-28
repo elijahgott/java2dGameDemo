@@ -44,11 +44,19 @@ public class OBJ_Chest extends Entity{
         if(!opened){
             gp.playSoundEffect(3);
 
-            if(gp.player.canObtainItem(loot)){
+            // immediately use blue heart when obtained
+            if(loot.name.equals(OBJ_Heart_Blue.objName)){
+                loot.use(gp.player);
+                opened = true;
+                down1 = image2;
+                System.out.println(loot.name);
+            }
+            else if(gp.player.canObtainItem(loot)){
                 // put item in inventory
                 startDialogue(this, 0);
                 opened = true;
                 down1 = image2;
+                System.out.println(loot.name);
             }
             else{
                 // inventory full

@@ -333,7 +333,7 @@ public class UI {
                         monster.healthBarCounter = 0;
                     }
                 }
-                else if(monster.boss){ // BOSS
+                else if(gp.bossBattleOn && monster.boss){ // BOSS
                     int healthBarHeight = 24;
                     int healthBarWidth = gp.tileSize * 8;
                     int borderThickness = 4;
@@ -354,7 +354,6 @@ public class UI {
                     g2.setColor(Color.WHITE);
                     String text = monster.name;
                     g2.drawString(text, x, y - borderThickness);
-
                 }
             }
         }

@@ -12,7 +12,9 @@ public class OBJ_Heart_Blue extends Entity {
         this.gp = gp;
 
         name = objName;
-        type = type_pickupOnly;
+        description = "The legendary Blue Heart.";
+        type = type_consumable;
+
         down1 = setup("objects/blueheart");
 
         setDialogue();

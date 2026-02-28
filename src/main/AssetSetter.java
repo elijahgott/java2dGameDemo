@@ -81,6 +81,12 @@ public class AssetSetter {
         gp.obj[currentMap][i].worldX = gp.tileSize * 6;
         gp.obj[currentMap][i].worldY = gp.tileSize * 12;
         i++;
+//
+//        gp.obj[currentMap][i] = new OBJ_Chest(gp);
+//        gp.obj[currentMap][i].setLoot(new OBJ_Heart_Blue(gp));
+//        gp.obj[currentMap][i].worldX = gp.tileSize * 6;
+//        gp.obj[currentMap][i].worldY = gp.tileSize * 12;
+//        i++;
 
         gp.obj[currentMap][i] = new OBJ_Lantern(gp);
         gp.obj[currentMap][i].worldX = gp.tileSize * 5;
@@ -117,13 +123,9 @@ public class AssetSetter {
         gp.obj[currentMap][i].worldY = gp.tileSize * 15;
         i++;
 
-//        gp.obj[currentMap][i] = new OBJ_Chest(gp);
-//        gp.obj[currentMap][i].setLoot(new OBJ_Heart_Blue(gp));
-//        gp.obj[currentMap][i].worldX = gp.tileSize * 25;
-//        gp.obj[currentMap][i].worldY = gp.tileSize * 8;
-//        i++;
-
-        gp.obj[currentMap][i] = new OBJ_Heart_Blue(gp);
+        // !!! causes null pointer exception when loading a previous save !!!
+        gp.obj[currentMap][i] = new OBJ_Chest(gp);
+        gp.obj[currentMap][i].setLoot(new OBJ_Heart_Blue(gp));
         gp.obj[currentMap][i].worldX = gp.tileSize * 25;
         gp.obj[currentMap][i].worldY = gp.tileSize * 8;
         i++;

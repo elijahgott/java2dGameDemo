@@ -113,7 +113,13 @@ public class SaveLoad {
             // EQUIPPED ITEMS
             gp.player.currentWeapon = gp.player.inventory.get(ds.currentWeaponSlot);
             gp.player.currentShield = gp.player.inventory.get(ds.currentShieldSlot);
-            gp.player.currentLight = gp.player.inventory.get(ds.currentLightSlot);
+            if(ds.currentLightSlot != 0){
+                gp.player.currentLight = gp.player.inventory.get(ds.currentLightSlot);
+            }
+            else{
+                gp.player.currentLight = null;
+            }
+
             // update player attack and defense
             gp.player.getAttack();
             gp.player.getAttackImage();

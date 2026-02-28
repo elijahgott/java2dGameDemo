@@ -1,5 +1,6 @@
 package main;
 
+import data.SaveLoad;
 import entity.Entity;
 import entity.PlayerDummy;
 import entity.monster.MON_Skeleton_Lord;
@@ -18,6 +19,7 @@ public class CutsceneManager {
     float alpha = 0F;
     int y;
 
+    String title;
     String endCredits;
 
     // Scene Numbers
@@ -27,6 +29,8 @@ public class CutsceneManager {
 
     public CutsceneManager(GamePanel gp) {
         this.gp = gp;
+
+        title = "DA JOKAH ADVENTURE";
 
         endCredits =
         "Lead Programmer\n" +
@@ -147,6 +151,8 @@ public class CutsceneManager {
     }
 
     public void endingCutscene(){
+        gp.saveLoad.save();
+
         if(scenePhase == 0){
             gp.stopMusic();
             gp.ui.npc = new OBJ_Heart_Blue(gp);
@@ -201,41 +207,40 @@ public class CutsceneManager {
             }
         }
         else if(scenePhase == 6){
-            // display game title
-            drawBlackBackground(1F);
-
-            drawString(1F, 54F, gp.screenHeight / 2, "Da Jokah Adventure", 0, "title");
-
-            if(counterReached(6 * 60)){
-                scenePhase++;
-            }
-        }
-        else if(scenePhase == 7){
             // ending credits
             drawBlackBackground(1F);
 
             y = gp.screenHeight / 2;
 
-            drawString(1F, 24F, y, endCredits, 32, "na");
+            drawString(1F, 54F, y, "Da Jokah Adventure", 0, "title");
+            drawString(1F, 24F, y + 128, endCredits, 32, "na");
 
-            if(counterReached(6 * 60)){
+            if(counterReached(2 * 60)){
                 scenePhase++;
             }
         }
-        else if(scenePhase == 8){
+        else if(scenePhase == 7){
             // scroll credits
-            drawBlackBackground(1F);
+
+            //idk if i like the black fade out
+            alpha -= 0.005F;
+            if(alpha <= 0F){
+                alpha = 0F;
+            }
+            drawBlackBackground(alpha);
 
             y--;
-            drawString(1F, 24F, y, endCredits, 32, "na");
+            drawString(1F, 54F, y, "Da Jokah Adventure", 0, "title");
+            drawString(1F, 24F, y + 128, endCredits, 32, "na");
 
-            if(counterReached(10 * 60)){
+            if(counterReached(5 * 60)){
                 sceneNum = NA;
                 scenePhase = 0;
 
                 // respawn player
+                gp.gameState = gp.titleState;
                 gp.player.setDefaultPositions();
-                gp.gameState = gp.playState;
+                gp.player.restoreStatus();
             }
         }
     }
@@ -256,6 +261,14 @@ public class CutsceneManager {
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
         // reset alpha
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
+    }
+
+    public void removeBlackBackground(float alpha){
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+        g2.setColor(Color.BLACK);
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+        // reset alpha
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0F));
     }
 
     public void drawString(float alpha, float fontSize, int y, String text, int lineHeight, String type){
