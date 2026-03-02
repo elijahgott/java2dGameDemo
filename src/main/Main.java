@@ -1,6 +1,7 @@
 package main;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Main {
     public static JFrame window;
@@ -28,6 +29,10 @@ public class Main {
 
         gamePanel.setupGame();
         gamePanel.startGameThread();
+
+//        gamePanel.aspectRatio = (double)window.getWidth()/(double)window.getHeight();
+//        System.out.println(window.getWidth() + ", " + window.getHeight());
+//        System.out.println(gamePanel.aspectRatio);
     }
 
     public void setIcon(){

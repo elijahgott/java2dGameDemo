@@ -15,7 +15,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Objects;
 
 public class GamePanel extends JPanel implements Runnable{
     Config config = new Config(this);
@@ -26,11 +25,11 @@ public class GamePanel extends JPanel implements Runnable{
     final int scale = 3; // scale original tile size by this value
     public final int tileSize = originalTileSize * scale; // 48 x 48px tile
 
-    public final int maxScreenCol = 20; // max number of tile columns on the screen
-    public final int maxScreenRow = 12; // max number of tile rows on the screen
+    public int maxScreenCol = 24; // max number of tile columns on the screen
+    public int maxScreenRow = 14; // max number of tile rows on the screen
 
-    public final int screenWidth = tileSize * maxScreenCol; // 960px
-    public final int screenHeight = tileSize * maxScreenRow; // 576px
+    public final int screenWidth = tileSize * maxScreenCol; // 48 * 24 = 1152px
+    public final int screenHeight = tileSize * maxScreenRow; // 48 * 14 = 672px
 
     // WORLD SETTINGS
     public final int maxWorldCol = 50;
@@ -41,6 +40,8 @@ public class GamePanel extends JPanel implements Runnable{
     // FULL SCREEN
     int screenWidth2 = screenWidth;
     int screenHeight2 = screenHeight;
+    int fullScreenWidth;
+    int drawX = 0;
     BufferedImage tempScreen;
     Graphics2D g2;
     public boolean fullScreenOn = false;
@@ -150,8 +151,10 @@ public class GamePanel extends JPanel implements Runnable{
         gd.setFullScreenWindow(Main.window);
 
         // GET FULLSCREEN WIDTH AND HEIGHT
-        screenWidth2 = Main.window.getWidth(); // monitor fullscreen width
+        fullScreenWidth = Main.window.getWidth(); // monitor fullscreen width
         screenHeight2 = Main.window.getHeight(); // monitor fullscreen height
+        screenWidth2 = (16 * screenHeight2) / 9; // maintain 16 : 9 ratio
+        drawX = (fullScreenWidth - screenWidth2) / 2;
     }
 
     public void resetGame(boolean restart){
@@ -294,7 +297,6 @@ public class GamePanel extends JPanel implements Runnable{
             map.drawFullMapScreen(g2);
         }
         else{ // NON-TITLE SCREEN
-
             // draw background -- DOESNT WORK
             Color backgroundColor = new Color(73, 162, 105);
             g2.setBackground(backgroundColor);
@@ -401,9 +403,18 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        if(fullScreenOn){
+            super.paintComponent(g);
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, Main.window.getWidth(), Main.window.getHeight());
+        }
+    }
+
     public void drawToScreen(){
         Graphics g = getGraphics();
-        g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
+        g.drawImage(tempScreen, drawX, 0, screenWidth2, screenHeight2, null); // center of screen
         g.dispose();
     }
 
