@@ -142,6 +142,18 @@ public class TileManager {
         // stairs for dungeons
         setup(i, "stairs/stairs_up", false); i++; // 83
         setup(i, "stairs/stairs_down", false); i++; // 84
+
+        // dungeon 1 tiles
+        setup(i, "dungeon_1/topLeft", true); i++; // 85
+        setup(i, "dungeon_1/top", true); i++; // 86
+        setup(i, "dungeon_1/topRight", true); i++; // 87
+        setup(i, "dungeon_1/left", true); i++; // 88
+        setup(i, "dungeon_1/middle", true); i++; // 89
+        setup(i, "dungeon_1/right", true); i++; // 90
+        setup(i, "dungeon_1/bottomLeft", true); i++; // 91
+        setup(i, "dungeon_1/bottom", true); i++; // 92
+        setup(i, "dungeon_1/bottomRight", true); i++; // 93
+        setup(i, "dungeon_1/path", false); i++; // 94
     }
 
     public void setup(int index, String imageName, boolean collision){
